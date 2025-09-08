@@ -1,13 +1,11 @@
 package Vista;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Controlador.Controlador;
-import Modelo.Mensaje;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;

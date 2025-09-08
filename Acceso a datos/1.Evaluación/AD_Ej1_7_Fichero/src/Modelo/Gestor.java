@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.swing.JOptionPane;
-
 public class Gestor {
 
 	public ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
