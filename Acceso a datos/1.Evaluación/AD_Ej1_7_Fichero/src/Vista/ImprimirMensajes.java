@@ -44,7 +44,6 @@ public class ImprimirMensajes extends JFrame {
 		scrollPane.setBounds(10, 23, 529, 194);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
 		modelo = new DefaultTableModel(new String[] { "De", "Para", "Fecha", "Hora", "Asunto", "Contenido" }, 0);
 		table = new JTable(modelo);
 		table.setBounds(10, 23, 529, 194);

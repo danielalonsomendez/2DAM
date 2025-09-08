@@ -30,12 +30,7 @@ public class Gestor {
 			if (linea.equals("******************")) {
 				mensajes.add(mensaje);
 				mensaje = new Mensaje(); // Vaciar objeto mensaje
-				linea = fichero.readLine(); // Saltar linea espacio
-				if (linea == null) {
-					break;
-				}
-			}
-			if (linea.startsWith("fecha")) {
+			} else if (linea.startsWith("fecha")) {
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm"); // Formato fecha+hora+minuto
 				String fechatxt = linea.split("fecha:")[1];
 				linea = fichero.readLine(); // Saltar linea espacio
