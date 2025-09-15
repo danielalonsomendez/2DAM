@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -140,25 +141,25 @@ public class Menu extends JFrame {
 				anadirPartido();
 			}
 		});
-		btnAnadir.setBounds(22, 214, 76, 23);
+		btnAnadir.setBounds(198, 214, 76, 23);
 		contentPane.add(btnAnadir);
 
 		JButton btnCargar = new JButton("Cargar");
 		btnCargar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cargarPartidos();
+				cargarPartidosBinario();
 			}
 		});
-		btnCargar.setBounds(107, 214, 76, 23);
+		btnCargar.setBounds(306, 128, 91, 23);
 		contentPane.add(btnCargar);
 
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				guardarPartidos();
+				guardarPartidosBinario();
 			}
 		});
-		btnGuardar.setBounds(193, 214, 81, 23);
+		btnGuardar.setBounds(306, 100, 91, 23);
 		contentPane.add(btnGuardar);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -170,9 +171,37 @@ public class Menu extends JFrame {
 				0);
 		table = new JTable(modelo);
 		scrollPane.setViewportView(table);
+		
+		JButton btnGuardarRA = new JButton("Guardar");
+		btnGuardarRA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarPartidosRA();
+			}
+		});
+		btnGuardarRA.setBounds(306, 214, 91, 23);
+		contentPane.add(btnGuardarRA);
+		
+		JButton btnCargarRA = new JButton("Cargar ");
+		btnCargarRA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarPartidosRA();
+			}
+		});
+		btnCargarRA.setBounds(306, 188, 91, 23);
+		contentPane.add(btnCargarRA);
+		
+		JLabel lblNewLabel = new JLabel("Objeto");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(306, 76, 91, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblAccesoAleatorio = new JLabel("Acceso Aleatorio");
+		lblAccesoAleatorio.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAccesoAleatorio.setBounds(306, 163, 116, 14);
+		contentPane.add(lblAccesoAleatorio);
 
 	}
-	public void cargarPartidos() {
+	public void cargarPartidosBinario() {
 		partidos = new ArrayList<Partido>();
 		try {
 			FileInputStream fi = new FileInputStream(new File("Resultados.dat"));
@@ -181,7 +210,7 @@ public class Menu extends JFrame {
 				partidos.add((Partido) dataIS.readObject());
 			}
 			dataIS.close();
-			JOptionPane.showMessageDialog(null, "Los partidos han sido cargados correctamente", "Carga completa",
+			JOptionPane.showMessageDialog(null, "Los partidos han sido cargados correctamente", "Carga completa (Binario)",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			System.out.println("Error al leer el fichero");
@@ -193,7 +222,7 @@ public class Menu extends JFrame {
 
 	}
 
-	public void guardarPartidos() {
+	public void guardarPartidosBinario() {
 		FileOutputStream fos = null;
 		ObjectOutputStream salida = null;
 		try {
@@ -202,7 +231,7 @@ public class Menu extends JFrame {
 			for (int i = 0; i < partidos.size(); i++) {
 				salida.writeObject(partidos.get(i));
 			}
-			JOptionPane.showMessageDialog(null, "Los partidos se han guardado correctamente", "Guardado completo",
+			JOptionPane.showMessageDialog(null, "Los partidos se han guardado correctamente", "Guardado completo (Binario)",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (FileNotFoundException e) {
 			System.out.println("Error al encontrar el fichero");
@@ -216,6 +245,90 @@ public class Menu extends JFrame {
 				if (fos != null) {
 					fos.close();
 				}
+			} catch (IOException e) {
+				System.out.println("Error al cerrar el fichero");
+			}
+		}
+	}
+	public void cargarPartidosRA() {
+		partidos = new ArrayList<Partido>();
+		try {
+			RandomAccessFile file = new RandomAccessFile(new File("ResultadosRA.dat"), "r");
+			file.seek(0);
+			while (file.getFilePointer() < file.length()) {
+				char[] equipoLocalArr = new char[20];
+				for (int i = 0; i < 20; i++) equipoLocalArr[i] = file.readChar();
+				String equipoLocal = new String(equipoLocalArr);
+
+				char[] equipoVisitanteArr = new char[20];
+				for (int i = 0; i < 20; i++) equipoVisitanteArr[i] = file.readChar();
+				String equipoVisitante = new String(equipoVisitanteArr);
+
+				char[] lugarArr = new char[20];
+				for (int i = 0; i < 20; i++) lugarArr[i] = file.readChar();
+				String lugar = new String(lugarArr);
+
+				char[] fechaArr = new char[8];
+				for (int i = 0; i < 8; i++) fechaArr[i] = file.readChar();
+				String fechaStr = new String(fechaArr);
+
+				int golesLocal = file.readInt();
+				int golesVisitante = file.readInt();
+				Date fecha = null;
+				try {
+					fecha = formatoFecha.parse(fechaStr);
+				} catch (ParseException e) {
+					System.out.println("Error al convertir la fecha");
+				}
+				partidos.add(new Partido(
+					equipoLocal,
+					equipoVisitante,
+					golesLocal,
+					golesVisitante,
+					lugar,
+					fecha
+				));
+			}
+			file.close();
+			JOptionPane.showMessageDialog(null, "Los partidos han sido cargados correctamente", "Carga completa (RA)",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			System.out.println("Error al leer el fichero");
+		}
+		cargarTabla();
+	
+
+	}
+
+	public void guardarPartidosRA() {
+		RandomAccessFile file = null;
+		try {
+			file = new RandomAccessFile(new File("ResultadosRA.dat"),"rw");
+			file.seek(0);
+			for (int i = 0; i < partidos.size(); i++) {
+				Partido partido = partidos.get(i);
+				StringBuffer buffer = new StringBuffer(partido.getEquipoLocal());
+				buffer.setLength(20);
+				file.writeChars(buffer.toString());
+				buffer = new StringBuffer(partido.getEquipoVisitante());
+				buffer.setLength(20);
+				file.writeChars(buffer.toString());
+				buffer = new StringBuffer(partido.getLugar());
+				buffer.setLength(20);
+				file.writeChars(buffer.toString());
+				file.writeChars(formatoFecha.format(partido.getFecha()));
+				file.writeInt(partido.getGolesLocal());
+				file.writeInt(partido.getGolesVisitante());
+			}
+			JOptionPane.showMessageDialog(null, "Los partidos se han guardado correctamente", "Guardado completo (RA)",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (FileNotFoundException e) {
+			System.out.println("Error al encontrar el fichero");
+		} catch (IOException e) {
+			System.out.println("Error al crear el fichero");
+		} finally {
+			try {
+				file.close();
 			} catch (IOException e) {
 				System.out.println("Error al cerrar el fichero");
 			}
@@ -291,5 +404,4 @@ public class Menu extends JFrame {
 		}
 
 	}
-
 }
