@@ -1,0 +1,32 @@
+<h1>Bienvenido a {{titulo}}</h1>
+<p>Nombre del empleado: {{nombre}}</p>
+<p>Edad: {{edad}}</p>
+<p>Sueldos: {{sueldos[0]}}, {{sueldos[1]}}, {{sueldos[2]}} </p>
+<p>Es una función, lleva llaves: {{esActivo()}}</p>
+<p>En este sitio <a href="{{sitio}}">Ir a Google</a></p>
+<p>Suma de sueldos: {{sumaSueldos()}}</p>
+<p>Suma de sueldos 2: {{sumaSueldos2()}}</p>
+
+@if(edad >= 18){
+<p>Es mayor de edad</p>
+} @else {
+<p>No es mayor de edad</p>
+}
+<table border="1">
+  <tr>
+    <td>Sueldos</td>
+  </tr>
+  @for (sueldo of sueldos; track $index) {
+  <tr>
+    <td>{{sueldo}}</td>
+  </tr>
+  }
+</table>
+<table border="1">
+  <tr>
+    <td>Sueldos</td>
+  </tr>
+  <tr *ngFor="let sueldo of sueldos">
+    <td>{{sueldo}}</td>
+  </tr>
+</table>

@@ -1,0 +1,16 @@
+<h1>{{ title }}</h1>
+<button type="button" (click)="numero = numero + 1">+1</button>
+{{ numero }}
+<button type="button" (click)="numero = numero - 1">-1</button>
+<br>
+<button type="button" (click)="sumar()">+1</button>
+{{ numero }}
+<button type="button" (click)="restar()">-1</button>
+<br>
+<button type="button" (click)="acumular(1)">+1</button>
+{{ numero }}
+<button type="button" (click)="acumular(-1)">-1</button>
+<br>
+<button type="button" (click)="acumular2(true)">+{{base}}</button>
+{{ numero }}
+<button type="button" (click)="acumular2(false)">-{{base}}</button>

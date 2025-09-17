@@ -397,7 +397,7 @@ public class Menu extends JFrame {
 			fila[0] = partido.getEquipoLocal();
 			fila[1] = partido.getEquipoVisitante();
 			fila[2] = partido.getGolesLocal() + "";
-			fila[2] = partido.getGolesVisitante() + "";
+			fila[3] = partido.getGolesVisitante() + "";
 			fila[4] = partido.getLugar();
 			fila[5] = formatoFecha.format(partido.getFecha());
 			modelo.addRow(fila);
