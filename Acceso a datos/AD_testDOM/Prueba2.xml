@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<coches>
+<cochesutilitarios compania="Renault">
+
+<nombrecoche tipo="4x4">Kadjar</nombrecoche> 
+<nombrecoche tipo="normal">Renault 307</nombrecoche> 
+<nombrecoche tipo="normal">Renault 301</nombrecoche>
+</cochesutilitarios>
+<cochesutilitarios compania="Seat">
+<nombrecoche>Ibiza</nombrecoche>
+<nombrecoche>Leon</nombrecoche>
+<nombrecoche>Marbella</nombrecoche>
+</cochesutilitarios>
+<cocheslujo compania="Benteley">
+<nombrecoche>Benteley 1</nombrecoche>
+<nombrecoche>Benteley 2</nombrecoche>
+<nombrecoche>Benteley 3</nombrecoche>
+</cocheslujo>
+</coches>

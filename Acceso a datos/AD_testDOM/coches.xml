@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><coches>
+<cochesutilitarios compania="Citroen">
+
+<nombrecoche tipo="4x4">C3</nombrecoche> 
+<nombrecoche tipo="normal">C5</nombrecoche> 
+<nombrecoche tipo="normal">Renault 301</nombrecoche>
+</cochesutilitarios>
+<cochesutilitarios compania="Seat">
+<nombrecoche>Ibiza</nombrecoche>
+<nombrecoche>Leon</nombrecoche>
+<nombrecoche>Marbella</nombrecoche>
+</cochesutilitarios>
+
+</coches>
