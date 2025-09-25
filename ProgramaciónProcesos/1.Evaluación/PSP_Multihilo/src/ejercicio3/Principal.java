@@ -7,7 +7,6 @@ public class Principal {
 		Escritora hilo2 = new Escritora(false);
 		hilo1.start();
 		hilo2.start();
-
 	}
 
 }
