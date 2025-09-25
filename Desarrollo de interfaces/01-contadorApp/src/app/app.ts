@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -18,6 +17,5 @@ export class App {
   restar(){this.numero = this.numero - 1;}
 
   acumular(num: number){this.numero = this.numero + num;}
-  acumular2(suma: boolean){this.numero = this.numero + (suma ? this.base : -this.base);}
 
 }

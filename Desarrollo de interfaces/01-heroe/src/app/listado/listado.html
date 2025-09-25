@@ -1,0 +1,23 @@
+<p>Listado works!</p>
+@if(heroeBorrado){
+    <h1>HEROE BORRADO</h1>
+    <h2>{{heroeBorrado}}</h2>
+}@else if(!heroeBorrado) {
+    <h1>No has borrado nada</h1>
+}@else {
+    <h1>En cualquier otro caso</h1>
+}
+
+<br><br>
+
+<ul>
+    @for(item of heroes; track item; let i=$index){
+        <li>
+            {{i+1}} / {{item}};
+        </li>
+    }
+</ul>
+
+<button (click)="borrarTodo()">Borrar todo</button>
+<button (click)="borrarPrimero()">Borrar primero</button>
+<button (click)="borrarUltimo()">Borrar ultimo</button>

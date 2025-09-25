@@ -1,0 +1,7 @@
+<h3>Personajes</h3>
+<hr>
+<ul>
+    @for(personaje of personajes; track personaje.nombre) {
+    <li>{{personaje.nombre}} - {{personaje.poder}}</li>
+    }
+</ul>
