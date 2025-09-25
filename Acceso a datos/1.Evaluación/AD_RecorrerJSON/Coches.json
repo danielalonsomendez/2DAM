@@ -1,0 +1,32 @@
+[
+    {
+        "marca": "Seat",
+        "modelo": "Ibiza",
+        "precio": 44500.28,
+        "venta": false
+    },
+    {
+        "marca": "Citroen",
+        "modelo": "C4",
+        "precio": 230044.48,
+        "venta": true
+    },
+    {
+        "marca": "Suzuki",
+        "modelo": "Swift",
+        "precio": 32232.21,
+        "venta": false
+    },
+    {
+        "marca": "Seat",
+        "modelo": "Leon",
+        "precio": 23123.54,
+        "venta": true
+    },
+    {
+        "marca": "Hyundai",
+        "modelo": "Coupe",
+        "precio": 432131.98,
+        "venta": false
+    }
+]

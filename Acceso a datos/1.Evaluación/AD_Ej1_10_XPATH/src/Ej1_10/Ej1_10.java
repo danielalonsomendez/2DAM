@@ -50,14 +50,12 @@ public class Ej1_10 {
 			// 4. Responsable del producto con nombre de Naranjas.
 			String expresion4 = "//tienda/dptos/dpto[@id=//tienda/productos/producto[nombre='Naranjas']/@venta]/responsable";
 			Node responsableNaranjas = (Node) xpath.evaluate(expresion4, xpathDoc, XPathConstants.NODE);
-			System.out.println(
-					"4. Responsable del producto con nombre de Naranjas: \n" + responsableNaranjas.getTextContent());
+			System.out.println("4. Responsable del producto con nombre de Naranjas: \n" + responsableNaranjas.getTextContent());
 
 			// 5. Responsable de la venta realizada el 10/03/2013.
 			String expresion5 = "//tienda/dptos/dpto[@id=//tienda/productos/producto[@id=//tienda/ventas/venta[data='2013/3/10']/producto]/@venta]/responsable";
 			Node responsableFecha = (Node) xpath.evaluate(expresion5, xpathDoc, XPathConstants.NODE);
-			System.out.println(
-					"5. Responsable de la venta realizada el 10/03/2013: \n" + responsableFecha.getTextContent());
+			System.out.println("5. Responsable de la venta realizada el 10/03/2013: \n" + responsableFecha.getTextContent());
 
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
