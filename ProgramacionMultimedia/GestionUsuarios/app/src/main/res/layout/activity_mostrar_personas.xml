@@ -7,40 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".MostrarPersonas">
 
-    <TextView
-        android:id="@+id/txtLista"
-        android:layout_width="341dp"
-        android:layout_height="170dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview"
-        app:layout_constraintVertical_bias="0.097" />
-
     <Button
         android:id="@+id/buttonMostrar"
         android:layout_width="335dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="236dp"
+        android:layout_marginBottom="24dp"
         android:text="Cerrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.447"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLista"
-        app:layout_constraintVertical_bias="0.875" />
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="342dp"
         android:layout_height="57dp"
+        android:layout_marginTop="56dp"
         android:text="Mostrar personas"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylerViewMostrar"
+        android:layout_width="345dp"
+        android:layout_height="483dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonMostrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
