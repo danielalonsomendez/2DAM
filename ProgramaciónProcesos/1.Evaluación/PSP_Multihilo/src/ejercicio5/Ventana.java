@@ -133,7 +133,7 @@ public class Ventana extends JFrame {
 		lblContadorHilo1.setBounds(10, 154, 95, 23);
 		contentPane.add(lblContadorHilo1);
 		
-		JLabel lblPriHilo1 = new JLabel("Pri: 0");
+		JLabel lblPriHilo1 = new JLabel("Pri: 5");
 		lblPriHilo1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPriHilo1.setBounds(157, 154, 80, 23);
 		contentPane.add(lblPriHilo1);
@@ -143,7 +143,7 @@ public class Ventana extends JFrame {
 		lblContadorHilo2.setBounds(10, 188, 95, 23);
 		contentPane.add(lblContadorHilo2);
 		
-		JLabel lblPriHilo2 = new JLabel("Pri: 0");
+		JLabel lblPriHilo2 = new JLabel("Pri: 5");
 		lblPriHilo2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPriHilo2.setBounds(157, 188, 80, 23);
 		contentPane.add(lblPriHilo2);
@@ -153,7 +153,7 @@ public class Ventana extends JFrame {
 		lblContadorHilo3.setBounds(10, 222, 95, 23);
 		contentPane.add(lblContadorHilo3);
 		
-		JLabel lblPriHilo3 = new JLabel("Pri: 0");
+		JLabel lblPriHilo3 = new JLabel("Pri: 5");
 		lblPriHilo3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPriHilo3.setBounds(157, 222, 80, 23);
 		contentPane.add(lblPriHilo3);

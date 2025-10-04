@@ -6,23 +6,30 @@ public class HiloContador extends Thread {
 	private JLabel contador;
 	private JLabel prioridad;
 	private Thread hilo;
-	private String nombre;
 	private boolean activo = true;
 
 	public HiloContador(JLabel contador, JLabel prioridad, String nombre) {
 		this.contador = contador;
 		this.prioridad = prioridad;
-		this.nombre = nombre;
+		this.setName(nombre);
 	}
 
 	public void bajarPrioridad() {
-		hilo.setPriority(Thread.MIN_PRIORITY);
-		prioridad.setText("Pri: -1");
+		if (hilo.getPriority() == Thread.MAX_PRIORITY) {
+			hilo.setPriority(Thread.NORM_PRIORITY);
+		} else {
+			hilo.setPriority(Thread.MIN_PRIORITY);
+		}
+		prioridad.setText("Pri: " + hilo.getPriority());
 	}
 
 	public void subirPrioridad() {
-		hilo.setPriority(Thread.MAX_PRIORITY);
-		prioridad.setText("Pri: 10");
+		if (hilo.getPriority() == Thread.MIN_PRIORITY) {
+			hilo.setPriority(Thread.NORM_PRIORITY);
+		} else {
+			hilo.setPriority(Thread.MAX_PRIORITY);
+		}
+		prioridad.setText("Pri: " + hilo.getPriority());
 	}
 
 	public void finalizar() {
@@ -34,7 +41,7 @@ public class HiloContador extends Thread {
 		hilo = Thread.currentThread();
 		int cont = 0;
 		while (activo) {
-			contador.setText(nombre + ": " + cont);
+			contador.setText(getName() + ": " + cont);
 			cont++;
 			try {
 				Thread.sleep(1000);
