@@ -1,0 +1,35 @@
+<h1>Administración de artículos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Codigo</th>
+      <th>Descripción</th>
+      <th>Precio</th>
+      <th>Borrar</th>
+      <th>Seleccionar</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (articulo of articulos; track articulo.codigo) {
+    <tr>
+      <td>{{ articulo.codigo }}</td>
+      <td>{{ articulo.descripcion }}</td>
+      <td>{{ articulo.precio }}</td>
+      <td><button (click)="borrarArticulo(articulo)">Borrar</button></td>
+      <td><button (click)="seleccionarArticulo(articulo)">Seleccionar</button></td>
+    </tr>
+    } @empty {
+    <tr>
+      <td colspan="5">No hay artículos</td>
+    </tr>
+    }
+  </tbody>
+</table>
+<br>
+Código:<input type="number" placeholder="Código" name="codigo" [(ngModel)]="articulo.codigo" /> <br><br>
+Descripción:<input type="text" placeholder="Descripción" name="descripcion" [(ngModel)]="articulo.descripcion" /> <br><br>
+Precio:<input type="number" placeholder="Precio" name="precio" [(ngModel)]="articulo.precio" /> <br><br>
+
+<button (click)="agregarArticulo()">Agregar</button>
+<button (click)="modificarArticulo()">Modificar</button>

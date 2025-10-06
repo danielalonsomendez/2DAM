@@ -1,0 +1,7 @@
+<h3>Coches</h3>
+<hr>
+<ul>
+    @for (item of motos; track item.modelo) {
+    <li> {{item.modelo}} - {{item.precio | number}} </li>
+    }
+</ul>
