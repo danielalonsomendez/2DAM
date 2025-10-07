@@ -1,0 +1,31 @@
+@if(usuarios){
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (usuario of usuarios; track usuario.id) {
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.name }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.phone }}</td>
+            <td>{{ usuario.website }}</td>
+            <td>{{ usuario.company.name }}</td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+} @else {
+<p>Esperando datos...</p>
+}

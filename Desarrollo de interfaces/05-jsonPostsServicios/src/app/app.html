@@ -1,0 +1,21 @@
+@if(articulos){
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (articulo of articulos; track articulo.id) {
+        <tr>
+            <td>{{ articulo.id }}</td>
+            <td>{{ articulo.title }}</td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+} @else {
+<p>Esperando datos...</p>
+}

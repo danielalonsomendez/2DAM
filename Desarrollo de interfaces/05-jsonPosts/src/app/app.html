@@ -1,0 +1,21 @@
+{{this.articulos.length}}
+
+@if(articulos){
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+    </tr>
+    @for (articulo of articulos; track articulo.id) {
+    <tr>
+        <td>{{ articulo.id }}</td>
+        <td>{{ articulo.title }}</td>
+        <td>{{ articulo.body }}</td>
+    </tr>
+    }
+
+</table>
+} @else {
+<p>Esperando datos...</p>
+}

@@ -1,0 +1,23 @@
+@if(albums){
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Album ID</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (album of albums; track album.id) {
+        <tr>
+            <td>{{ album.userId }}</td>
+            <td>{{ album.id }}</td>
+            <td>{{ album.title }}</td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+} @else {
+<p>Esperando datos...</p>
+}

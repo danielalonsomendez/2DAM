@@ -16,7 +16,7 @@
       <td>{{ articulo.codigo }}</td>
       <td>{{ articulo.descripcion }}</td>
       <td>{{ articulo.precio }}</td>
-      <td><button (click)="borrarArticulo(articulo)">Borrar</button></td>
+      <td><button (click)="borrarArticulo(articulo.codigo)">Borrar</button></td>
       <td><button (click)="seleccionarArticulo(articulo)">Seleccionar</button></td>
     </tr>
     } @empty {
