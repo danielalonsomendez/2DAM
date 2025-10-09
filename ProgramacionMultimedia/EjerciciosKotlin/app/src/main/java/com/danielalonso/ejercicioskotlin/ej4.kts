@@ -2,7 +2,7 @@ package com.danielalonso.ejercicioskotlin
 
 data class Persona(var nombre: String, val apellido: String, val edad: Int)
 
-val personas = mutableListOf<Persona>()
+val personas = ArrayList<Persona>()
 
 while (true) {
     println("\n--- MENÚ ---")
