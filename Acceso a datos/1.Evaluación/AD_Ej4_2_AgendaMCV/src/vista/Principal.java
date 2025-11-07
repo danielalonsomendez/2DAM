@@ -31,13 +31,16 @@ public class Principal extends JFrame {
 		
 		INSERTAR_CONTACTO,
 		MODIFICAR_CONTACTO,
-		ELIMINAR_CONTACTO
+		ELIMINAR_CONTACTO,
+		SELECCIONAR_MODIFICAR,
 	}
 	
 	
 	private JPanel panelContenedor;
 	private PanelConsultar panelConsultar;
 	private PanelAnadir panelAnadir;
+	private PanelModificar panelModificar;
+	private PanelBorrar panelBorrar;
 	
 	
 	private JButton btnConsultarContactos; 
@@ -63,7 +66,11 @@ public class Principal extends JFrame {
 		//Panel que contiene el formulario para anadir contactos.
 		mCrearPanelAnadir();
 		
+		//Panel que contiene el formulario para modificar contactos.
+		mCrearPanelModificar();
 		
+		//Panel que contiene el formulario para borrar contactos.
+		mCrearPanelBorrar();
 				
 	}
 	
@@ -124,6 +131,18 @@ public class Principal extends JFrame {
 		panelAnadir.setVisible(false);
 		
 	}
+	private void mCrearPanelModificar() {
+		panelModificar = new PanelModificar();
+		panelContenedor.add(panelModificar);
+		panelModificar.setVisible(false);
+		
+	}
+	private void mCrearPanelBorrar() {
+		panelBorrar = new PanelBorrar();
+		panelContenedor.add(panelBorrar);
+		panelBorrar.setVisible(false);
+		
+	}
 	
 	//*** FIN creaci�n de paneles ***
 	
@@ -132,6 +151,8 @@ public class Principal extends JFrame {
 		
 		panelConsultar.setVisible(false);
 		panelAnadir.setVisible(false);
+		panelModificar.setVisible(false);
+		panelBorrar.setVisible(false);
 		
 		switch (panel) {
 		case CARGAR_PANEL_CONSULTA: 
@@ -140,7 +161,12 @@ public class Principal extends JFrame {
 		case CARGAR_PANEL_INSERTAR:
 			panelAnadir.setVisible(true);
 			break;
-	
+		case CARGAR_PANEL_MODIFICAR:
+			panelModificar.setVisible(true);
+			break;
+		case CARGAR_PANEL_ELIMINAR:
+			panelBorrar.setVisible(true);
+			break;
 		default:
 			break;
 			
@@ -218,5 +244,19 @@ public class Principal extends JFrame {
 	public void setPanelAnadir(PanelAnadir panelAnadir) {
 		this.panelAnadir = panelAnadir;
 	}
+	public PanelModificar getPanelModificar() {
+		return panelModificar;
+	}
+	public void setPanelModificar(PanelModificar panelModificar) {
+		this.panelModificar = panelModificar;
+	}
+	
+	public PanelBorrar getPanelBorrar() {
+		return panelBorrar;
+	}
+	public void setPanelBorrar(PanelBorrar panelBorrar) {
+		this.panelBorrar = panelBorrar;
+	}
+	
 	
 }

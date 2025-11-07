@@ -165,4 +165,46 @@ public class Contacto {
 		return false;
 	}
 
+	public boolean mModificarContacto() {
+		Firestore co = null;
+
+		try {
+			co = Conexion.conectar();
+			Map<String, Object> contactoModificado = new HashMap<>();
+			contactoModificado.put(fieldNombre, nombre);
+			contactoModificado.put(fieldTelefono, telefono);
+			contactoModificado.put(fieldEmail, email);
+
+			DocumentReference contactoRef = co.collection(collectionName).document(idContacto);
+			contactoRef.update(contactoModificado);
+			co.close();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean mBorrarContacto() {
+		Firestore co = null;
+
+		try {
+			co = Conexion.conectar();
+
+			DocumentReference contactoRef = co.collection(collectionName).document(idContacto);
+			contactoRef.delete();
+			co.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
