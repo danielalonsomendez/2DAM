@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_grey">#424242</color> <!-- Gris oscuro para botones en tema oscuro -->
+    <color name="card_surface_dark">#121212</color> <!-- Fondo ligeramente más claro que el negro absoluto para tarjetas en dark theme -->
+    <color name="card_surface_light">#FFFFFFFF</color> <!-- Fondo de tarjeta en tema claro (blanco) -->
+</resources>

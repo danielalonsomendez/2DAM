@@ -1,0 +1,55 @@
+<resources>
+
+    <!-- 1. BASE THEME -->
+    <style name="Base.Theme.DAJISquadGym" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Atributos comunes para ambos temas -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/black</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <!-- Tema final que usa la app (hereda del base) -->
+    <style name="Theme.DAJISquadGym" parent="Base.Theme.DAJISquadGym">
+        <!-- ESTE ES EL ÚNICO CAMBIO: Aplicar el estilo de botón blanco -->
+        <item name="materialButtonStyle">@style/App.Button.White</item>
+    </style>
+
+    <!-- 2. LIGHT THEME -->
+    <style name="AppTheme.Light" parent="Theme.DAJISquadGym">
+        <item name="android:colorBackground">#F5F5F5</item>
+        <item name="colorSurface">@color/card_surface_light</item>
+        <item name="colorOnSurface">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+    </style>
+
+    <!-- 3. DARK THEME -->
+    <style name="AppTheme.Dark" parent="Theme.DAJISquadGym">
+        <item name="android:colorBackground">@android:color/black</item>
+        <item name="colorSurface">@color/card_surface_dark</item>
+        <item name="colorOnSurface">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/secondary_text_dark</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <!-- Estilo de botón para aplicar explícitamente -->
+    <style name="App.Button.White" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@null</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Estilo del Toolbar -->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

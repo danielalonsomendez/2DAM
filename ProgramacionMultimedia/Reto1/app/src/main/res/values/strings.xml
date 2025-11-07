@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">DAJI Squad Gym</string>
+    <string-array name="user_roles">
+        <item>Cliente</item>
+        <item>Entrenador</item>
+    </string-array>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="recordar">Recordar</string>
+    <string name="no_tienes_cuenta">¿No tienes cuenta? Regístrate ahora</string>
+    <string name="registro">Registro</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
+    <string name="volver">Volver</string>
+    <string name="usuario_registrado_exito">Usuario registrado correctamente. Por favor, inicie sesión.</string>
+    <string name="bienvenido_usuario">Bienvenido %1$s.</string>
+    <string name="error_mensaje">Error: %1$s</string>
+    <string name="autenticacion_fallida">Autenticación fallida. Usuario no encontrado.</string>
+    <string name="usuario_no_existe">El usuario no existe. Por favor, regístrate.</string>
+    <string name="contrasena_incorrecta">Contraseña incorrecta. Inténtalo de nuevo.</string>
+    <string name="introducir_credenciales">Por favor, introduce el correo y la contraseña</string>
+    <string name="correo_invalido">Por favor, introduce un correo electrónico válido</string>
+    <string name="contrasena_corta">La contraseña debe tener al menos 4 caracteres</string>
+    <string name="rol_invalido">Por favor, selecciona un rol válido</string>
+    <string name="error_registro">Error al registrar el usuario: %1$s</string>
+    <string name="campos_vacios">Por favor, introduce todos los campos</string>
+    <string name="settings_clicked">Config</string>
+    <string name="listaworkouts">Tus workouts</string>
+    <string name="workout_level">Nivel: %1$d</string>
+    <string name="entrenador">Entrenador</string>
+    <string name="anadir_workout">Añadir workout</string>
+    <string name="editarperfil">Guardar cambios</string>
+    <string name="exercises_title">Ejercicios</string>
+    <string-array name="tema_opciones">
+        <item>Tema blanco</item>
+        <item>Tema oscuro</item>
+    </string-array>
+
+    <string-array name="idioma_opciones" translatable="false">
+        <item>Español</item>
+        <item>Euskara</item>
+        <item>English</item>
+    </string-array>
+    <string name="ejercicios_de">Ejercicios de</string>
+    <string name="ejercicios">Ejercicios</string>
+    <string name="editar_workout">Editar Workout</string>
+    <string name="anadir_workout_titulo">Añadir Workout</string>
+    <string name="nombre_workout">Nombre del workout</string>
+    <string name="descripcion_workout">Descripción del workout</string>
+    <string name="url_video">URL del video</string>
+    <string name="nivel_0_3">Nivel (0-3)</string>
+    <string name="guardar">Guardar</string>
+    <string name="completar_campos">Por favor, complete todos los campos</string>
+    <string name="nivel_numero_0_3">El nivel debe ser un número entre 0 y 3</string>
+    <string name="workout_guardado">Workout guardado correctamente</string>
+    <string name="error_guardar_workout">Error al guardar el workout: %1$s</string>
+    <string name="error_cargar_workout">Error al cargar el workout: %1$s</string>
+    <string name="workout_actualizado">Workout actualizado</string>
+    <string name="error_actualizar">Error al actualizar: %1$s</string>
+    <string name="completar_todos_campos">Por favor, completa todos los campos</string>
+    <string name="no_hay_workouts">No hay workouts disponibles</string>
+    <string name="no_hay_ejercicios">No hay ejercicios disponibles</string>
+    <string name="error_id_workout">Error: No se recibió el ID del workout</string>
+    <string name="error_inicializar">Error al inicializar: %1$s</string>
+    <string name="error_cargar_ejercicios">Error al cargar ejercicios: %1$s</string>
+    <string name="titulo_workout">Título del Workout</string>
+    <string name="descripcion_del_workout">Descripción del workout</string>
+    <string name="nivel">Nivel:</string>
+    <string name="eliminar_workout">Eliminar workout</string>
+    <string name="modificar_workout">Modificar workout</string>
+    <string name="confirmar_eliminacion">Confirmar eliminación</string>
+    <string name="seguro_borrar_workout">¿Seguro que quieres borrar este workout?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="workout_eliminado">Workout eliminado</string>
+    <string name="error_eliminar">Error al eliminar: %1$s</string>
+    <string name="todos">Todos</string>
+    <string name="basico">Básico</string>
+    <string name="principiante">Principiante</string>
+    <string name="intermedio">Intermedio</string>
+    <string name="avanzado">Avanzado</string>
+    <string name="ver_video">Ver video</string>
+    <string name="reproducir_video">Reproducir vídeo</string>
+    <string name="tiempo_total">Tiempo total: %1$s</string>
+    <string name="tiempo_previsto">Tiempo previsto: %1$s</string>
+    <string name="fecha">Fecha: %1$s</string>
+    <string name="completado">Completado: %1$d%%</string>
+    <string name="video">VIDEO</string>
+    <string name="rol">Rol</string>
+
+
+</resources>

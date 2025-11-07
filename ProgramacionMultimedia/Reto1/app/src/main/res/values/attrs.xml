@@ -1,0 +1,4 @@
+<resources>
+    <attr name="customBackgroundColor" format="color" />
+    <attr name="panelBackgroundColor" format="color" />
+</resources>

@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">DAJI Squad Gym</string>
+    <string-array name="user_roles">
+        <item>Bezero</item>
+        <item>Entrenatzaile</item>
+    </string-array>
+    <string name="iniciar_sesion">Saioa hasi</string>
+    <string name="correo_electronico">Posta elektronikoa</string>
+    <string name="contrasena">Pasahitza</string>
+    <string name="recordar">Gogoratu</string>
+    <string name="no_tienes_cuenta">Ez duzu konturik? Erregistratu orain</string>
+    <string name="registro">Erregistratu</string>
+    <string name="nombre">Izena</string>
+    <string name="apellidos">Abizenak</string>
+    <string name="fecha_de_nacimiento">Jaiotze data</string>
+    <string name="volver">Itzuli</string>
+    <string name="usuario_registrado_exito">Erabiltzailea ondo erregistratu da. Mesedez, hasi saioa.</string>
+    <string name="bienvenido_usuario">Ongi etorri %1$s.</string>
+    <string name="error_mensaje">Errorea: %1$s</string>
+    <string name="autenticacion_fallida">Autentifikazioak huts egin du. Erabiltzailea ez da aurkitu.</string>
+    <string name="usuario_no_existe">Erabiltzailea ez da existitzen. Mesedez, erregistratu.</string>
+    <string name="contrasena_incorrecta">Pasahitza okerra da. Saiatu berriro.</string>
+    <string name="introducir_credenciales">Mesedez, sartu posta elektronikoa eta pasahitza</string>
+    <string name="correo_invalido">Mesedez, sartu baliozko posta elektroniko bat</string>
+    <string name="contrasena_corta">Pasahitzak gutxienez 4 karaktere izan behar ditu</string>
+    <string name="rol_invalido">Mesedez, hautatu baliozko rol bat</string>
+    <string name="error_registro">Errorea erabiltzailea erregistratzean: %1$s</string>
+    <string name="campos_vacios">Mesedez, bete eremu guztiak</string>
+    <string name="settings_clicked">Ezarpenak</string>
+    <string name="listaworkouts">Zure entrenamenduak</string>
+    <string name="workout_level">Maila: %1$d</string>
+    <string name="editarperfil">Gorde aldaketak</string>
+    <string name="exercises_title">Ariketak</string>
+    <string-array name="tema_opciones">
+        <item>Gai zuria</item>
+        <item>Gai iluna</item>
+    </string-array>
+
+    <string-array name="idioma_opciones" translatable="false">
+        <item>Español</item>
+        <item>Euskara</item>
+        <item>English</item>
+    </string-array>
+    <string name="ejercicios_de">-ren ariketak</string>
+    <string name="ejercicios">Ariketak</string>
+    <string name="editar_workout">Entrenamendu editatu</string>
+    <string name="anadir_workout_titulo">Entrenamendu gehitu</string>
+    <string name="nombre_workout">Entrenamenduaren izena</string>
+    <string name="descripcion_workout">Entrenamenduaren deskribapena</string>
+    <string name="url_video">Bideoaren URLa</string>
+    <string name="nivel_0_3">Maila (0-3)</string>
+    <string name="guardar">Gorde</string>
+    <string name="completar_campos">Mesedez, bete eremu guztiak</string>
+    <string name="nivel_numero_0_3">Mailak 0 eta 3 arteko zenbakia izan behar du</string>
+    <string name="workout_guardado">Entrenamendu ondo gorde da</string>
+    <string name="error_guardar_workout">Errorea entrenamendu gordetzean: %1$s</string>
+    <string name="error_cargar_workout">Errorea entrenamendu kargatzean: %1$s</string>
+    <string name="workout_actualizado">Entrenamendu eguneratua</string>
+    <string name="error_actualizar">Errorea eguneratzean: %1$s</string>
+    <string name="completar_todos_campos">Mesedez, osatu eremu guztiak</string>
+    <string name="no_hay_workouts">Ez dago entrenamendurik eskuragarri</string>
+    <string name="no_hay_ejercicios">Ez dago ariketarik eskuragarri</string>
+    <string name="error_id_workout">Errorea: Ez da entrenamendu IDa jaso</string>
+    <string name="error_inicializar">Errorea hasieratzen: %1$s</string>
+    <string name="error_cargar_ejercicios">Errorea ariketak kargatzean: %1$s</string>
+    <string name="titulo_workout">Entrenamenduaren Titulua</string>
+    <string name="descripcion_del_workout">Entrenamenduaren deskribapena</string>
+    <string name="nivel">Maila:</string>
+    <string name="eliminar_workout">Entrenamendu ezabatu</string>
+    <string name="modificar_workout">Entrenamendu editatu</string>
+    <string name="confirmar_eliminacion">Ezabaketa berretsi</string>
+    <string name="seguro_borrar_workout">Ziur zaude entrenamendu hau ezabatu nahi duzula?</string>
+    <string name="si">Bai</string>
+    <string name="no">Ez</string>
+    <string name="workout_eliminado">Entrenamendu ezabatua</string>
+    <string name="error_eliminar">Errorea ezabatzean: %1$s</string>
+    <string name="todos">Guztiak</string>
+    <string name="basico">Oinarrizkoa</string>
+    <string name="principiante">Hasiberria</string>
+    <string name="intermedio">Ertaina</string>
+    <string name="avanzado">Aurreratua</string>
+    <string name="entrenador">Entrenatzailea</string>
+    <string name="anadir_workout">Entrenamendu gehitu</string>
+    <string name="ver_video">Bideoa ikusi</string>
+    <string name="reproducir_video">Bideoa ikusi</string>
+    <string name="tiempo_total">Denbora totala: %1$s</string>
+    <string name="tiempo_previsto">Aurreikusitako denbora: %1$s</string>
+    <string name="fecha">Data: %1$s</string>
+    <string name="completado">Osatuta: %%%1$d</string>
+    <string name="video">BIDEOA</string>
+    <string name="rol">Rola</string>
+
+</resources>

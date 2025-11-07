@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme for dark mode. -->
+    <style name="Theme.DAJISquadGym" parent="Base.Theme.DAJISquadGym">
+        <!-- Dark Theme Specific Colors -->
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="colorSurface">@android:color/black</item> <!-- Paneles negros -->
+        <item name="buttonStyle">@style/Dark.Button</item>
+    </style>
+
+    <style name="Dark.Button" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/dark_grey</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>
