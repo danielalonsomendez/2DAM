@@ -1,0 +1,39 @@
+<article>
+  <img class="listing-photo" src="casas/{{ house?.photo }}" alt="Exterior photo of {{ house?.name }}" crossorigin="anonymous" />
+  <section class="listing-description">
+    <h2 class="listing-heading">{{ house?.name }}</h2>
+    <p class="listing-location">{{ house?.city }}, {{ house?.state }}</p>
+    <button type="button" class="primary" (click)="downloadImage()">Descargar imagen</button>
+  </section>
+  <section class="listing-features">
+    <h2 class="section-heading">About this housing location</h2>
+    <ul>
+      <li>Units available: {{ house?.availableUnits }}</li>
+      <li>Does this location have wifi: {{ house?.wifi }}</li>
+      <li>Does this location have laundry: {{ house?.laundry }}</li>
+    </ul>
+  </section>
+  <h2>Users List</h2>
+  @if (house) {
+  <ul>
+    @for(user of usersService.getUsersByHouseId(house.id); track $index) {
+    <li>{{ user.firstName }} {{ user.lastName }} - {{ user.email }}</li>
+    } @empty {
+    <li>No users have applied for this housing location yet.</li>
+    }
+  </ul> 
+  }
+
+  <section class="listing-apply">
+    <h2 class="section-heading">Apply now to live here</h2>
+    <form [formGroup]="applyForm" (submit)="submitApplication()">
+      <label for="first-name">First Name</label>
+      <input id="first-name" type="text" formControlName="firstName" />
+      <label for="last-name">Last Name</label>
+      <input id="last-name" type="text" formControlName="lastName" />
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <button type="submit" class="primary">Apply now</button>
+    </form>
+  </section>
+</article>
