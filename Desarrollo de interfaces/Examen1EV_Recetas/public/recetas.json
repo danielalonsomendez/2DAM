@@ -1,0 +1,43 @@
+{ "recetas": [
+  {
+    "id": "101",
+    "nombre": "Sopa del Monasterio",
+    "chef": "Eneko Atxa",
+    "dificultad": "Baja",
+    "tiempoMin": 30,
+    "imagenUrl": "sopa.jpg"
+  },
+  {
+    "id": "102",
+    "nombre": "Estofado del Conquistador",
+    "chef": "Jose Andres",
+    "dificultad": "Media",
+    "tiempoMin": 60,
+    "imagenUrl": "estofado.jpg"
+  },
+  {
+    "id": "103",
+    "nombre": "Tarta de la Abuela",
+    "chef": "Jose Andres",
+    "dificultad": "Media",
+    "tiempoMin": 45,
+    "imagenUrl": "tarta.jpg"
+  },
+  {
+    "id": "104",
+    "nombre": "Pescado Dorado",
+    "chef": "Jose Andres",
+    "dificultad": "Alta",
+    "tiempoMin": 75,
+    "imagenUrl": "pescado.jpg"
+  },
+  {
+    "id": "105",
+    "nombre": "Pan de la Eternidad",
+    "chef": "Eneko Atxa",
+    "dificultad": "Baja",
+    "tiempoMin": 90,
+    "imagenUrl": "pan.jpg"
+  }
+]
+}

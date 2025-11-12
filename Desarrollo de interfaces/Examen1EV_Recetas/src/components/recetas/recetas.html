@@ -1,0 +1,35 @@
+<div class="filters">
+    <!-- Filtro nombre-->
+    <form>
+        <input type="text" placeholder="Filtrar por nombre" name="nombre" [(ngModel)]="filtroNombre">
+        <button class="primary" (click)="filtrarNombre()">Filtrar por nombre</button>
+    </form>
+    <!-- Filtro chef-->
+    <form>
+        <input type="text" placeholder="Filtrar por chef" [(ngModel)]="filtroChef" name="chef">
+        <button class="primary" (click)="filtrarChef()">Filtrar por chef</button>
+    </form>
+</div>
+@if(listaFiltrada){
+<table class="table table-striped">
+    <thead>
+        <tr class="table-info">
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Imagen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (receta of listaFiltrada; track receta.id) {
+        <tr (click)="irReceta(receta.id)" style="cursor: pointer">
+            <td>{{ receta.id }}</td>
+            <td><b>{{receta.nombre}}</b></td>
+            <td><img src="{{receta.imagenUrl}}" alt="Imagen de {{receta.nombre}}"></td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+} @else {
+<p>Esperando datos...</p>
+}

@@ -1,0 +1,35 @@
+<div class="detalle card">
+    <div class="datos">
+        <!-- Datos Ayudante-->
+        <h1>Detalles de la receta {{receta.nombre}}</h1>
+        <span>Chef: {{receta.chef}}</span>
+        <span>Dificultad: {{receta.dificultad}}</span>
+        <span>Tiempo minimo: {{receta.tiempoMin}}</span>
+        <span>Visualizaciones: {{this.visualizacionesService.visualizacionesPorReceta(receta.id)}}</span>
+        <!-- Lista Ayudantes-->
+        <h2>Lista de ayudantes</h2>
+        @if (receta) {
+        <ul>
+            @for(ayudante of ayudantesService.ayudantesPorReceta(receta.id); track $index) {
+            <li>{{ ayudante.nombre }} - {{ ayudante.email }}</li>
+            } @empty {
+            <li>Sin ayudantes para esta receta.</li>
+            }
+        </ul>
+        }
+        <!-- Formulario añadir ayudante -->
+        <section class="listing-apply">
+            <h2 class="section-heading">Añadir ayudante</h2>
+            <form [formGroup]="ayudanteForm" (submit)="anadir()">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" formControlName="nombre" />
+                <label for="email">Email</label>
+                <input id="email" type="email" formControlName="email" />
+                <button type="submit" class="primary">Añadir</button>
+            </form>
+        </section>
+    </div>
+    <!-- Foto-->
+    <img src="{{receta.imagenUrl}}" alt="Imagen de {{receta.nombre}}">
+
+</div>
