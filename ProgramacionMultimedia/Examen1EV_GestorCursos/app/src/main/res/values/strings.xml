@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gestor Cursos | Daniel Alonso Mendez</string>
+    <string name="duracion">%1$d h</string>
+    <string name="acabado">Acabado</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="cambiaracabado">Cambiar a Acabado</string>
+    <string name="cambiarpendiente">Cambiar a Pendiente</string>
+    <string name="nombre">Nombre:</string>
+    <string name="duracion_label">Duracion:</string>
+    <string name="estado">Estado:</string>
+    <string name="cursos">Cursos</string>
+    <string name="cambiar">CAMBIAR</string>
+    <string name="volver">VOLVER</string>
+
+</resources>
