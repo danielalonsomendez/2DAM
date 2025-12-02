@@ -1,0 +1,13 @@
+<b style="font-size: 24px;">RESTAURANTE</b>
+<p>Descripcion: {{ restaurante?.documentDescription }}</p>
+<p>Municipio: {{ restaurante?.municipality }}</p>
+<p>Telefono: {{ restaurante?.phone }}</p>
+<p> Pagina web : {{restaurante?.web}}</p>
+<a href={{restaurante?.web}}> Pagina web</a>
+<hr>
+<button (click) = "abrirpaginaweb()" class="btn btn-info"> IR A LA PAGINA WEB</button>
+<hr>
+<button (click) = "abrirMapa1(restaurante?.address)" class="btn btn-info"> VER UBICACION 1</button>
+<hr>
+<button (click) = "abrirMapa2(restaurante?.latitudelongitude)" class="btn btn-info"> VER UBICACION 2</button> 
+

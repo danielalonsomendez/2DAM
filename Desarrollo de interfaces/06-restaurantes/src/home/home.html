@@ -1,0 +1,60 @@
+<h1> LISTADO DE RESTAURANTES </h1>
+<hr>
+<section>
+    <form>
+        <input type="text" placeholder="Filtrar por localidad: " #filter />
+         <button class="btn btn-info" type="button" (click)="filtrarPorLocalidad(filter.value)">BUSCAR</button>
+         <p><b>Hay {{cantidad}} de restaurantes.</b> </p>
+         <hr>
+         <label > Selecciona una localidad: </label>
+         <select class="form-select" 
+         [(ngModel)]="localidadSeleccionada" 
+         name="aaaa" 
+         (change)="onlocalidadchange()"
+         >
+          @for(item of localidadesUnicas; track $index){
+            <option>{{item}}</option>
+          }
+         </select>
+
+         <label> Selecciona un territorio: </label>
+         <select class="form-select" 
+         [(ngModel)]="territorioSeleccionado" 
+         name="aaaa" 
+         (change)="onterritoriochange()"
+         >
+          @for(item of territoriosUnicos; track $index){
+            <option>{{item}}</option>
+          }
+         </select>
+
+
+    </form>
+    <hr>
+</section>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Localidad</th>
+      <th scope="col">Ver detalles</th>
+    </tr>
+  </thead>
+  <tbody>
+   @for (item of restauranteFilter | paginate: { itemsPerPage: 10, currentPage: currentPage }; track item.id) {
+     <tr>
+      <th scope="row">{{item.id}}</th>
+      <td>{{item.documentName}}</td>
+      <td>{{item.locality}}</td>
+      <td><a [routerLink]="['/restaurante', item.id]" class="btn btn-info"> VER DETALLES</a></td>
+
+    </tr>
+   } @empty {
+     <tr>
+       <td colspan="4">No hay restaurantes disponibles.</td>
+     </tr>
+   }
+  </tbody>
+</table>
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
