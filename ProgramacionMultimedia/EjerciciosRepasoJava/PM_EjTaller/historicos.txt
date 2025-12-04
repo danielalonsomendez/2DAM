@@ -1,0 +1,11 @@
+Tipo: Coche
+Id: 1
+Marca: 1
+Modelo: 1
+Estado: entrada
+PrecioPresupuesto: 0.0
+PrecioFinal: 0.0
+Pagado: false
+Puertas: 1
+Matricula: 1111AAA
+
