@@ -1,0 +1,42 @@
+﻿@page "/"
+@using FrontBackUsers.Client.Modelos
+@inject HttpClient Http
+<PageTitle>Leer de Restaurantes</PageTitle>
+
+<h1>Leer de Restaurantes</h1>
+
+
+@if (restaurantes == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Address</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var restaurante in restaurantes)
+            {
+                <tr>
+                    <td>@restaurante.address</td>
+                    <td>@restaurante.placename</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+  /*
+   *   public List<Restaurante>? restaurantes = new List<Restaurante>();
+    override protected async Task OnInitializedAsync()
+    {
+        restaurantes = await Http.GetFromJsonAsync<List<Restaurante>>("https://localhost:7270/api/restaurantes");
+    }*/
+}
+-

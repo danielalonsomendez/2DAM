@@ -1,0 +1,45 @@
+﻿@page "/micontador"
+<h3>micontador</h3>
+
+<p style="color:@micolor;font-size:50px">@contador</p>
+<button @onclick="decrementar" class="btn btn-outline-danger">Decrementar</button>
+<button @onclick="resetear" class="btn btn-outline-secondary">Resetear</button>
+<button @onclick="incrementar" class="btn btn-outline-info">Incrementar</button>
+
+@code {
+    int contador = 0;
+    string micolor = "black";
+
+    void incrementar()
+    {
+        contador++;
+        validarColor();
+    }
+
+    void decrementar()
+    {
+        contador--;
+        validarColor();
+    }
+
+    void resetear()
+    {
+        contador = 0;
+        validarColor();
+    }
+    void validarColor()
+    {
+        if (contador > 0)
+        {
+            micolor = "green";
+        }
+        else if (contador < 0)
+        {
+            micolor = "red";
+        }
+        else
+        {
+            micolor = "black";
+        }
+    }
+}

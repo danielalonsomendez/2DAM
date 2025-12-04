@@ -1,0 +1,33 @@
+﻿@page "/"
+
+<h1>Proyecto rifa!</h1>
+
+<p>Numero Ganador: @numero</p>
+<button
+    class="btn btn-primary"
+    @onclick="pickWinner">
+    Siguiente numero
+    </button>
+<InputCheckbox @bind-Value="saveWinner" /> Desea guardar el siguiente numero?
+
+@foreach (var winner in winners)
+{
+
+    <ul>
+            <li>@winner</li>
+    </ul>
+}
+@code {
+    int numero;
+    bool saveWinner = true;
+    List<int> winners = new List<int>();
+    void pickWinner()
+    {
+        var rand = new Random();
+        numero = rand.Next(0, 1000);
+        if(saveWinner)
+        {
+            winners.Add(numero);
+        }
+    }
+}

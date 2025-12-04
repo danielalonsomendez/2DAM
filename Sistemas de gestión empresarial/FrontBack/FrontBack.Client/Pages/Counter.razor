@@ -1,0 +1,43 @@
+﻿@page "/counter"
+@using FrontBack.Client.Modelos
+@rendermode InteractiveAuto
+@* ANADIDO*@
+@inject HttpClient Http
+<PageTitle>Leer de mi Backend</PageTitle>
+
+<h1>JSONPlaceholder.org/post</h1>
+
+
+@if(posts == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in posts)
+            {
+                <tr>
+                    <td>@post.Id</td>
+                    <td>@post.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<Post>? posts = new List<Post>();
+    override protected async Task OnInitializedAsync()
+    {
+        posts = await Http.GetFromJsonAsync<List<Post>>("https://localhost:7285/api/home");
+    }
+}
+-

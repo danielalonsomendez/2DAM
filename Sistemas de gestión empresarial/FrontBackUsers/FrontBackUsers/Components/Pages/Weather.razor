@@ -1,0 +1,42 @@
+﻿@page "/weather"
+@using FrontBackUsers.Client.Modelos
+@attribute [StreamRendering]
+@inject HttpClient Http
+<PageTitle>Leer de JSON</PageTitle>
+
+<h1>Leer de JSON</h1>
+
+
+@if (productos == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in productos)
+            {
+                <tr>
+                    <td>@producto.Nombre</td>
+                    <td>@producto.Precio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<Producto>? productos = new List<Producto>();
+    override protected async Task OnInitializedAsync()
+    {
+        productos = await Http.GetFromJsonAsync<List<Producto>>("https://localhost:7270/api/productos");
+    }
+}
+-

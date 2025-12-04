@@ -1,0 +1,46 @@
+﻿@page "/bmi"
+
+<h3>BMI (Body Mass Index)</h3>
+
+<input type="number" @bind="peso" class="form-control" />
+<input type="number" step="0.01" @bind="altura" class="form-control mt-2" />
+
+<input type="text" class="form-control mt-2" placeholder="resultado" 
+       @bind-value="resultado" readonly />
+
+<button @onclick="CalcularBMI" class="btn btn-primary mt-2">Calcular BMI</button>
+
+@code {
+    private double peso;
+    private double altura;
+    private double bmi;
+    private string resultado = "";
+
+    private void CalcularBMI()
+    {
+        if (altura <= 0)
+        {
+            resultado = "Altura inválida";
+            return;
+        }
+
+        bmi = peso / (altura * altura);
+
+        if (bmi < 18.5)
+        {
+            resultado = $"BMI: {bmi:F2} → Bajo peso";
+        }
+        else if (bmi >= 18.5 && bmi <= 24.9)
+        {
+            resultado = $"BMI: {bmi:F2} → Normal";
+        }
+        else if (bmi >= 25 && bmi <= 29.9)
+        {
+            resultado = $"BMI: {bmi:F2} → Sobrepeso";
+        }
+        else
+        {
+            resultado = $"BMI: {bmi:F2} → Obesidad";
+        }
+    }
+}

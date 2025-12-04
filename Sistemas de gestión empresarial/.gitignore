@@ -1,0 +1,116 @@
+## --- .NET / C# generics ---
+bin/
+obj/
+out/
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.csproj.user
+*.cache
+*.log
+*.vsp
+*.vspx
+*.pidb
+*.svclog
+*.pdb
+*.mdb
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## --- Visual Studio ---
+.vs/
+*.psess
+*.ses
+*.VC.db
+*.VC.VC.opendb
+
+## --- VS Code ---
+.vscode/
+.vscode/*
+
+## --- Rider / JetBrains ---
+.idea/
+*.iml
+*.ipr
+*.iws
+
+## --- MAUI specifics ---
+
+# Platforms output
+**/Platforms/Android/*/obj/
+**/Platforms/Android/*/bin/
+**/Platforms/iOS/*/obj/
+**/Platforms/iOS/*/bin/
+**/Platforms/MacCatalyst/*/obj/
+**/Platforms/MacCatalyst/*/bin/
+**/Platforms/Windows/*/obj/
+**/Platforms/Windows/*/bin/
+
+# MAUI generated resources
+**/Resources/Raw/*
+**/Resources/AppIcon.appiconset/*
+**/Resources/Splash/*
+
+# Device specific files
+*.apk
+*.aab
+*.ipa
+*.app
+*.xcarchive
+*.xcuserstate
+*.xcodeproj/*
+*.xcworkspace/*
+
+# Android specific
+*.ap_
+*.dex
+*.apk
+*.keystore
+
+# iOS
+*.dSYM
+*.plist
+**/obj/Debug/device-builds/
+
+## --- Blazor specifics ---
+
+# Blazor WASM auto-generated artifacts
+wwwroot/css/app.css.map
+wwwroot/*.br
+wwwroot/*.gz
+
+# Build output
+*.dll
+*.wasm
+*.json
+*.blat
+*.dat
+*.cache
+
+# Static web assets autogenerados por SDK
+**/obj/Debug*/net*/staticwebassets/
+**/obj/Release*/net*/staticwebassets/
+
+# Publish
+publish/
+dist/
+
+## --- Other ---
+.env
+*.db
+*.sqlite
+*.sqlite3
+*.cache/
+node_modules/
+npm-debug.log
+
+# macOS
+.DS_Store

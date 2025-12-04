@@ -1,0 +1,62 @@
+﻿@page "/counter"
+
+<h1 style="color:@micolor;font-size:@mitamano">Seleccionar un color y un tamaño</h1>
+<div style="display:flex">
+        <div style="width:150px">
+        <select @bind="micolor">
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+        </select>
+    </div>
+    <div style="width:150px">
+        <select @bind="mitamano">
+            <option value="12px">12px</option>
+            <option value="24px">24px</option>
+            <option value="36px">36px</option>
+        </select>
+    </div>
+
+
+</div>
+@if (peliculas == null)
+{
+   <p>No hay peliculas</p> 
+} else
+{
+   <p>Hay peliculas</p> 
+    <ul>
+        @foreach (var pelicula in peliculas)
+        {
+            <li>@pelicula.Titulo - @pelicula.Lanzamiento.ToShortDateString()</li>
+        }
+    </ul>
+}
+@code {
+    string? micolor="red";
+    string? mitamano="12px";
+    List<Pelicula> peliculas= new List<Pelicula>();
+
+    protected override void OnInitialized()
+    {
+        peliculas = ObtenerPeliculas();
+    }
+    public class Pelicula
+    {
+        public string? Titulo { get; set; }
+        public DateTime Lanzamiento { get; set; }
+    }
+  
+    private List<Pelicula> ObtenerPeliculas()
+    {
+        return new List<Pelicula>()
+        {
+            new Pelicula(){Titulo="Cars1",Lanzamiento=new DateTime(2025,11,18)},
+            new Pelicula(){Titulo="Cars2",Lanzamiento=new DateTime(2025,11,17)},
+            new Pelicula(){Titulo="Cars3",Lanzamiento=new DateTime(2025,11,16)},
+        };
+    }
+
+   
+
+}

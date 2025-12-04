@@ -1,0 +1,43 @@
+﻿@page "/counter"
+@using FrontBackUsers.Client.Modelos
+@rendermode InteractiveAuto
+@* ANADIDO*@
+@inject HttpClient Http
+<PageTitle>Leer de mi Backend</PageTitle>
+
+<h1>JSONPlaceholder.org/users</h1>
+
+
+@if (users == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.id</td>
+                    <td>@user.email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<Usuario>? users = new List<Usuario>();
+    override protected async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<List<Usuario>>("https://localhost:7270/api/user");
+    }
+}
+-
