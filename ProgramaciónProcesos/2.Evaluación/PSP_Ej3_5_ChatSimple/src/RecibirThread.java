@@ -25,6 +25,7 @@ public class RecibirThread implements Runnable {
 			}
 
 		} catch (Exception e) {
+			System.out.println("Conexión cerrada.");
 		}
 	}
 

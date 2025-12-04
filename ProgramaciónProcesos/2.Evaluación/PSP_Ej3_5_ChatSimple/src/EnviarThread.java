@@ -28,6 +28,7 @@ public class EnviarThread implements Runnable {
 			}
 			teclado.close();
 		} catch (IOException e) {
+			System.out.println("Conexión cerrada.");
 		}
 
 	}

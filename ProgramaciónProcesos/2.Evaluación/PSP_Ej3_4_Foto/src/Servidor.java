@@ -13,7 +13,7 @@ public class Servidor {
 			ServerSocket servidor = new ServerSocket(5000);
 			Socket cliente = servidor.accept();
 			DataOutputStream salida = new DataOutputStream(cliente.getOutputStream());
-			File fich = new File("foto.jpg");
+			File fich = new File("foto.png");
 			BufferedInputStream fileInput = new BufferedInputStream(new FileInputStream(fich));
 
 			byte[] buffer = new byte[4096];

@@ -51,7 +51,7 @@ public class Cliente extends JFrame {
 			Socket cliente = new Socket("localhost", 5000);
 			DataInputStream socketIS = new DataInputStream(cliente.getInputStream());
 
-			File file = new File("recibido.jpg");
+			File file = new File("recibido.png");
 			FileOutputStream fileOS = new FileOutputStream(file);
 
 			byte[] buffer = new byte[4096];
@@ -64,13 +64,13 @@ public class Cliente extends JFrame {
 			fileOS.close();
 			socketIS.close();
 			cliente.close();
-			ImageIcon fotoE = new ImageIcon("recibido.jpg");
+			ImageIcon fotoE = new ImageIcon("recibido.png");
 			JLabel lblFoto = new JLabel(fotoE);
 			lblFoto.setBounds(48, 63, 320, 122);
 			contentPane.add(lblFoto);
 		} catch (Exception e) {
-			e.printStackTrace();
-			JLabel lblFoto = new JLabel("No disponible");
+			ImageIcon fotoE = new ImageIcon("error.png");
+			JLabel lblFoto = new JLabel(fotoE);
 			lblFoto.setForeground(Color.red);
 			lblFoto.setBounds(48, 63, 320, 122);
 
