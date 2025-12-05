@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltiempo" name="modelo.Provincias" optimistic-lock="none" table="provincias">
+        <id name="idProvincia" type="int">
+            <column name="ID_PROVINCIA"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="nombre" type="string">
+            <column length="50" name="NOMBRE"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="municipioses" table="municipios">
+            <key>
+                <column name="ID_PROVINCIA"/>
+            </key>
+            <one-to-many class="modelo.Municipios"/>
+        </set>
+    </class>
+</hibernate-mapping>

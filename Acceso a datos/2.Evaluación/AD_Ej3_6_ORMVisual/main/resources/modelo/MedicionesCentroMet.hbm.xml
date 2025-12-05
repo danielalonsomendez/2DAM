@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltiempo" name="modelo.MedicionesCentroMet" optimistic-lock="none" table="mediciones_centro_met">
+        <composite-id class="modelo.MedicionesCentroMetId" name="id">
+            <key-property name="fecha" type="date">
+                <column length="10" name="FECHA"/>
+            </key-property>
+            <key-property name="hora" type="time">
+                <column length="8" name="HORA"/>
+            </key-property>
+            <key-property name="idCentroMet" type="int">
+                <column name="ID_CENTRO_MET"/>
+            </key-property>
+        </composite-id>
+        <many-to-one class="modelo.CentrosMeteorologicos" fetch="select" insert="false" name="centrosMeteorologicos" update="false">
+            <column name="ID_CENTRO_MET" not-null="true"/>
+        </many-to-one>
+        <property name="dirViento" type="java.lang.Integer">
+            <column name="DIR_VIENTO"/>
+        </property>
+        <property name="HRelativa" type="java.lang.Integer">
+            <column name="H_RELATIVA"/>
+        </property>
+        <property name="PAtmosferica" type="java.lang.Float">
+            <column name="P_ATMOSFERICA" precision="6"/>
+        </property>
+        <property name="precip" type="java.lang.Float">
+            <column name="PRECIP" precision="5"/>
+        </property>
+        <property name="radSolar" type="java.lang.Float">
+            <column name="RAD_SOLAR" precision="6"/>
+        </property>
+        <property name="tempAmbiente" type="java.lang.Float">
+            <column name="TEMP_AMBIENTE" precision="4"/>
+        </property>
+        <property name="VViento" type="java.lang.Float">
+            <column name="V_VIENTO" precision="5"/>
+        </property>
+        <property name="ica" type="string">
+            <column length="50" name="ICA"/>
+        </property>
+    </class>
+</hibernate-mapping>

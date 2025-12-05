@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltiempo" name="modelo.CentrosMeteorologicos" optimistic-lock="none" table="centros_meteorologicos">
+        <id name="idCentroMet" type="java.lang.Integer">
+            <column name="ID_CENTRO_MET"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="modelo.Municipios" fetch="select" name="municipios">
+            <column name="ID_MUNICIPIO"/>
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column length="50" name="NOMBRE"/>
+        </property>
+        <property name="direccion" type="string">
+            <column length="80" name="DIRECCION"/>
+        </property>
+        <property name="latitud" type="java.lang.Double">
+            <column name="LATITUD" precision="20"/>
+        </property>
+        <property name="longitud" type="java.lang.Double">
+            <column name="LONGITUD" precision="20"/>
+        </property>
+        <property name="url" type="string">
+            <column length="150" name="URL"/>
+        </property>
+        <property name="hash" type="string">
+            <column length="64" name="HASH"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="medicionesCentroMets" table="mediciones_centro_met">
+            <key>
+                <column name="ID_CENTRO_MET" not-null="true"/>
+            </key>
+            <one-to-many class="modelo.MedicionesCentroMet"/>
+        </set>
+    </class>
+</hibernate-mapping>

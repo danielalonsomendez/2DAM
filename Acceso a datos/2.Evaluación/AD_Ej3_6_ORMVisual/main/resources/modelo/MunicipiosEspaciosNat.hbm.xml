@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltiempo" name="modelo.MunicipiosEspaciosNat" optimistic-lock="none" table="municipios_espacios_nat">
+        <composite-id class="modelo.MunicipiosEspaciosNatId" name="id">
+            <key-property name="idEspacio" type="int">
+                <column name="ID_ESPACIO"/>
+            </key-property>
+            <key-property name="idMunicipio" type="int">
+                <column name="ID_MUNICIPIO"/>
+            </key-property>
+        </composite-id>
+        <many-to-one class="modelo.EspaciosNaturales" fetch="select" insert="false" name="espaciosNaturales" update="false">
+            <column name="ID_ESPACIO" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="modelo.Municipios" fetch="select" insert="false" name="municipios" update="false">
+            <column name="ID_MUNICIPIO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

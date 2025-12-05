@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltiempo" name="modelo.Municipios" optimistic-lock="none" table="municipios">
+        <id name="idMunicipio" type="java.lang.Integer">
+            <column name="ID_MUNICIPIO"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="modelo.Provincias" fetch="select" name="provincias">
+            <column name="ID_PROVINCIA"/>
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column length="50" name="NOMBRE"/>
+        </property>
+        <property name="descripcion" type="string">
+            <column length="5000" name="DESCRIPCION"/>
+        </property>
+        <property name="codMunicipio" type="java.lang.Integer">
+            <column name="COD_MUNICIPIO"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="municipiosEspaciosNats" table="municipios_espacios_nat">
+            <key>
+                <column name="ID_MUNICIPIO" not-null="true"/>
+            </key>
+            <one-to-many class="modelo.MunicipiosEspaciosNat"/>
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="centrosMeteorologicoses" table="centros_meteorologicos">
+            <key>
+                <column name="ID_MUNICIPIO"/>
+            </key>
+            <one-to-many class="modelo.CentrosMeteorologicos"/>
+        </set>
+    </class>
+</hibernate-mapping>
