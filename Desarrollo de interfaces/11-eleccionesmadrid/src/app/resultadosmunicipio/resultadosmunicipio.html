@@ -1,0 +1,24 @@
+<select [(ngModel)]="selectedMunicipio" (ngModelChange)="onMunicipioChange()" class="form-select mb-3">
+    @for (municipio of municipios; track municipio) {
+    <option [value]="municipio">{{ municipio }}</option>
+    }
+</select>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Partido</th>
+            <th>Votos</th>
+            <th>Porcentaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (partido of getPartidos(); track partido) {
+        <tr>
+            <td>{{ partido }}</td>
+            <td>{{ getVotosPartido(partido) }}</td>
+            <td>{{ getPorcentajePartido(partido) | number:'1.2-2' }}%</td>
+        </tr>
+        }
+    </tbody>
+</table>

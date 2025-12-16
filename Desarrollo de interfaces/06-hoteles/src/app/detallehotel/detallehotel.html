@@ -1,0 +1,16 @@
+<b style="font-size: 24px;">HOTEL</b>
+<p><strong>Personas interesadas en este hotel:</strong> {{ numeroPersonasInteresadas }}</p>
+<p><strong>Fecha y hora actual:</strong> {{ fechaHoraActual }}</p>
+<hr>
+<p>Descripcion: {{ hotel?.documentDescription }}</p>
+<p>Municipio: {{ hotel?.municipality }}</p>
+<p>Telefono: {{ hotel?.phone }}</p>
+<p> Pagina web : {{hotel?.web}}</p>
+<a href={{hotel?.web}}> Pagina web</a>
+<hr>
+<button (click) = "abrirpaginaweb()" class="btn btn-info"> IR A LA PAGINA WEB</button>
+<hr>
+<button (click) = "abrirMapa1(hotel?.address)" class="btn btn-info"> VER UBICACION 1</button>
+<hr>
+<button (click) = "abrirMapa2(hotel?.latitudelongitude)" class="btn btn-info"> VER UBICACION 2</button> 
+

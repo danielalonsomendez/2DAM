@@ -1,0 +1,15 @@
+<div style="padding: 20px;">
+    <h2>Ejemplo 1: Input y Botón</h2>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tu Nombre</mat-label>
+        <input matInput [(ngModel)]="nombreUsuario">
+        <mat-hint>Escribe un nombre</mat-hint>
+    </mat-form-field>
+
+    <p>
+        <button mat-raised-button color="primary" (click)="saludar()">
+            Saludar
+        </button>
+    </p>
+</div>

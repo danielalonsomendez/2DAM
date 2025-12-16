@@ -1,0 +1,19 @@
+<h1>Angular Guard Demo</h1>
+
+<p>
+  <button (click)="login()" style="margin-right: 10px;">Login</button>
+  <button (click)="logout()">Logout</button>
+</p>
+<p>
+  Estado: <strong>{{ authService.isAuthenticated() ? 'Logueado' : 'No Logueado' }}</strong>
+</p>
+
+<hr>
+
+<nav>
+  <a routerLink="/home" style="margin-right: 10px;">Ir a Home (Pública)</a>
+  <a routerLink="/private">Ir a Privada (Protegida)</a>
+</nav>
+
+<hr>
+<router-outlet></router-outlet>
