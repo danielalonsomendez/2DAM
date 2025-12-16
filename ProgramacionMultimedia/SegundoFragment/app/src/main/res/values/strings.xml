@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SegundoFragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment1">Fragment A</string>
+    <string name="fragment2">Fragment B</string>
+    <string name="ir_al_fragment_a">Ir al fragment A</string>
+    <string name="ir_al_fragment_b">Ir al fragment b</string>
+
+</resources>
