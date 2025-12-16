@@ -3,7 +3,10 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
+
+import com.google.gson.annotations.Expose;
 
 // Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final
 
@@ -12,15 +15,29 @@ import org.hibernate.query.Query;
  */
 public class MedicionesCentroMet implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Expose
 	private MedicionesCentroMetId id;
+	@Expose
 	private CentrosMeteorologicos centrosMeteorologicos;
+	@Expose
 	private Integer dirViento;
+	@Expose
 	private Integer HRelativa;
+	@Expose
 	private Float PAtmosferica;
+	@Expose
 	private Float precip;
+	@Expose
 	private Float radSolar;
+	@Expose
 	private Float tempAmbiente;
+	@Expose
 	private Float VViento;
+	@Expose
 	private String ica;
 
 	public MedicionesCentroMet() {
@@ -132,5 +149,17 @@ public class MedicionesCentroMet implements java.io.Serializable {
 		List<MedicionesCentroMet> resultados = query.list();
 		return new ArrayList<MedicionesCentroMet>(resultados);
 	}
+
+	public static ArrayList<MedicionesCentroMet> obtenerListaMediciones(Session session) {
+		ArrayList<MedicionesCentroMet> lista = new ArrayList<>();
+		String hql = "from MedicionesCentroMet";
+		Query<MedicionesCentroMet> q = session.createQuery(hql, MedicionesCentroMet.class);
+		List<MedicionesCentroMet> filas = q.list();
+		for (int i = 0; i < filas.size(); i++) {
+			MedicionesCentroMet p = (MedicionesCentroMet) filas.get(i);
+			lista.add(p);
+		}
+		return lista;
+		}
 	
 }

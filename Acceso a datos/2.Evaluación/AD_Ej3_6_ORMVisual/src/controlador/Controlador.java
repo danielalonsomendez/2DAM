@@ -2,6 +2,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -9,6 +12,9 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import modelo.CentrosMeteorologicos;
 import modelo.EspaciosNaturales;
@@ -56,6 +62,12 @@ public class Controlador implements ActionListener {
 			mVolver();
 			break;
 		case "INCLUIR":
+			mGuardarProvincias();
+			mGuardarMunicipios();
+			mGuardarEspaciosNaturales();
+			mGuardarCentroMeterologico();
+			mGuardarMedicionesCentroMeteorologico();
+			
 			mIncluir();
 			mRellenarProvincias();
 			break;
@@ -73,6 +85,62 @@ public class Controlador implements ActionListener {
 		}
 
 	}
+	public void mGuardarProvincias() {
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		ArrayList<Provincias> provincias = Provincias.obtenerListaProvincias(session);		
+		File file = new File("provincias.json");
+		try (FileWriter writer = new FileWriter(file)) {
+			 gson.toJson(provincias,writer);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	public void mGuardarMunicipios() {
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	
+		ArrayList<Municipios> municipios = Municipios.obtenerListaMunicipios(session);
+		File file = new File("municipios.json");
+		try (FileWriter writer = new FileWriter(file)) {
+			 gson.toJson(municipios,writer);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	public void mGuardarEspaciosNaturales() {
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	
+		ArrayList<EspaciosNaturales> espacios = EspaciosNaturales.obtenerListaEspacios(session);
+		File file = new File("espaciosnaturales.json");
+		try (FileWriter writer = new FileWriter(file)) {
+			 gson.toJson(espacios,writer);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	public void mGuardarCentroMeterologico() {
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	
+		ArrayList<CentrosMeteorologicos> centros = CentrosMeteorologicos.obtenerListaCentros(session);
+		File file = new File("centrosmeterologicos.json");
+		try (FileWriter writer = new FileWriter(file)) {
+			 gson.toJson(centros,writer);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	public void mGuardarMedicionesCentroMeteorologico() {
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	
+		ArrayList<MedicionesCentroMet> mediciones = MedicionesCentroMet.obtenerListaMediciones(session);
+		File file = new File("mediciones.json");
+		try (FileWriter writer = new FileWriter(file)) {
+			 gson.toJson(mediciones,writer);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
 
 	public void mVolver() {
 		if (vista.getPanelEstaciones().isVisible()) {

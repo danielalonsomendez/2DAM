@@ -1,4 +1,7 @@
 package modelo;
+
+import com.google.gson.annotations.Expose;
+
 // Generated 1 dic 2025, 10:51:08 by Hibernate Tools 6.5.1.Final
 
 /**
@@ -6,8 +9,15 @@ package modelo;
  */
 public class MunicipiosEspaciosNat implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Expose
 	private MunicipiosEspaciosNatId id;
+	@Expose
 	private EspaciosNaturales espaciosNaturales;
+	@Expose
 	private Municipios municipios;
 
 	public MunicipiosEspaciosNat() {
