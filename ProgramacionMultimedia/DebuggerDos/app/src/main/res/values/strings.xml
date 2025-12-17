@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DebuggerDos</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="sumar">Sumar</string>
+    <string name="cadena">Cadena</string>
+    <string name="invertir">Invertir</string>
+    <string name="media">Media</string>
+    <string name="mostrar_usuario">Mostrar Usuario</string>
+    <string name="resultado">Resultado...</string>
+</resources>
