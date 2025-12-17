@@ -1,0 +1,45 @@
+<h2>Inventario de Productos (CRUD con json-server)</h2>
+
+<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+    <h3>Crear Producto</h3>
+    <input type="text" [(ngModel)]="nuevoProducto.nombre" placeholder="Nombre del Producto" />
+    <input type="number" [(ngModel)]="nuevoProducto.precio" placeholder="Precio" />
+    <button (click)="crearProducto()" [disabled]="!nuevoProducto.nombre || nuevoProducto.precio <= 0">Crear</button>
+</div>
+
+@if(productos){
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (producto of productos; track producto.id) {
+        <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio | currency:'EUR' }}</td>
+            <td>
+                <button (click)="seleccionarProducto(producto)">Seleccionar</button>
+                <button (click)="borrarProducto(producto.id?.toString())">Eliminar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+@if (productoSeleccionado) {
+<div style="border: 1px solid #007bff; padding: 15px; margin-top: 20px;">
+    <h3> Editar Producto ID: {{ productoSeleccionado.id }}</h3>
+    <input type="text" [(ngModel)]="productoSeleccionado.nombre" placeholder="Nuevo Nombre" />
+    <input type="number" [(ngModel)]="productoSeleccionado.precio" placeholder="Nuevo Precio" />
+    <button (click)="actualizarProducto()">Guardar Cambios</button>
+    <button (click)="productoSeleccionado = null">Cancelar</button>
+</div>
+}
+

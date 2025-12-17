@@ -1,0 +1,21 @@
+<div>
+  <h1>Lista de amigos</h1>
+  <p>{{mierror}}</p>
+  <p>Introduce el id:</p>
+  <input type="text" required [(ngModel)]="unamigo.id">
+  <p>Introduce el nombre:</p>
+  <input type="text" required [(ngModel)]="unamigo.nombre">
+  <br>
+  <br>
+  <button (click)="addItem()">Agregar amigo</button>
+  <button (click)="updateItem()">Actualizar</button>  
+  <button (click)="deleteItem(unamigo.id)">Eliminar</button>
+  <ul>
+    @for (item of items; track item.id) {
+    <li>
+      {{ item.id }} - {{ item.nombre }}
+      <button (click)="selectItem(item)">Seleccionar</button>
+    </li>
+    }
+  </ul>
+</div>

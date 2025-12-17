@@ -1,0 +1,24 @@
+{
+  "provincias": [
+    {
+      "ID_PROVINCIA": 0,
+      "NOMBRE": "Nueva Provincia",
+      "id": "122e"
+    },
+    {
+      "ID_PROVINCIA": 1,
+      "NOMBRE": "Araba/Álava",
+      "id": "ccd3"
+    },
+    {
+      "ID_PROVINCIA": 20,
+      "NOMBRE": "Gipuzkoa",
+      "id": "f55b"
+    },
+    {
+      "ID_PROVINCIA": 48,
+      "NOMBRE": "Bizkaia",
+      "id": "7863"
+    }
+  ]
+}

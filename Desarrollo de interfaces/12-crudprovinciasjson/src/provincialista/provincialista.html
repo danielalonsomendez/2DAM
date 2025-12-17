@@ -1,0 +1,40 @@
+<h2>Provincias (CRUD con json-server)</h2>
+
+<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+    <h3>Crear Provincia</h3>
+    <input type="text" [(ngModel)]="nuevaProvincia.NOMBRE" placeholder="Nombre de la Provincia" />
+    <button (click)="crearProvincia()" [disabled]="!nuevaProvincia.NOMBRE">Crear</button>
+</div>
+
+@if(provincias){
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (provincia of provincias; track provincia.id) {
+        <tr>
+            <td>{{ provincia.ID_PROVINCIA }}</td>
+            <td>{{ provincia.NOMBRE }}</td>
+            <td>
+                <button (click)="seleccionarProvincia(provincia)">Seleccionar</button>
+                <button (click)="borrarProvincia(provincia.id?.toString())">Eliminar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+@if (provinciaSeleccionada) {
+<div style="border: 1px solid #007bff; padding: 15px; margin-top: 20px;">
+    <h3> Editar Provincia ID: {{ provinciaSeleccionada.ID_PROVINCIA }}</h3>
+    <input type="text" [(ngModel)]="provinciaSeleccionada.NOMBRE" placeholder="Nuevo Nombre" />
+    <button (click)="actualizarProvincia()">Guardar Cambios</button>
+    <button (click)="provinciaSeleccionada = null">Cancelar</button>
+</div>
+}
+

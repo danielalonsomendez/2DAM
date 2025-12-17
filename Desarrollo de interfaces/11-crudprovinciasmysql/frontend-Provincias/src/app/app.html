@@ -1,0 +1,21 @@
+<div>
+  <h1>Lista de provincias</h1>
+  <p>{{mierror}}</p>
+  <p>Introduce el id:</p>
+  <input type="text" required [(ngModel)]="unamigo.ID_PROVINCIA">
+  <p>Introduce el nombre:</p>
+  <input type="text" required [(ngModel)]="unamigo.NOMBRE">
+  <br>
+  <br>
+  <button (click)="addItem()">Agregar provincia</button>
+  <button (click)="updateItem()">Actualizar</button>  
+  <button (click)="deleteItem(unamigo.ID_PROVINCIA.toString())">Eliminar</button>
+  <ul>
+    @for (item of items; track item.ID_PROVINCIA) {
+    <li>
+      {{ item.ID_PROVINCIA }} - {{ item.NOMBRE }}
+      <button (click)="selectItem(item)">Seleccionar</button>
+    </li>
+    }
+  </ul>
+</div>
