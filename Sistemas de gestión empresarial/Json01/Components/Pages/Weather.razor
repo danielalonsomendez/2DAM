@@ -1,0 +1,50 @@
+﻿@page "/casa/{documentName}"
+@using Json01.Modelos
+@inject Servicios.RestauranteService servicio
+
+<h1>Detalles de la casa</h1>
+<a href="/counter">Volver</a>
+
+@if(casa is null)
+{
+    <p>No encontrado</p>
+} else
+{
+    <p><strong>@casa?.name</strong></p>
+    <p>Accesibilidad: @casa?.city</p>
+    <br />
+    <button class="btn btn-success" @onclick="() => AbrirMapa1(casa?.city)">
+        Abrir Mapa con Dirección
+    </button>
+}
+
+@code {
+    [Parameter]
+    public string? documentName { get; set; }
+
+    public Casa? casa;
+
+    protected override void OnParametersSet()
+    {
+        casa = servicio.casas?.FirstOrDefault(x => x.name == documentName);
+        //coge de la lista de restaurantes el primero que coincida con el parametro pasado
+    }
+
+    public async Task AbrirMapa1(string? direccion)
+    {
+        if (!string.IsNullOrEmpty(direccion))
+        {
+            string baseUrl = "https://www.google.com/maps/search/";
+            string url = $"{baseUrl}{Uri.EscapeDataString(direccion)}";
+            try
+            {
+                await Launcher.Default.OpenAsync(url);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"No se pudo abrir el mapa: {ex.Message}", "OK");
+            }
+        }
+    }
+
+}

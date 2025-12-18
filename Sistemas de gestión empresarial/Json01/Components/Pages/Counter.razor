@@ -1,0 +1,93 @@
+﻿@page "/counter"
+@using System.Text.Json
+@using Json01.Modelos
+@inject Servicios.RestauranteService servicio
+
+<h1>Restaurantes</h1>
+
+@if (servicio.restaurantes == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <ul>
+        @foreach (var p in RestaurantesPaginados)
+        {
+            <li>
+                @p.address - @p.accesibility -
+                <a href="/unrestaurante/@p.documentName">Detalles</a>
+            </li>
+        }
+    </ul>
+
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        <button class="btn btn-sm btn-secondary me-2"
+                @onclick="@(() => SetPage(1))"
+                disabled="@(currentPage == 1)">
+            Primero
+        </button>
+
+        <button class="btn btn-sm btn-secondary me-2"
+                @onclick="@(() => SetPage(currentPage - 1))"
+                disabled="@(currentPage == 1)">
+            Anterior
+        </button>
+
+        <span class="mx-3">
+            Página @currentPage de @TotalPages
+        </span>
+
+        <button class="btn btn-sm btn-secondary ms-2"
+                @onclick="@(() => SetPage(currentPage + 1))"
+                disabled="@(currentPage == TotalPages)">
+            Siguiente
+        </button>
+
+        <button class="btn btn-sm btn-secondary ms-2"
+                @onclick="@(() => SetPage(TotalPages))"
+                disabled="@(currentPage == TotalPages)">
+            Último
+        </button>
+    </div>
+}
+
+@code {
+    // En MAuiProgram he añadido
+    // builder.Services.AddSingleton<RestauranteService>();
+    //@inject Servicios.RestauranteService servicio  PARA QUE SEA STATIC
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            using var stream = await FileSystem.OpenAppPackageFileAsync("restaurantes.json");
+            using var reader = new StreamReader(stream);
+
+            var json = reader.ReadToEnd();
+            servicio.restaurantes = JsonSerializer.Deserialize<List<Restaurante>>(json) ?? new List<Restaurante>();
+        }
+        catch (Exception ex)
+        {
+            servicio.restaurantes = new List<Restaurante>();
+        }
+    }
+
+    // PAGINACION
+    private int pageSize = 20; // filas por página
+    private int currentPage = 1;
+
+    private IEnumerable<Restaurante> RestaurantesPaginados =>
+        servicio.restaurantes.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+    private int TotalPages => (int)Math.Ceiling((double)servicio.restaurantes.Count / pageSize);
+
+    private void SetPage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+            currentPage = page;
+    }
+
+}
+
+

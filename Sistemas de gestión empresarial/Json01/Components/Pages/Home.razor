@@ -1,0 +1,42 @@
+﻿@page "/"
+@using Json01.Modelos
+@using System.Text.Json
+<h1>Json!</h1>
+
+<img src="images/logo.png" width="150" height="150"/>
+<img src="images/casa0.jpg" width="150" height="150" />
+
+@if(lista==null){
+    <p>Cargando..</p>
+} else {
+    @foreach (var item in lista)
+    {
+        <li>@item.nombre @item.edad años</li>
+    }
+}
+
+
+@code{
+    // las fotos estan en wwwroot/images
+    // el fichero .json en Resources/raw
+    // en propiedades: MauiAsset y copiar siempre
+    List<Persona>? lista;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            using var stream = await FileSystem.OpenAppPackageFileAsync("personas.json");
+            using var reader = new StreamReader(stream);
+
+            var json = reader.ReadToEnd();
+            lista = JsonSerializer.Deserialize<List<Persona>>(json);
+
+        }
+        catch (Exception)
+        {
+
+            lista = new List<Persona>();
+        }
+    }
+}
