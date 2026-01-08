@@ -22,6 +22,7 @@ public class CentrosMeteorologicos implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Expose
 	private Integer idCentroMet;
+	@Expose
 	private Municipios municipios;
 	@Expose
 	private String nombre;
