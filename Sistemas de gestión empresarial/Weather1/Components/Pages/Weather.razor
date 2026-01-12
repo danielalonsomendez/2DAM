@@ -1,0 +1,143 @@
+﻿@page "/weather"
+@using System.Globalization
+@using Weather1.Modeloairvariables
+@using Weather1.Modelogeoapi
+@using Weather1.Modelotiempo
+@{
+    <style>
+    body {
+        background-color: @micolor;
+        }
+    </style>
+}
+<h1>Weather</h1>
+<input type="text" placeholder="Ciudad" @bind=ciudad class="form-control mt-2" />
+<div class="text-center">
+    <button @onclick=GetWeather style="width:250px" class=" btn btn-primary mt-2">Buscar</button>
+</div>
+
+@if(citydata != null)
+{
+ <Select class="form-select mt-2"  @onchange="ChangeDest">
+	@for (int i = 0; i < citydata.results.Length; i++)
+   	{
+    	<option value="@i">@citydata.results[i].formatted</option>
+   	}
+</Select>
+}
+
+@if (airvariabledata != null){
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>carbon_monoxide</td>
+            <td>@airvariabledata.current.carbon_monoxide @airvariabledata.current_units.carbon_monoxide</td>
+        </tr>
+        <tr>
+            <td>nitrogen_dioxide</td>
+            <td>@airvariabledata.current.nitrogen_dioxide @airvariabledata.current_units.nitrogen_dioxide</td>
+        </tr>
+        <tr>
+            <td>sulphur_dioxide</td>
+            <td>@airvariabledata.current.sulphur_dioxide @airvariabledata.current_units.sulphur_dioxide</td>
+        </tr>
+        <tr>
+            <td>ozone</td>
+            <td>@airvariabledata.current.ozone @airvariabledata.current_units.ozone</td>
+        </tr>
+        <tr>
+            <td>dust</td>
+            <td>@airvariabledata.current.dust @airvariabledata.current_units.dust</td>
+        </tr>
+        <tr>
+            <td>uv_index</td>
+            <td>@airvariabledata.current.uv_index</td>
+        </tr>
+    </tbody>
+</table>
+}
+@if (weatherdata != null)
+{
+	<div class="text-center" style="font-size:xx-small">
+    	<p class="display-5">@ciudad</p>
+    	<p class="display-1">@weatherdata.current.temperature_2m ºC</p>
+    	<p class="display-6">@WeatherCode.ConvertirCode(codigotiempo)</p>
+	</div>
+    <div class="card-group">
+        @for (int i = 0; i < weatherdata.daily.time.Length; i++)
+        {
+            var codigoHoy = weatherdata.daily.weather_code[i];
+
+            <WeatherCard dia="@weatherdata.daily.time[i]"
+                         temperatura_min="@weatherdata.daily.temperature_2m_min[i]"
+                         temperatura_max="@weatherdata.daily.temperature_2m_max[i]"
+                         uv="@weatherdata.daily.uv_index_max[i]"
+                         descripcion="@WeatherCode.ConvertirCode(codigoHoy)"
+                         dd="@weatherdata.daily.daylight_duration[i]">
+            </WeatherCard>
+        }
+    </div>
+
+}
+
+@code {
+    string ciudad = "";
+    string geoapikey = WeatherApp.GeoApifyKey;
+    CityData? citydata;
+    HttpClient http = new HttpClient();
+    WeatherModel? weatherdata;
+    float lat;
+    float lon;
+    int codigotiempo => weatherdata?.daily?.weather_code[1] ?? 0;
+    string micolor = "aquamarine";
+    Airvariables? airvariabledata;
+
+    async Task ChangeDest(ChangeEventArgs aaa)
+    {
+        int indice = Convert.ToInt32(aaa.Value);
+        lat = citydata.results[indice].lat;
+        lon = citydata.results[indice].lon;
+        await obtenerweatherdata();
+        await obtenerairvariables();
+        ciudad = citydata.results[indice].formatted;
+    }
+
+    async Task getweatherbutton(float lat, float lon, string city)
+    {
+        await obtenerweatherdata();
+        await obtenerairvariables();
+        ciudad = city;
+
+    }
+
+    async Task GetWeather()
+    {
+        citydata = await http.GetFromJsonAsync<CityData>("https://api.geoapify.com/v1/geocode/search?text=" +
+           ciudad + "&format=json&apiKey=" + geoapikey);
+        lat = citydata.results[0].lat;
+        lon = citydata.results[0].lon;
+        micolor = "powderblue";
+        await obtenerweatherdata();
+        await obtenerairvariables();
+
+    }
+    async Task obtenerairvariables()
+    {
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+        airvariabledata = await http.GetFromJsonAsync<Airvariables>("https://air-quality-api.open-meteo.com/v1/air-quality?latitude=" + lat + "&longitude=" + lon + "&current=carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index&timezone=Europe%2FBerlin");
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-es");
+    }
+    async Task obtenerweatherdata()
+    {
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+        weatherdata = await http.GetFromJsonAsync<WeatherModel>("https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon + "&current=temperature_2m,relative_humidity_2m,is_day" +
+                "&hourly=temperature_2m" +
+                "&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max,daylight_duration" +
+                "&timezone=Europe%2FLondon");
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-es");
+    }
+
+
+}
+
+

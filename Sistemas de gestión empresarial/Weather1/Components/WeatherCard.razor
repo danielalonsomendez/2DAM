@@ -1,0 +1,31 @@
+﻿<div class="card-group">
+    <div class="card border-dark mb-3">
+        <div class="text-center">
+            <div class="card-header" style="color: green; background-color: gainsboro">@dia</div>
+            <div class="card-body" style="color: blue">
+                <h5> @temperatura_min ºC / @temperatura_max ºC</h5>
+                <p class="card-text" style="font-size:small;color: darkorange">@descripcion</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+	[Parameter]
+	public string dia { get; set; }
+
+	[Parameter]
+	public float temperatura_max { get; set; }
+
+	[Parameter]
+	public float temperatura_min { get; set; }
+
+	[Parameter]
+	public string descripcion { get; set; }
+
+    [Parameter]
+    public float uv { get; set; }
+
+    [Parameter]
+    public float dd { get; set; }
+}
