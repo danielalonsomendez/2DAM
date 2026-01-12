@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OSMDroid</string>
+    <string name="city_picker_title">Selecciona una localización</string>
+    <string name="manual_option_title">Añadir manualmente</string>
+    <string name="manual_dialog_title">Introduce una ubicación</string>
+    <string name="manual_dialog_name_hint">Nombre de la ciudad</string>
+    <string name="manual_dialog_lat_hint">Latitud</string>
+    <string name="manual_dialog_lon_hint">Longitud</string>
+    <string name="manual_dialog_confirm">Abrir mapa</string>
+    <string name="manual_dialog_cancel">Cancelar</string>
+    <string name="manual_dialog_error">Introduce un nombre y coordenadas válidas.</string>
+    <string name="coords_format">Lat: %.4f, Lon: %.4f</string>
+</resources>
