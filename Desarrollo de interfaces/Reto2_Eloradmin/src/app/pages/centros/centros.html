@@ -1,0 +1,254 @@
+<div class="container mt-4">
+
+ <div class="header-actions mb-4">
+  <div class="title-wrapper">
+    <h2>
+      <i class="pi pi-building title-icon" aria-hidden="true"></i>
+      {{ 'centers.title' | translate }}
+    </h2>
+    <small class="subtitle" *ngIf="filteredCentros.length">
+      {{ 'centers.filters.results' | translate:{ count: filteredCentros.length } }}
+      <button
+        type="button"
+        class="filters-chip"
+        *ngIf="activeFiltersCount"
+        (click)="clearFilters()"
+      >
+        <i class="pi pi-filter-slash" aria-hidden="true"></i>
+        {{ activeFiltersLabel }}
+      </button>
+    </small>
+  </div>
+
+  <div class="header-controls">
+    <div class="header-buttons">
+      <p-button
+        icon="pi pi-eye"
+        severity="help"
+        [disabled]="!selectedCentro"
+        (click)="abrirDetalle()"
+      ></p-button>
+
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        (click)="toggleSearch()"
+        [outlined]="!showSearch"
+      ></p-button>
+    </div>
+
+    <div class="filter-row inline-filters">
+      @if (showSearch) {
+        <div class="table-search">
+          <i class="pi pi-search" aria-hidden="true"></i>
+          <input
+            pInputText
+            type="text"
+            [placeholder]="'centers.searchPlaceholder' | translate"
+            [(ngModel)]="globalFilterValue"
+            (input)="onGlobalFilter($event)"
+          />
+        </div>
+      }
+
+      <p-select
+        [options]="dtitucOptions"
+        optionLabel="label"
+        filterBy="label"
+        optionValue="value"
+        [placeholder]="'centers.filters.dtituc' | translate"
+        (onChange)="onSelectDTITUC($event.value)"
+        (onClear)="onClearSelect('ownership')"
+        [showClear]="true"
+        [(ngModel)]="selectedDTITUC"
+      ></p-select>
+
+      <p-select
+        [options]="dterreOptions"
+        optionLabel="label"
+        filterBy="label"
+        optionValue="value"
+        [disabled]="!selectedDTITUC"
+        (onChange)="onSelectDTERRE($event.value)"
+        (onClear)="onClearSelect('territory')"
+        [showClear]="true"
+        [(ngModel)]="selectedDTERRE"
+        [placeholder]="'centers.filters.dterre' | translate"
+      ></p-select>
+
+      <p-select
+        [options]="dmunicOptions"
+        optionLabel="label"
+        [filter]="true"
+        filterBy="label"
+        optionValue="value"
+        [disabled]="!selectedDTERRE"
+        (onChange)="onSelectDMUNIC($event.value)"
+        (onClear)="onClearSelect('municipality')"
+        [showClear]="true"
+        [(ngModel)]="selectedDMUNIC"
+        [placeholder]="'centers.filters.dmunic' | translate"
+      ></p-select>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [header]="'centers.dialog.detail' | translate"
+  [(visible)]="detalleVisible"
+  [modal]="true"
+  [style]="{ width: '35rem' }"
+  (onHide)="onDetalleHide()"
+  [draggable]="false"
+  [resizable]="false"
+>
+
+  @if (selectedCentro) {
+    <div class="p-fluid">
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.name' | translate }}</label>
+        <input pInputText [value]="getCenterName(selectedCentro)" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.municipality' | translate }}</label>
+        <input pInputText [value]="getMunicipalityValue(selectedCentro)" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.territory' | translate }}</label>
+        <input pInputText [value]="getTerritoryValue(selectedCentro)" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.ownership' | translate }}</label>
+        <input pInputText [value]="getOwnershipValue(selectedCentro)" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.address' | translate }}</label>
+        <input pInputText [value]="selectedCentro.DOMI" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.phone' | translate }}</label>
+        <input pInputText [value]="selectedCentro.TEL1" readonly />
+      </div>
+
+      <div class="p-field">
+        <label>{{ 'centers.dialog.email' | translate }}</label>
+        <input pInputText [value]="selectedCentro.EMAIL" readonly />
+      </div>
+
+    </div>
+  }
+
+</p-dialog>
+    <app-mapa
+  [centros]="filteredCentros"
+  [centroSeleccionado]="selectedCentro"
+></app-mapa>
+  <div style="position: relative; z-index: 2;">
+    <p-table
+  #dt
+  [value]="filteredCentros"
+  dataKey="CCEN"
+  selectionMode="single"
+  [(selection)]="selectedCentro"
+  [paginator]="true"
+  [rows]="50"
+  [rowsPerPageOptions]="[5,10, 50, 100]"
+  [showGridlines]="true"
+  [globalFilterFields]="globalFilterFields"
+  [tableStyle]="{ 'min-width': '60rem' }"
+  responsiveLayout="scroll"
+>
+
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="NOM">
+            <div class="column-header">
+              <div class="column-label">
+                <i class="pi pi-building"></i> {{ 'centers.table.name' | translate }}
+              </div>
+              <div class="column-actions">
+                <p-sortIcon field="NOM"></p-sortIcon>
+                <p-columnFilter field="NOM" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th [pSortableColumn]="ownershipColumn">
+            <div class="column-header">
+              <div class="column-label">
+                <i class="pi pi-briefcase"></i> {{ 'centers.table.ownership' | translate }}
+              </div>
+              <div class="column-actions">
+                <p-sortIcon [field]="ownershipColumn"></p-sortIcon>
+                <p-columnFilter [field]="ownershipColumn" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th [pSortableColumn]="territoryColumn">
+            <div class="column-header">
+              <div class="column-label">
+                <i class="pi pi-map"></i> {{ 'centers.table.territory' | translate }}
+              </div>
+              <div class="column-actions">
+                <p-sortIcon [field]="territoryColumn"></p-sortIcon>
+                <p-columnFilter [field]="territoryColumn" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th [pSortableColumn]="municipalityColumn">
+            <div class="column-header">
+              <div class="column-label">
+                <i class="pi pi-map-marker"></i> {{ 'centers.table.municipality' | translate }}
+              </div>
+              <div class="column-actions">
+                <p-sortIcon [field]="municipalityColumn"></p-sortIcon>
+                <p-columnFilter [field]="municipalityColumn" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+
+          <th pSortableColumn="CPOS">
+            <div class="column-header">
+              <div class="column-label">
+                <i class="pi pi-envelope"></i> {{ 'centers.table.postalCode' | translate }}
+              </div>
+              <div class="column-actions">
+                <p-sortIcon field="CPOS"></p-sortIcon>
+                <p-columnFilter field="CPOS" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-c>
+  <tr [pSelectableRow]="c">
+    <td>{{ getCenterName(c) }}</td>
+    <td>{{ getOwnershipValue(c) }}</td>
+    <td>{{ getTerritoryValue(c) }}</td>
+    <td>{{ getMunicipalityValue(c) }}</td>
+    <td>{{ c.CPOS }}</td>
+  </tr>
+</ng-template>
+
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center text-muted">
+            {{ 'centers.table.empty' | translate }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+
+  </div>
+</div>

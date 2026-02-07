@@ -1,0 +1,246 @@
+/* --- HEADER --- */
+.container {
+  margin-bottom: 3rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.header-actions .title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-actions .subtitle {
+  font-size: 0.9rem;
+  color: #5a6b7b;
+  margin-left: 0.2rem;
+}
+
+.filters-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  background: rgba(28, 111, 146, 0.12);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: #1c6f92;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.filters-chip:hover {
+  background: rgba(28, 111, 146, 0.25);
+  transform: translateY(-1px);
+}
+
+.filters-chip:focus-visible {
+  outline: 2px solid #1c6f92;
+  outline-offset: 2px;
+}
+
+.filters-chip i {
+  font-size: 0.8rem;
+}
+
+.header-actions .title-icon {
+  font-size: 1.8rem;
+  margin-right: 0.6rem;
+  color: var(--centros-title-icon, #000000);
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.inline-filters {
+  justify-content: flex-end;
+}
+
+/* --- SEARCH BAR --- */
+.table-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0rem 0.55rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+}
+
+.table-search input {
+  border: none;
+  outline: none;
+  width: 14rem;
+}
+
+.table-search input:focus {
+  box-shadow: none;
+}
+
+/* --- SELECTS ESTILO BOTÓN --- */
+.filter-select ::ng-deep .p-select {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.35rem 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+  min-width: 180px;
+}
+
+.filter-select ::ng-deep .p-select:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.filter-select ::ng-deep .p-select .p-select-label {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Cuando hay valor seleccionado */
+.filter-select.active ::ng-deep .p-select {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.filter-select.active ::ng-deep .p-select .p-select-label {
+  color: white;
+}
+
+.filter-select.active ::ng-deep .p-select:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* --- TABLE HEADERS --- */
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.column-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.column-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* deprecated styles removed */
+/* --- DIALOG GENERAL --- */
+.p-dialog .p-dialog-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.p-dialog .p-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.p-dialog .p-dialog-content {
+  padding: 1.5rem;
+  background: var(--dialog-surface, #fafafa);
+}
+
+/* --- CAMPOS DEL DIALOGO --- */
+.p-field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.p-field label {
+  font-weight: 600;
+  color: var(--dialog-label, #ffffff);
+  font-size: 0.95rem;
+}
+
+.p-field input {
+  width: 100%;
+  border-radius: 0.45rem;
+  border: 1px solid var(--dialog-input-border, #ced4da);
+  padding: 0.55rem 0.75rem;
+  background: var(--dialog-input-bg, #0c0f17);
+  color: var(--dialog-input-text, #f8fafc);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.p-field input:focus {
+  border-color: var(--dialog-input-focus-border, #80bdff);
+  box-shadow: 0 0 0 0.15rem var(--dialog-input-focus-shadow, rgba(0, 123, 255, 0.25));
+  outline: none;
+}
+
+/* --- BOTONES DEL DIALOGO --- */
+.p-dialog .p-button {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+/* --- ESTILO DE INFORMACIÓN --- */
+.dialog-info-block {
+  padding: 1rem;
+  background: var(--dialog-info-bg, #f8f9fa);
+  border-radius: 0.5rem;
+  border: 1px solid var(--dialog-info-border, #e1e1e1);
+  margin-bottom: 1rem;
+}
+
+.dialog-info-block strong {
+  color: var(--dialog-info-strong, #343a40);
+}
+
+/* --- ICONOS Y DETALLES --- */
+.dialog-icon {
+  color: #495057;
+  margin-right: 0.4rem;
+  font-size: 1.1rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .p-dialog .p-dialog-content {
+    padding: 1rem;
+  }
+
+  .p-field input {
+    font-size: 0.9rem;
+  }
+}

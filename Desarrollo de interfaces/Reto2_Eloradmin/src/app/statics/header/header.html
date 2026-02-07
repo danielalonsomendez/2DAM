@@ -1,0 +1,45 @@
+<header class="app-header" [class.menu-open]="mobileMenuOpen">
+  <div class="brand">
+    <a routerLink="/" class="logo-link">
+      <img src="Elorrieta_White.svg" alt="Logo Elorrieta" srcset="">
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      (click)="toggleMobileMenu()"
+      [attr.aria-label]="'header.menuToggle' | translate"
+      [attr.aria-expanded]="mobileMenuOpen"
+    >
+      <i class="pi" [ngClass]="mobileMenuOpen ? 'pi-times' : 'pi-bars'"></i>
+    </button>
+  </div>
+
+  <div class="header-content" [class.open]="mobileMenuOpen">
+    <nav class="main-nav" [attr.aria-label]="'navigation.primary' | translate">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" (click)="closeMobileMenu()">{{ 'navigation.home' | translate }}</a>
+      @if (canViewUsuarios) {
+        <a routerLink="/usuarios" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ usuariosLabelKey | translate }}</a>
+      }
+      <a routerLink="/reuniones" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'navigation.meetings' | translate }}</a>
+      @if(canViewUsuarios){
+      <a routerLink="/centros" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'navigation.centers' | translate }}</a>
+      }
+    </nav>
+
+    <div class="user-area">
+      <div class="user-info" tabindex="0" role="button" aria-haspopup="menu" aria-controls="user-menu"
+        (click)="toggleUserMenu($event)" (keydown.enter)="toggleUserMenu($event)">
+        <p-avatar [image]="userService.getUser()?.argazkiaUrl ? userService.getUser()?.argazkiaUrl : 'avatar.png'" class="mr-2" size="large"
+          shape="circle" />
+
+        <div class="user-meta">
+          <span class="user-name">{{ userService.getUser()?.nombre }} {{ userService.getUser()?.apellidos }}</span>
+          <span class="user-role">{{ roleKey(userService.getUser()?.tipos?.id) | translate }}</span>
+        </div>
+        <i class="pi pi-chevron-down"></i>
+      </div>
+      <p-menu #userMenu [popup]="true" [model]="menuItems" appendTo="body" id="user-menu"></p-menu>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,79 @@
+<div class="container mt-4">
+	<section class="god-dashboard">
+		<div class="welcome">
+			<h2>
+				@if (userService.getUser()?.nombre) {
+					{{ 'dashboard.greeting' | translate:{ name: userService.getUser()?.nombre } }} 👋
+				} @else {
+					{{ 'roles.teacher' | translate }}
+				}
+			</h2>
+			<p>{{ 'dashboard.sections.profileTitle' | translate }}</p>
+		</div>
+
+		<div class="summary-grid profile-grid">
+			<div class="summary-card profile-card">
+				<i class="pi pi-id-card" aria-hidden="true"></i>
+				<div class="summary-text">
+					<span class="summary-label">{{ 'dashboard.sections.fullName' | translate }}</span>
+					<strong class="summary-value">
+						{{ userService.getUser()?.nombre }} {{ userService.getUser()?.apellidos }}
+					</strong>
+				</div>
+			</div>
+			<div class="summary-card profile-card">
+				<i class="pi pi-user" aria-hidden="true"></i>
+				<div class="summary-text">
+					<span class="summary-label">{{ 'dashboard.sections.username' | translate }}</span>
+					<strong class="summary-value">{{ userService.getUser()?.username }}</strong>
+				</div>
+			</div>
+			<div class="summary-card profile-card">
+				<i class="pi pi-at" aria-hidden="true"></i>
+				<div class="summary-text">
+					<span class="summary-label">{{ 'dashboard.sections.email' | translate }}</span>
+					<strong class="summary-value">{{ userService.getUser()?.email }}</strong>
+				</div>
+			</div>
+			<div class="summary-card profile-card">
+				<i class="pi pi-phone" aria-hidden="true"></i>
+				<div class="summary-text">
+					<span class="summary-label">{{ 'dashboard.sections.phone' | translate }}</span>
+					<strong class="summary-value">
+						{{ userService.getUser()?.telefono1 || ('dashboard.noPhone' | translate) }}
+					</strong>
+				</div>
+			</div>
+		</div>
+
+		<div class="actions-grid">
+			<a class="action-card" routerLink="/usuarios">
+				<i class="pi pi-users" aria-hidden="true"></i>
+				<div>
+					<h4>{{ 'dashboard.cards.community.title' | translate }}</h4>
+					<p>{{ 'dashboard.cards.community.description' | translate }}</p>
+				</div>
+			</a>
+
+			<a class="action-card" routerLink="/reuniones">
+				<i class="pi pi-comments" aria-hidden="true"></i>
+				<div>
+					<h4>{{ 'dashboard.cards.meetings.title' | translate }}</h4>
+					<p>{{ 'dashboard.cards.meetings.description' | translate }}</p>
+				</div>
+			</a>
+
+			<a class="action-card" routerLink="/centros">
+				<i class="pi pi-building" aria-hidden="true"></i>
+				<div>
+					<h4>{{ 'dashboard.cards.centers.title' | translate }}</h4>
+					<p>{{ 'dashboard.cards.centers.description' | translate }}</p>
+				</div>
+			</a>
+		</div>
+
+		<div class="schedule-card">
+			<app-horarios [horarios]="horarios"></app-horarios>
+		</div>
+	</section>
+</div>

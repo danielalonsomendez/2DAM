@@ -1,0 +1,145 @@
+<div class="container mt-4">
+@if(horarioTabla.length === 0) {
+  <div class="no-schedule-message">
+    <i class="pi pi-info-circle"></i>
+    <span>{{ 'schedule.empty' | translate }}</span>
+  </div>
+} @else {
+  <p-table
+  [value]="horarioTabla"
+  [showGridlines]="true"
+  class="schedule-table"
+  [tableStyle]="{ 'min-width': '70rem' }"
+>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.hour' | translate }}</span>
+        </div>
+      </th>
+
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.monday' | translate }}</span>
+        </div>
+      </th>
+
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.tuesday' | translate }}</span>
+        </div>
+      </th>
+
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.wednesday' | translate }}</span>
+        </div>
+      </th>
+
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.thursday' | translate }}</span>
+        </div>
+      </th>
+
+      <th>
+        <div class="schedule-column-header">
+          <span class="schedule-column-label">{{ 'schedule.friday' | translate }}</span>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!-- BODY -->
+  <ng-template pTemplate="body" let-row>
+    <tr>
+
+      <!-- HORA -->
+      <td>
+        <div class="schedule-time-cell">
+        <span class="schedule-time">
+          {{ row.hora }}ª
+        </span>
+        </div>
+      </td>
+
+      <!-- LUNES -->
+      <td>
+        @if (row.lunes) {
+          
+          <div class="schedule-cell" [ngClass]="getColorClass(row.lunes.modulos.nombre)"
+>
+
+            <strong>{{ row.lunes.modulos?.nombre }}</strong><br>
+            <small>{{ 'schedule.room' | translate }} {{ row.lunes.aula }}</small>
+          </div>
+        } @else {
+          <span class="libre">{{ 'schedule.free' | translate }}</span>
+        }
+      </td>
+
+      <!-- MARTES -->
+      <td>
+        @if (row.martes) {
+          <div class="schedule-cell" [ngClass]="getColorClass(row.martes.modulos.nombre)"
+>
+
+            <strong>{{ row.martes.modulos?.nombre }}</strong><br>
+            <small>{{ 'schedule.room' | translate }} {{ row.martes.aula }}</small>
+          </div>
+        } @else {
+          <span class="libre">{{ 'schedule.free' | translate }}</span>
+        }
+      </td>
+
+      <!-- MIÉRCOLES -->
+      <td>
+        @if (row.miercoles) {
+          <div class="schedule-cell" [ngClass]="getColorClass(row.miercoles.modulos.nombre)"
+>
+
+            <strong>{{ row.miercoles.modulos?.nombre }}</strong><br>
+            <small>{{ 'schedule.room' | translate }} {{ row.miercoles.aula }}</small>
+          </div>
+        } @else {
+          <span class="libre">{{ 'schedule.free' | translate }}</span>
+        }
+      </td>
+
+      <!-- JUEVES -->
+      <td>
+        @if (row.jueves) {
+          <div class="schedule-cell" [ngClass]="getColorClass(row.jueves.modulos.nombre)"
+>
+
+            <strong>{{ row.jueves.modulos?.nombre }}</strong><br>
+            <small>{{ 'schedule.room' | translate }} {{ row.jueves.aula }}</small>
+          </div>
+        } @else {
+          <span class="libre">{{ 'schedule.free' | translate }}</span>
+        }
+      </td>
+
+      <!-- VIERNES -->
+      <td>
+        @if (row.viernes) {
+          <div class="schedule-cell" [ngClass]="getColorClass(row.viernes.modulos.nombre)"
+>
+
+            <strong>{{ row.viernes.modulos?.nombre }}</strong><br>
+            <small>{{ 'schedule.room' | translate }} {{ row.viernes.aula }}</small>
+          </div>
+        } @else {
+          <span class="libre">{{ 'schedule.free' | translate }}</span>
+        }
+      </td>
+
+    </tr>
+  </ng-template>
+
+</p-table>
+}
+
+</div>

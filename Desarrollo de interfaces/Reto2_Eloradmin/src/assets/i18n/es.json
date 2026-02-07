@@ -1,0 +1,237 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "users": "Usuarios",
+    "meetings": "Reuniones",
+    "centers": "Centros",
+    "educationalCommunity": "Comunidad educativa"
+  },
+  "header": {
+    "menuToggle": "Abrir menú",
+    "language": "Idioma",
+    "logout": "Cerrar sesión",
+    "theme": "Modo de color",
+    "themeLight": "Modo claro",
+    "themeDark": "Modo oscuro"
+  },
+  "languages": {
+    "es": "Castellano",
+    "eu": "Euskera",
+    "en": "Inglés",
+    "ar": "Árabe"
+  },
+  "footer": {
+    "rights": "© {{year}} ElorAdmin. Todos los derechos reservados."
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "submit": "Entrar",
+    "genericError": "No se pudo iniciar sesión. Inténtalo de nuevo."
+  },
+  "dashboard": {
+    "greeting": "Hola, {{name}}",
+    "greetingNoName": "Hola",
+    "sections": {
+      "profileTitle": "Tus datos",
+      "fullName": "Nombre completo",
+      "username": "Usuario",
+      "email": "Email",
+      "phone": "Teléfono",
+      "secondaryPhone": "Teléfono 2"
+    },
+    "summary": {
+      "students": "Total alumnos",
+      "teachers": "Total profesores",
+      "meetingsToday": "Reuniones hoy"
+    },
+    "cards": {
+      "manageUsers": {
+        "title": "Gestionar usuarios",
+        "description": "Control total sobre altas, bajas y roles."
+      },
+      "viewMeetings": {
+        "title": "Ver reuniones",
+        "description": "Supervisa cada reunión."
+      },
+      "meetings": {
+        "title": "Reuniones",
+        "description": "Revisa tus próximas reuniones"
+      },
+      "centers": {
+        "title": "Centros",
+        "description": "Consulta la información de los centros educativos"
+      },
+      "community": {
+        "title": "Comunidad educativa",
+        "description": "Busca alumnos y/o profesores por distintos criterios"
+      }
+    },
+    "noPhone": "Sin registrar"
+  },
+  "map": {
+    "title": "Mapa de Centros",
+    "baseLabel": "Mapa base",
+    "baseLayers": {
+      "satellite": "Satélite",
+      "light": "Claro",
+      "streets": "Calles",
+      "outdoors": "Aire libre"
+    },
+    "colorLabel": "Agrupar por",
+    "colorModes": {
+      "none": "Sin agrupar",
+      "ownership": "Titularidad",
+      "territory": "Territorio",
+      "municipality": "Municipio"
+    },
+    "legend": {
+      "title": "Leyenda de colores",
+      "unknown": "Sin datos"
+    }
+  },
+  "meetings": {
+    "title": "Gestión de reuniones",
+    "searchPlaceholder": "Buscar reunión...",
+    "filters": {
+      "dtituc": "Titularidad",
+      "dterre": "Territorio",
+      "dmunic": "Municipio",
+      "clear": "Limpiar filtros",
+      "results": "{{count}} centros encontrados"
+    },
+    "dialogs": {
+      "location": "Ubicación: {{name}}",
+      "global": "Mapa Global",
+      "create": "Crear reunión"
+    },
+    "form": {
+      "title": "Título",
+      "subject": "Asunto",
+      "date": "Fecha",
+      "room": "Aula",
+      "center": "Centro",
+      "teacher": "Profesor",
+      "student": "Alumno",
+      "save": "Guardar"
+    },
+    "table": {
+      "status": "Estado",
+      "title": "Título",
+      "teacher": "Profesor",
+      "student": "Alumno",
+      "participant": "Usuario",
+      "subject": "Asunto",
+      "date": "Fecha",
+      "center": "Centro",
+      "empty": "No hay reuniones"
+    },
+    "status": {
+      "pendiente": "Pendiente",
+      "aceptada": "Aceptada",
+      "denegada": "Denegada",
+      "conflicto": "Conflicto",
+      "default": "Pendiente"
+    }
+  },
+  "users": {
+    "title": "Gestión de usuarios",
+    "titleProfessor": "Alumnos",
+    "filters": {
+      "all": "Todos",
+      "students": "Alumnos",
+      "teachers": "Profesores"
+    },
+    "searchPlaceholder": "Buscar usuario...",
+    "dialog": {
+      "add": "Añadir usuario",
+      "edit": "Editar usuario",
+      "role": "Rol",
+      "rolePlaceholder": "Selecciona un rol",
+      "roleSearch": "Buscar rol",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "personalData": "Datos personales",
+      "contact": "Contacto",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "dni": "DNI",
+      "address": "Dirección",
+      "email": "Email",
+      "phone": "Teléfono",
+      "phone2": "Teléfono 2",
+      "save": "Guardar",
+      "schedule": "Horario del usuario"
+    },
+    "usernameStatus": {
+      "checking": "Verificando usuario...",
+      "available": "Usuario disponible",
+      "unavailable": "Usuario no disponible"
+    },
+    "table": {
+      "type": "Tipo",
+      "username": "Usuario",
+      "name": "Nombre",
+      "email": "Email",
+      "dni": "DNI",
+      "phone": "Teléfono",
+      "empty": "No hay usuarios"
+    },
+    "confirmDelete": "¿Estás seguro de que deseas eliminar a {{name}} {{surname}}?"
+  },
+  "centers": {
+    "title": "Centros de Euskadi",
+    "searchPlaceholder": "Buscar centro...",
+    "filters": {
+      "dtituc": "Titularidad",
+      "dterre": "Territorio",
+      "dmunic": "Municipio",
+      "clear": "Limpiar filtros",
+      "results": "{{count}} centros encontrados",
+      "activeOne": "1 filtro activo",
+      "activeMany": "{{count}} filtros activos"
+    },
+    "dialog": {
+      "detail": "Detalle del Centro",
+      "name": "Nombre",
+      "municipality": "Municipio",
+      "territory": "Territorio",
+      "ownership": "Titularidad",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "email": "Email"
+    },
+    "table": {
+      "name": "Nombre",
+      "ownership": "Titularidad",
+      "territory": "Territorio",
+      "municipality": "Municipio",
+      "postalCode": "C.P.",
+      "empty": "No hay centros"
+    }
+  },
+  "schedule": {
+    "empty": "No hay horarios disponibles para este usuario.",
+    "hour": "Hora",
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "free": "Libre",
+    "room": "Aula"
+  },
+  "common": {
+    "save": "Guardar",
+    "search": "Buscar",
+    "close": "Cerrar"
+  },
+  "roles": {
+    "god": "God",
+    "admin": "Administrador",
+    "teacher": "Profesor",
+    "student": "Alumno",
+    "unknown": "Usuario"
+  }
+}

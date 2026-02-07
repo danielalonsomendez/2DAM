@@ -1,0 +1,251 @@
+/* --- HEADER --- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.page-title-icon {
+  font-size: 1.4rem;
+  color: var(--page-text);
+}
+
+/* --- FILTERS --- */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.filter-options {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+/* --- FILTER BUTTONS --- */
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background: #f8f9fa;
+  color: #495057;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.filter-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.filter-btn.active:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* --- SEARCH BAR --- */
+.table-search {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0rem 0.55rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+}
+
+.table-search input {
+  border: none;
+  outline: none;
+  width: 14rem;
+}
+
+.table-search input:focus {
+  box-shadow: none;
+}
+
+/* --- TABLE HEADERS --- */
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.column-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.column-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* --- DIALOG STYLING --- */
+.p-dialog .p-button {
+  margin-top: 1rem;
+}
+
+.p-field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.p-field label {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.p-field input,
+.p-field select {
+  width: 100%;
+}
+
+/* Full width button */
+::ng-deep .full-width-btn {
+  width: 100% !important;
+}
+
+/* Full width dropdown */
+::ng-deep .full-width-dropdown {
+  width: 100%;
+}
+
+/* Role option inside dropdown */
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role-option i {
+  color: #495057;
+}
+
+/* Username availability messages */
+.username-status {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.username-status .available {
+  color: #198754;
+  font-weight: 600;
+}
+
+.username-status .unavailable {
+  color: #dc3545;
+  font-weight: 600;
+}
+/* --- FILTER ROW (alineación general) --- */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* --- SELECTS ESTILO BOTÓN --- */
+.filter-select ::ng-deep .p-select {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.35rem 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+  min-width: 180px;
+}
+
+.filter-select ::ng-deep .p-select:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.filter-select ::ng-deep .p-select .p-select-label {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Cuando hay valor seleccionado */
+.filter-select.active ::ng-deep .p-select {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.filter-select.active ::ng-deep .p-select .p-select-label {
+  color: white;
+}
+
+/* Hover del estado activo */
+.filter-select.active ::ng-deep .p-select:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* --- CLEAR FILTER BUTTON --- */
+.clear-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+.centros-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.9rem;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: #495057;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+.centros-count i {
+  margin-right: 0.4rem; 
+}

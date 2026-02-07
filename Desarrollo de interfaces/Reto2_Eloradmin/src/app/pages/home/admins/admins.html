@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <section class="god-dashboard">
+    <div class="welcome">
+      <h2>
+        @if (userService.getUser()?.nombre) {
+          {{ 'dashboard.greeting' | translate:{ name: userService.getUser()?.nombre } }}
+        } @else {
+          {{ 'dashboard.greetingNoName' | translate }}
+        }
+      </h2>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card" *ngFor="let item of summary" [style.--accent]="item.accent">
+          <i [class]="item.icon" aria-hidden="true"></i>
+          <div class="summary-text">
+            <span class="summary-label">{{ item.labelKey | translate }}</span>
+            <strong class="summary-value">{{ item.value }}</strong>
+          </div>
+      </div>
+    </div>
+
+    <div class="actions-grid">
+      <a class="action-card" routerLink="/usuarios">
+        <i class="pi pi-users" aria-hidden="true"></i>
+        <div>
+          <h4>{{ 'dashboard.cards.manageUsers.title' | translate }}</h4>
+          <p>{{ 'dashboard.cards.manageUsers.description' | translate }}</p>
+        </div>
+      </a>
+
+      <a class="action-card" routerLink="/reuniones">
+        <i class="pi pi-calendar" aria-hidden="true"></i>
+        <div>
+          <h4>{{ 'dashboard.cards.viewMeetings.title' | translate }}</h4>
+          <p>{{ 'dashboard.cards.viewMeetings.description' | translate }}</p>
+        </div>
+      </a>
+      <a class="action-card" routerLink="/centros">
+			<i class="pi pi-building" aria-hidden="true"></i>
+			<div>
+				<h4>{{ 'dashboard.cards.centers.title' | translate }}</h4>
+				<p>{{ 'dashboard.cards.centers.description' | translate }}</p>
+			</div>
+		</a>
+    </div>
+  </section>
+</div>

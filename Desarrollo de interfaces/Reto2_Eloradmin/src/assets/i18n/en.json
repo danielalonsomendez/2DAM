@@ -1,0 +1,237 @@
+{
+  "navigation": {
+    "home": "Home",
+    "users": "Users",
+    "meetings": "Meetings",
+    "centers": "Centers",
+    "educationalCommunity": "Educational Community"
+  },
+  "header": {
+    "menuToggle": "Open menu",
+    "language": "Language",
+    "logout": "Log out",
+    "theme": "Color mode",
+    "themeLight": "Light mode",
+    "themeDark": "Dark mode"
+  },
+  "languages": {
+    "es": "Spanish",
+    "eu": "Basque",
+    "en": "English",
+    "ar": "Arabic"
+  },
+  "footer": {
+    "rights": "© {{year}} ElorAdmin. All rights reserved."
+  },
+  "login": {
+    "title": "Sign in",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Enter",
+    "genericError": "Login failed. Please try again."
+  },
+  "dashboard": {
+    "greeting": "Hi, {{name}}",
+    "greetingNoName": "Hi",
+    "sections": {
+      "profileTitle": "Your data",
+      "fullName": "Full name",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone",
+      "secondaryPhone": "Phone 2"
+    },
+    "summary": {
+      "students": "Total students",
+      "teachers": "Total teachers",
+      "meetingsToday": "Meetings today"
+    },
+    "cards": {
+      "manageUsers": {
+        "title": "Manage users",
+        "description": "Full control over onboarding, offboarding, and roles."
+      },
+      "viewMeetings": {
+        "title": "View meetings",
+        "description": "Supervise every meeting."
+      },
+      "meetings": {
+        "title": "Meetings",
+        "description": "Review your upcoming meetings"
+      },
+      "centers": {
+        "title": "Centers",
+        "description": "Check the information of the educational centers"
+      },
+      "community": {
+        "title": "Educational community",
+        "description": "Search students and/or teachers by different criteria"
+      }
+    },
+    "noPhone": "Not provided"
+  },
+  "map": {
+    "title": "Centers map",
+    "baseLabel": "Base map",
+    "baseLayers": {
+      "satellite": "Satellite",
+      "light": "Light",
+      "streets": "Streets",
+      "outdoors": "Outdoors"
+    },
+    "colorLabel": "Group by",
+    "colorModes": {
+      "none": "No grouping",
+      "ownership": "Ownership",
+      "territory": "Territory",
+      "municipality": "Municipality"
+    },
+    "legend": {
+      "title": "Color legend",
+      "unknown": "No data"
+    }
+  },
+  "meetings": {
+    "title": "Meeting management",
+    "searchPlaceholder": "Search meeting...",
+    "filters": {
+      "dtituc": "Ownership",
+      "dterre": "Territory",
+      "dmunic": "Municipality",
+      "clear": "Clear filters",
+      "results": "{{count}} centers found"
+    },
+    "dialogs": {
+      "location": "Location: {{name}}",
+      "global": "Global map",
+      "create": "Create meeting"
+    },
+    "form": {
+      "title": "Title",
+      "subject": "Subject",
+      "date": "Date",
+      "room": "Room",
+      "center": "Center",
+      "teacher": "Teacher",
+      "student": "Student",
+      "save": "Save"
+    },
+    "table": {
+      "status": "Status",
+      "title": "Title",
+      "teacher": "Teacher",
+      "student": "Student",
+      "participant": "User",
+      "subject": "Subject",
+      "date": "Date",
+      "center": "Center",
+      "empty": "No meetings"
+    },
+    "status": {
+      "pendiente": "Pending",
+      "aceptada": "Accepted",
+      "denegada": "Denied",
+      "conflicto": "Conflict",
+      "default": "Pending"
+    }
+  },
+  "users": {
+    "title": "User management",
+    "titleProfessor": "Students",
+    "filters": {
+      "all": "All",
+      "students": "Students",
+      "teachers": "Teachers"
+    },
+    "searchPlaceholder": "Search user...",
+    "dialog": {
+      "add": "Add user",
+      "edit": "Edit user",
+      "role": "Role",
+      "rolePlaceholder": "Select a role",
+      "roleSearch": "Search role",
+      "username": "Username",
+      "password": "Password",
+      "personalData": "Personal data",
+      "contact": "Contact",
+      "name": "Name",
+      "surname": "Surname",
+      "dni": "ID",
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone",
+      "phone2": "Phone 2",
+      "save": "Save",
+      "schedule": "User schedule"
+    },
+    "usernameStatus": {
+      "checking": "Checking username...",
+      "available": "Username available",
+      "unavailable": "Username not available"
+    },
+    "table": {
+      "type": "Type",
+      "username": "Username",
+      "name": "Name",
+      "email": "Email",
+      "dni": "ID",
+      "phone": "Phone",
+      "empty": "No users"
+    },
+    "confirmDelete": "Are you sure you want to delete {{name}} {{surname}}?"
+  },
+  "centers": {
+    "title": "Centers of Euskadi",
+    "searchPlaceholder": "Search center...",
+    "filters": {
+      "dtituc": "Ownership",
+      "dterre": "Territory",
+      "dmunic": "Municipality",
+      "clear": "Clear filters",
+      "results": "{{count}} centers found",
+      "activeOne": "1 active filter",
+      "activeMany": "{{count}} active filters"
+    },
+    "dialog": {
+      "detail": "Center detail",
+      "name": "Name",
+      "municipality": "Municipality",
+      "territory": "Territory",
+      "ownership": "Ownership",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "table": {
+      "name": "Name",
+      "ownership": "Ownership",
+      "territory": "Territory",
+      "municipality": "Municipality",
+      "postalCode": "ZIP",
+      "empty": "No centers"
+    }
+  },
+  "schedule": {
+    "empty": "No schedules available for this user.",
+    "hour": "Hour",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "free": "Free",
+    "room": "Room"
+  },
+  "common": {
+    "save": "Save",
+    "search": "Search",
+    "close": "Close"
+  },
+  "roles": {
+    "god": "God",
+    "admin": "Administrator",
+    "teacher": "Teacher",
+    "student": "Student",
+    "unknown": "User"
+  }
+}

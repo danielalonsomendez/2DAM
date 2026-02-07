@@ -1,0 +1,29 @@
+<div class="fondo">
+  <img src="/Fondo.png" [attr.alt]="'login.backgroundAlt' | translate" class="fondo-img">
+  <div class="login-wrapper">
+    <div class="logo-container">
+      <img src="/Elorrieta_White.svg" [attr.alt]="'login.logoAlt' | translate" class="logo-image">
+    </div>
+    <div class="login-card">
+      <h3 class="text-center mb-4">{{ 'login.title' | translate }}</h3>
+      @if (error) {
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+      }
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="usuario" class="form-label">{{ 'login.username' | translate }}</label>
+          <input type="text" id="usuario" class="form-control" [(ngModel)]="username" name="usuario" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">{{ 'login.password' | translate }}</label>
+          <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+          {{ 'login.submit' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

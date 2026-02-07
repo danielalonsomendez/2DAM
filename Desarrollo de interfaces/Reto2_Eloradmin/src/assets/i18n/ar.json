@@ -1,0 +1,237 @@
+{
+  "navigation": {
+    "home": "الرئيسية",
+    "users": "المستخدمون",
+    "meetings": "الاجتماعات",
+    "centers": "المراكز",
+    "educationalCommunity": "المجتمع التعليمي"
+  },
+  "header": {
+    "menuToggle": "فتح القائمة",
+    "language": "اللغة",
+    "logout": "تسجيل الخروج",
+    "theme": "وضع اللون",
+    "themeLight": "الوضع الفاتح",
+    "themeDark": "الوضع الداكن"
+  },
+  "languages": {
+    "es": "الإسبانية",
+    "eu": "الباسكية",
+    "en": "الإنجليزية",
+    "ar": "العربية"
+  },
+  "footer": {
+    "rights": "© {{year}} ElorAdmin. كل الحقوق محفوظة."
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "submit": "دخول",
+    "genericError": "فشل تسجيل الدخول. حاول مرة أخرى."
+  },
+  "dashboard": {
+    "greeting": "مرحباً، {{name}}",
+    "greetingNoName": "مرحباً",
+    "sections": {
+      "profileTitle": "بياناتك",
+      "fullName": "الاسم الكامل",
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "secondaryPhone": "هاتف 2"
+    },
+    "summary": {
+      "students": "إجمالي الطلاب",
+      "teachers": "إجمالي المعلمين",
+      "meetingsToday": "اجتماعات اليوم"
+    },
+    "cards": {
+      "manageUsers": {
+        "title": "إدارة المستخدمين",
+        "description": "التحكم الكامل في إضافة وإزالة المستخدمين والأدوار."
+      },
+      "viewMeetings": {
+        "title": "عرض الاجتماعات",
+        "description": "الإشراف على كل اجتماع."
+      },
+      "meetings": {
+        "title": "الاجتماعات",
+        "description": "مراجعة الاجتماعات القادمة"
+      },
+      "centers": {
+        "title": "المراكز",
+        "description": "التحقق من معلومات المراكز التعليمية"
+      },
+      "community": {
+        "title": "المجتمع التعليمي",
+        "description": "البحث عن الطلاب و/أو المعلمين بمعايير مختلفة"
+      }
+    },
+    "noPhone": "غير متوفر"
+  },
+  "map": {
+    "title": "خريطة المراكز",
+    "baseLabel": "الخريطة الأساسية",
+    "baseLayers": {
+      "satellite": "قمر صناعي",
+      "light": "فاتح",
+      "streets": "الشوارع",
+      "outdoors": "خارجي"
+    },
+    "colorLabel": "التجميع حسب",
+    "colorModes": {
+      "none": "بدون تجميع",
+      "ownership": "الملكية",
+      "territory": "الإقليم",
+      "municipality": "البلدية"
+    },
+    "legend": {
+      "title": "دليل الألوان",
+      "unknown": "لا توجد بيانات"
+    }
+  },
+  "meetings": {
+    "title": "إدارة الاجتماعات",
+    "searchPlaceholder": "ابحث عن اجتماع...",
+    "filters": {
+      "dtituc": "الملكية",
+      "dterre": "الإقليم",
+      "dmunic": "البلدية",
+      "clear": "مسح الفلاتر",
+      "results": "تم العثور على {{count}} مركز"
+    },
+    "dialogs": {
+      "location": "الموقع: {{name}}",
+      "global": "الخريطة العامة",
+      "create": "إنشاء اجتماع"
+    },
+    "form": {
+      "title": "العنوان",
+      "subject": "الموضوع",
+      "date": "التاريخ",
+      "room": "الغرفة",
+      "center": "المركز",
+      "teacher": "المعلم",
+      "student": "الطالب",
+      "save": "حفظ"
+    },
+    "table": {
+      "status": "الحالة",
+      "title": "العنوان",
+      "teacher": "المعلم",
+      "student": "الطالب",
+      "participant": "المستخدم",
+      "subject": "الموضوع",
+      "date": "التاريخ",
+      "center": "المركز",
+      "empty": "لا توجد اجتماعات"
+    },
+    "status": {
+      "pendiente": "قيد الانتظار",
+      "aceptada": "مقبول",
+      "denegada": "مرفوض",
+      "conflicto": "تعارض",
+      "default": "قيد الانتظار"
+    }
+  },
+  "users": {
+    "title": "إدارة المستخدمين",
+    "titleProfessor": "الطلاب",
+    "filters": {
+      "all": "الكل",
+      "students": "الطلاب",
+      "teachers": "المعلمون"
+    },
+    "searchPlaceholder": "ابحث عن مستخدم...",
+    "dialog": {
+      "add": "إضافة مستخدم",
+      "edit": "تعديل مستخدم",
+      "role": "الدور",
+      "rolePlaceholder": "اختر دوراً",
+      "roleSearch": "بحث عن الدور",
+      "username": "اسم المستخدم",
+      "password": "كلمة المرور",
+      "personalData": "البيانات الشخصية",
+      "contact": "التواصل",
+      "name": "الاسم",
+      "surname": "اللقب",
+      "dni": "الهوية",
+      "address": "العنوان",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "phone2": "هاتف 2",
+      "save": "حفظ",
+      "schedule": "جدول المستخدم"
+    },
+    "usernameStatus": {
+      "checking": "جارٍ التحقق من اسم المستخدم...",
+      "available": "اسم المستخدم متاح",
+      "unavailable": "اسم المستخدم غير متاح"
+    },
+    "table": {
+      "type": "النوع",
+      "username": "اسم المستخدم",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "dni": "الهوية",
+      "phone": "الهاتف",
+      "empty": "لا يوجد مستخدمون"
+    },
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف {{name}} {{surname}}؟"
+  },
+  "centers": {
+    "title": "مراكز إقليم الباسك",
+    "searchPlaceholder": "ابحث عن مركز...",
+    "filters": {
+      "dtituc": "الملكية",
+      "dterre": "الإقليم",
+      "dmunic": "البلدية",
+      "clear": "مسح الفلاتر",
+      "results": "تم العثور على {{count}} مركز",
+      "activeOne": "فلتر واحد نشط",
+      "activeMany": "{{count}} فلاتر نشطة"
+    },
+    "dialog": {
+      "detail": "تفاصيل المركز",
+      "name": "الاسم",
+      "municipality": "البلدية",
+      "territory": "الإقليم",
+      "ownership": "الملكية",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني"
+    },
+    "table": {
+      "name": "الاسم",
+      "ownership": "الملكية",
+      "territory": "الإقليم",
+      "municipality": "البلدية",
+      "postalCode": "الرمز البريدي",
+      "empty": "لا توجد مراكز"
+    }
+  },
+  "schedule": {
+    "empty": "لا توجد جداول متاحة لهذا المستخدم.",
+    "hour": "الساعة",
+    "monday": "الإثنين",
+    "tuesday": "الثلاثاء",
+    "wednesday": "الأربعاء",
+    "thursday": "الخميس",
+    "friday": "الجمعة",
+    "free": "متاح",
+    "room": "الغرفة"
+  },
+  "common": {
+    "save": "حفظ",
+    "search": "بحث",
+    "close": "إغلاق"
+  },
+  "roles": {
+    "god": "مدير عام",
+    "admin": "مسؤول",
+    "teacher": "معلم",
+    "student": "طالب",
+    "unknown": "مستخدم"
+  }
+}

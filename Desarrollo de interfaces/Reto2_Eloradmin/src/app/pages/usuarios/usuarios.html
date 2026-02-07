@@ -1,0 +1,359 @@
+<div class="container mt-4">
+
+  <div class="header-actions">
+    <h2 class="mb-4 page-title">
+      <i class="pi pi-users page-title-icon" aria-hidden="true"></i>
+      {{ (isProfessor ? 'users.titleProfessor' : 'users.title') | translate }}
+    </h2>
+    <div class="header-buttons">
+      @if (canManageUsers) {
+        <p-button 
+          icon="pi pi-plus"
+          (click)="showDialog()"
+        ></p-button>
+        <p-button 
+          icon="pi pi-pencil" 
+          severity="info"
+          [disabled]="!selectedUser || selectedUser!.tipos.id === 1"
+          (click)="editUser()">
+        </p-button>
+        <p-button 
+          icon="pi pi-trash" 
+          severity="danger"
+          [disabled]="!selectedUser || selectedUser!.tipos.id === 1"
+          (click)="deleteUser()">
+        </p-button>
+      }
+      @if(isProfessor || canManageUsers) {
+          <p-button 
+            icon="pi pi-eye" 
+            severity="help"
+            [disabled]="!selectedUser || selectedUser!.tipos.id === 1"
+            (click)="verHorario()">
+          </p-button>
+      }
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        (click)="toggleSearch()"
+        [outlined]="!showSearch"
+      ></p-button>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters mb-3" style="position: relative; z-index: 10;">
+    
+      <div class="filter-options">
+      <span class="filter-btn" 
+      [class.active]="selectedFilter === 'all'" 
+      (click)="changeFilter('all')">{{ 'users.filters.all' | translate }}</span>
+
+    <span class="filter-btn" 
+      [class.active]="selectedFilter === 'alumnos'" 
+      (click)="changeFilter('alumnos')">
+      <i class="pi pi-graduation-cap"></i> {{ 'users.filters.students' | translate }}
+    </span>
+
+    <span class="filter-btn" 
+      [class.active]="selectedFilter === 'profesores'" 
+      (click)="changeFilter('profesores')">
+      <i class="pi pi-clipboard"></i> {{ 'users.filters.teachers' | translate }}
+    </span>
+
+</div>
+    
+    @if (showSearch) {
+      <div class="table-search">
+        <i class="pi pi-search" aria-hidden="true"></i>
+        <input
+          pInputText
+          type="text"
+          [placeholder]="'users.searchPlaceholder' | translate"
+          [(ngModel)]="globalFilterValue"
+          (input)="onGlobalFilter($event)"
+        />
+      </div>
+    }
+  </div>
+    <p-dialog 
+    [header]="(editMode ? 'users.dialog.edit' : 'users.dialog.add') | translate"
+    [(visible)]="visible"
+    [modal]="true"
+    [closable]="true"
+    (onHide)="handleDialogHide()"
+    [style]="{ width: '60rem' }"
+    [draggable]="false"
+  >
+
+  <form class="p-fluid">
+
+    <!-- Rol, usuario y contraseña -->
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="role">{{ 'users.dialog.role' | translate }}</label>
+        <p-select
+          id="role"
+          name="role"
+          [(ngModel)]="draftUser.tipos.id"
+          [options]="roleOptions"
+          optionLabel="label"
+          optionValue="value"
+          [filter]="true"
+          [filterPlaceholder]="'users.dialog.roleSearch' | translate"
+          [placeholder]="'users.dialog.rolePlaceholder' | translate"
+          styleClass="full-width-dropdown"
+        >
+          <ng-template pTemplate="selectedItem" let-option>
+            @if (option) {
+              <div class="role-option">
+                <i [class]="option.icon" aria-hidden="true"></i>
+                <span>{{ option.label }}</span>
+              </div>
+            } @else {
+              <span>{{ 'users.dialog.rolePlaceholder' | translate }}</span>
+            }
+          </ng-template>
+          <ng-template pTemplate="item" let-option>
+            <div class="role-option">
+              <i [class]="option.icon" aria-hidden="true"></i>
+              <span>{{ option.label }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6">
+        <label for="username">{{ 'users.dialog.username' | translate }}</label>
+        <input
+          pInputText
+          id="username"
+          name="username"
+          [(ngModel)]="draftUser.username"
+          (ngModelChange)="onUsernameChange($event)"
+        />
+        @if (draftUser.username) {
+          <div class="username-status">
+            @if (checkingUsername) {
+              <small>{{ 'users.usernameStatus.checking' | translate }}</small>
+            } @else if (!checkingUsername && usernameAvailable === true) {
+              <small class="available">{{ 'users.usernameStatus.available' | translate }}</small>
+            } @else if (!checkingUsername && usernameAvailable === false) {
+              <small class="unavailable">{{ 'users.usernameStatus.unavailable' | translate }}</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="p-field p-col-12 p-md-6">
+        <label for="password">{{ 'users.dialog.password' | translate }}</label>
+        <input
+          pInputText
+          id="password"
+          name="password"
+          type="password"
+          [(ngModel)]="draftUser.password"
+          [required]="passwordRequired"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Layout de 2 columnas -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      
+      <!-- Columna 1: Datos personales -->
+      <div>
+        <h4 class="mb-2">{{ 'users.dialog.personalData' | translate }}</h4>
+        
+        <div class="p-field">
+          <label for="nombre">{{ 'users.dialog.name' | translate }}</label>
+          <input pInputText id="nombre" name="nombre" [(ngModel)]="draftUser.nombre" />
+        </div>
+
+        <div class="p-field">
+          <label for="apellidos">{{ 'users.dialog.surname' | translate }}</label>
+          <input pInputText id="apellidos" name="apellidos" [(ngModel)]="draftUser.apellidos" />
+        </div>
+
+        <div class="p-field">
+          <label for="dni">{{ 'users.dialog.dni' | translate }}</label>
+          <input pInputText id="dni" name="dni" [(ngModel)]="draftUser.dni" />
+        </div>
+
+        <div class="p-field">
+          <label for="direccion">{{ 'users.dialog.address' | translate }}</label>
+          <input pInputText id="direccion" name="direccion" [(ngModel)]="draftUser.direccion" />
+        </div>
+      </div>
+
+      <!-- Columna 2: Contacto -->
+      <div>
+        <h4 class="mb-2">{{ 'users.dialog.contact' | translate }}</h4>
+
+        <div class="p-field">
+          <label for="email">{{ 'users.dialog.email' | translate }}</label>
+          <input pInputText id="email" name="email" type="email" [(ngModel)]="draftUser.email" />
+        </div>
+
+        <div class="p-field">
+          <label for="telefono">{{ 'users.dialog.phone' | translate }}</label>
+          <input pInputText id="telefono" name="telefono1" [(ngModel)]="draftUser.telefono1" />
+        </div>
+
+        <div class="p-field">
+          <label for="telefono2">{{ 'users.dialog.phone2' | translate }}</label>
+          <input pInputText id="telefono2" name="telefono2" [(ngModel)]="draftUser.telefono2" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+<p-button 
+  styleClass="full-width-btn"
+    [label]="'users.dialog.save' | translate"
+    icon="pi pi-check"
+    [disabled]="isFormInvalid || usernameAvailable === false"
+    (click)="saveUser()"
+  ></p-button>
+
+  </form>
+</p-dialog>
+<p-dialog 
+  [header]="'users.dialog.schedule' | translate"
+  [(visible)]="horarioVisible"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '80rem' }"
+  [draggable]="false"
+
+>
+<app-horarios [horarios]="horarios"></app-horarios>
+  
+</p-dialog>
+
+
+    <div style="position: relative; z-index: 2;">
+      <p-table
+        #dt
+        [value]="filteredUsers"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [showGridlines]="true"
+        selectionMode="single"
+        [(selection)]="selectedUser"
+        (onRowSelect)="onRowSelect($event)"
+        (onRowUnselect)="onRowUnselect()"
+        [globalFilterFields]="['tipos.name', 'username', 'nombre', 'apellidos', 'email', 'dni', 'telefono1']"
+        [tableStyle]="{ 'min-width': '60rem' }"
+      >
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="avatar">
+              <div class="column-header">
+                  <i class="pi pi-id-card"></i>
+              </div>
+
+            </th>
+              <th pSortableColumn="tipos.name">
+                <div class="column-header">
+                  <div class="column-label">
+                    <i class="pi pi-users"></i>
+                    <span>{{ 'users.table.type' | translate }}</span>
+                  </div>
+                  <div class="column-actions">
+                    <p-sortIcon field="tipos.name"></p-sortIcon>
+                    <p-columnFilter field="tipos.name" display="menu" matchMode="contains"></p-columnFilter>
+                  </div>
+                </div>
+              </th>
+            
+            <th pSortableColumn="username">
+              <div class="column-header">
+                <div class="column-label"><i class="pi pi-user"></i> {{ 'users.table.username' | translate }}</div>
+                <div class="column-actions">
+                  <p-sortIcon field="username"></p-sortIcon>
+                  <p-columnFilter field="username" display="menu" matchMode="contains"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="nombre">
+              <div class="column-header">
+                <div class="column-label"><i class="pi pi-address-book"></i> {{ 'users.table.name' | translate }}</div>
+                <div class="column-actions">
+                  <p-sortIcon field="nombre"></p-sortIcon>
+                  <p-columnFilter field="nombre" display="menu" matchMode="contains"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="email">
+              <div class="column-header">
+                <div class="column-label"><i class="pi pi-envelope"></i> {{ 'users.table.email' | translate }}</div>
+                <div class="column-actions">
+                  <p-sortIcon field="email"></p-sortIcon>
+                  <p-columnFilter field="email" display="menu" matchMode="contains"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="dni">
+              <div class="column-header">
+                <div class="column-label"><i class="pi pi-credit-card"></i> {{ 'users.table.dni' | translate }}</div>
+                <div class="column-actions">
+                  <p-sortIcon field="dni"></p-sortIcon>
+                  <p-columnFilter field="dni" display="menu" matchMode="contains"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="telefono1">
+              <div class="column-header">
+                <div class="column-label"><i class="pi pi-phone"></i> {{ 'users.table.phone' | translate }}</div>
+                <div class="column-actions">
+                  <p-sortIcon field="telefono1"></p-sortIcon>
+                  <p-columnFilter field="telefono1" display="menu" matchMode="contains"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-u>
+          <tr [pSelectableRow]="u" style="cursor: pointer;">
+          <td>
+                @if (u.argazkiaUrl) {
+                  <img 
+                    [src]="u.argazkiaUrl"
+                    alt="Avatar"
+                    class="user-avatar"
+                  />
+                } @else {
+                  <img src="avatar.png" alt="predeterminado" class="user-avatar" />
+                }
+              </td>
+
+              <td>
+                <i [class]="u.tipos.id === 3 ? 'pi pi-clipboard' : (u.tipos.id === 4 ? 'pi pi-graduation-cap' : u.tipos.id === 2 ? 'pi pi-shield' : 'pi pi-crown')" aria-hidden="true"></i>
+                {{ u.tipos.id === 3 ? ('roles.teacher' | translate) : (u.tipos.id === 4 ? ('roles.student' | translate) : u.tipos.id === 2 ? ('roles.admin' | translate) : ('roles.god' | translate)) }}
+              </td>
+            
+            <td>{{ u.username }}</td>
+            <td>{{ u.nombre }} {{ u.apellidos }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.dni }}</td>
+            <td>{{ u.telefono1 }}</td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="isProfessor ? 5 : 6" class="text-center text-muted">{{ 'users.table.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+</div>
+

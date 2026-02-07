@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap');
+
+:root {
+	--page-bg: radial-gradient(circle at top, #f8fbff 0%, #edf2fb 50%, #e2e8f0 100%);
+	--page-text: #0f172a;
+	--page-muted: #475569;
+	--accent: #f2c223;
+	--outline: rgba(15, 23, 42, 0.12);
+	--header-background: linear-gradient(to right, #0092a5, #27265e);
+	--header-foreground: #ffffff;
+	--header-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+	--header-chip-bg: rgba(255, 255, 255, 0.08);
+	--header-chip-border: rgba(255, 255, 255, 0.12);
+	--header-chip-bg-hover: rgba(255, 255, 255, 0.18);
+	--header-chip-border-hover: rgba(255, 255, 255, 0.35);
+	--header-chip-active-bg: rgba(242, 194, 35, 0.18);
+	--header-chip-active-border: rgba(242, 194, 35, 0.6);
+	--header-chip-active-text: #ffffff;
+	--header-button-bg: rgba(255, 255, 255, 0.12);
+	--header-button-border: rgba(255, 255, 255, 0.3);
+	--header-button-bg-hover: rgba(255, 255, 255, 0.2);
+	--user-chip-bg: rgba(255, 255, 255, 0.08);
+	--user-chip-border: rgba(255, 255, 255, 0.2);
+	--user-chip-hover-bg: rgba(255, 255, 255, 0.15);
+	--footer-background: linear-gradient(to right, #0092a5, #27265e);
+	--footer-text: #ffffff;
+	--footer-border: rgba(255, 255, 255, 0.25);
+	--footer-logo-filter: none;
+	--menu-surface: #ffffff;
+	--menu-border: rgba(15, 23, 42, 0.08);
+	--menu-shadow: 0 22px 40px rgba(15, 23, 42, 0.2);
+	--menu-text: #0f172a;
+	--menu-label-color: rgba(100, 116, 139, 0.9);
+	--menu-hover-bg: rgba(15, 23, 42, 0.06);
+	--menu-icon-color: #0f172a;
+	--card-surface: #ffffff;
+	--card-border: rgba(30, 42, 68, 0.08);
+	--card-shadow: 0 15px 35px rgba(20, 41, 82, 0.08);
+	--card-shadow-hover: 0 20px 40px rgba(25, 34, 67, 0.2);
+	--centros-title-icon: #000000;
+	--dialog-surface: #fafafa;
+	--dialog-label: #495057;
+	--dialog-input-bg: #ffffff;
+	--dialog-input-text: #0f172a;
+	--dialog-input-border: #ced4da;
+	--dialog-input-focus-border: #80bdff;
+	--dialog-input-focus-shadow: rgba(0, 123, 255, 0.25);
+	--dialog-info-bg: #f8f9fa;
+	--dialog-info-border: #e1e1e1;
+	--dialog-info-strong: #343a40;
+
+	/* ===== COLORES SUAVES LIGHT ===== */
+
+--soft-1-bg:  #e8f0fe;
+--soft-1-border:  #c5d3fc;
+
+--soft-2-bg:  #fdecef;
+--soft-2-border:  #f8c7d0;
+
+--soft-3-bg:  #e9f7ef;
+--soft-3-border:  #c8e6d0;
+
+--soft-4-bg:  #fff4e5;
+--soft-4-border:  #ffe0b3;
+
+--soft-5-bg:  #eaf4ff;
+--soft-5-border:  #c9e0ff;
+
+--soft-6-bg:  #f3e8ff;
+--soft-6-border:  #dcc7ff;
+
+--soft-7-bg:  #e8fff5;
+--soft-7-border:  #c4f2dd;
+
+--soft-8-bg:  #fff0f0;
+--soft-8-border:  #ffd1d1;
+
+--soft-9-bg:  #f0faff;
+--soft-9-border:  #c8eaff;
+
+--soft-10-bg: #fef7e0;
+--soft-10-border:#f8e9a1;
+
+--soft-11-bg: #e6f7ff;
+--soft-11-border:#bde4ff;
+
+--soft-12-bg: #f9e8ff;
+--soft-12-border:#e8caff;
+
+--soft-13-bg: #e8fff9;
+--soft-13-border:#c6f2e4;
+
+--soft-14-bg: #fff3f0;
+--soft-14-border:#ffd8cf;
+
+--soft-15-bg: #f0f4ff;
+--soft-15-border:#d0dcff;
+
+--soft-16-bg: #eaf8ff;
+--soft-16-border:#c7eaff;
+
+--soft-17-bg: #fff8e8;
+--soft-17-border:#ffe9b8;
+
+--soft-18-bg: #f0ffe8;
+--soft-18-border:#d4f8c4;
+
+--soft-19-bg: #f8e8ff;
+--soft-19-border:#e6caff;
+
+ --libre-bg: #ececec;      /* gris muy claro */
+  --libre-text: #6c757d;    /* gris medio */
+  --libre-border: #d6d6d6;  /* borde suave */
+
+}
+
+:root.theme-light {
+	color-scheme: light;
+}
+
+:root.theme-dark {
+	color-scheme: dark;
+	--page-bg: radial-gradient(circle at 20% 20%, #0f2743 0%, #030712 80%);
+	--page-text: #f8fafc;
+	--page-muted: rgba(248, 250, 252, 0.65);
+	--accent: #f8c045;
+	--outline: rgba(248, 250, 252, 0.14);
+	--header-background: linear-gradient(120deg, #041220, #02060f 70%);
+	--header-foreground: #f8fafc;
+	--header-shadow: 0 20px 35px rgba(0, 0, 0, 0.55);
+	--header-chip-bg: rgba(248, 250, 252, 0.05);
+	--header-chip-border: rgba(248, 250, 252, 0.18);
+	--header-chip-bg-hover: rgba(248, 250, 252, 0.12);
+	--header-chip-border-hover: rgba(248, 250, 252, 0.35);
+	--header-chip-active-bg: rgba(248, 192, 69, 0.28);
+	--header-chip-active-border: rgba(248, 192, 69, 0.65);
+	--header-chip-active-text: #0b0f1c;
+	--header-button-bg: rgba(248, 250, 252, 0.08);
+	--header-button-border: rgba(248, 250, 252, 0.22);
+	--header-button-bg-hover: rgba(248, 250, 252, 0.2);
+	--user-chip-bg: rgba(248, 250, 252, 0.04);
+	--user-chip-border: rgba(248, 250, 252, 0.2);
+	--user-chip-hover-bg: rgba(248, 250, 252, 0.12);
+	--footer-background: radial-gradient(circle at top, #040b15 0%, #030b18 55%, #02060f 100%);
+	--footer-text: rgba(248, 250, 252, 0.9);
+	--footer-border: rgba(248, 250, 252, 0.18);
+	--footer-logo-filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+	--menu-surface: #071528;
+	--menu-border: rgba(248, 250, 252, 0.12);
+	--menu-shadow: 0 22px 55px rgba(0, 0, 0, 0.6);
+	--menu-text: #f8fafc;
+	--menu-label-color: rgba(248, 250, 252, 0.6);
+	--menu-hover-bg: rgba(248, 250, 252, 0.08);
+	--menu-icon-color: #f8c045;
+	--card-surface: #0f1922;
+	--card-border: rgba(248, 250, 252, 0.12);
+	--card-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+	--card-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.7);
+	--centros-title-icon: #f8fafc;
+	--dialog-surface: #05080f;
+	--dialog-label: #f8fafc;
+	--dialog-input-bg: #0c0f17;
+	--dialog-input-text: #f8fafc;
+	--dialog-input-border: #1f2a44;
+	--dialog-input-focus-border: #f2c223;
+	--dialog-input-focus-shadow: rgba(242, 194, 35, 0.35);
+	--dialog-info-bg: #101522;
+	--dialog-info-border: #222c44;
+	--dialog-info-strong: #f4f7ff;
+
+	/* ===== COLORES SUAVES DARK ===== */
+
+--soft-1-bg:  #1f2a44;
+--soft-1-border:  #3b5bcc;
+
+--soft-2-bg:  #3a1f26;
+--soft-2-border:  #cc5c73;
+
+--soft-3-bg:  #1f3328;
+--soft-3-border:  #4fbf8a;
+
+--soft-4-bg:  #3a2c1a;
+--soft-4-border:  #e0a84f;
+
+--soft-5-bg:  #1b2b3f;
+--soft-5-border:  #5fa8ff;
+
+--soft-6-bg:  #2b1f3a;
+--soft-6-border:  #a47bff;
+
+--soft-7-bg:  #1f332f;
+--soft-7-border:  #4fd1b3;
+
+--soft-8-bg:  #3a1f1f;
+--soft-8-border:  #ff7b7b;
+
+--soft-9-bg:  #1a2f38;
+--soft-9-border:  #5fcfff;
+
+--soft-10-bg: #3a341a;
+--soft-10-border:#e6d05c;
+
+--soft-11-bg: #1a2e3a;
+--soft-11-border:#66c6ff;
+
+--soft-12-bg: #2f1f3a;
+--soft-12-border:#c38bff;
+
+--soft-13-bg: #1f3a34;
+--soft-13-border:#5fe0c2;
+
+--soft-14-bg: #3a2420;
+--soft-14-border:#ff9b87;
+
+--soft-15-bg: #1f263a;
+--soft-15-border:#8fa4ff;
+
+--soft-16-bg: #1b313a;
+--soft-16-border:#6fd3ff;
+
+--soft-17-bg: #3a2f1a;
+--soft-17-border:#ffd27a;
+
+--soft-18-bg: #243a1f;
+--soft-18-border:#9be36f;
+
+--soft-19-bg: #2f1f3f;
+--soft-19-border:#d2a6ff;
+
+--libre-bg: #2c2f33;      /* gris oscuro neutro */
+  --libre-text: #b0b3b8;    /* gris claro para texto */
+  --libre-border: #44474f;  /* borde más visible */
+
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: 'Space Grotesk', 'Outfit', sans-serif;
+	background: var(--page-bg);
+	background-attachment: fixed;
+	color: var(--page-text);
+	line-height: 1.45;
+	transition: background 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+	background: var(--accent);
+	color: #030712;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}

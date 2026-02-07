@@ -1,0 +1,57 @@
+<div class="mapa-wrapper pb-4">
+
+  <div class="mapa-canvas">
+    <div id="map-centros"></div>
+
+    <div class="map-controls">
+      <div class="map-select">
+        <i class="pi pi-globe map-select-icon" aria-hidden="true"></i>
+        <select
+          id="base-map-select"
+          [value]="selectedBaseMapStyle"
+          (change)="cambiarBaseMap($event)"
+          [disabled]="!mapReady"
+          [attr.aria-label]="'map.baseLabel' | translate"
+        >
+          <option *ngFor="let option of baseMapOptions" [value]="option.style">
+            {{ option.labelKey | translate }}
+          </option>
+        </select>
+      </div>
+
+      @if (mostrarColorControls) {
+        <div class="map-select">
+          <i class="pi pi-sliders-h map-select-icon" aria-hidden="true"></i>
+          <select
+            id="color-mode-select"
+            [value]="selectedColorMode"
+            (change)="cambiarColorMode($event)"
+            [disabled]="!mapReady"
+            [attr.aria-label]="'map.colorLabel' | translate"
+          >
+            <option *ngFor="let option of colorModeOptions" [value]="option.value">
+              {{ option.labelKey | translate }}
+            </option>
+          </select>
+        </div>
+      }
+    </div>
+    @if (mostrarColorControls && selectedColorMode !== 'municipality' && selectedColorMode !== 'none' && legendEntries.length) {
+      <div
+        class="map-legend"
+        [attr.aria-label]="'map.legend.title' | translate"
+      >
+        <span
+          class="legend-item"
+          *ngFor="let entry of legendEntries"
+          [attr.title]="entry.label || ('map.legend.unknown' | translate)"
+        >
+          <span class="legend-swatch" [style.background-color]="entry.color"></span>
+          <span class="legend-label">
+            {{ entry.label || ('map.legend.unknown' | translate) }}
+          </span>
+        </span>
+      </div>
+    }
+  </div>
+</div>

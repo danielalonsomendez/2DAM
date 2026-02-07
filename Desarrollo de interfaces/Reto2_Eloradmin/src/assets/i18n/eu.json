@@ -1,0 +1,237 @@
+{
+  "navigation": {
+    "home": "Hasiera",
+    "users": "Erabiltzaileak",
+    "meetings": "Bilerak",
+    "centers": "Ikastetxeak",
+    "educationalCommunity": "Hezkuntza komunitatea"
+  },
+  "header": {
+    "menuToggle": "Ireki menua",
+    "language": "Hizkuntza",
+    "logout": "Saioa itxi",
+    "theme": "Kolore modua",
+    "themeLight": "Modu argia",
+    "themeDark": "Modu iluna"
+  },
+  "languages": {
+    "es": "Gaztelania",
+    "eu": "Euskara",
+    "en": "Ingelesa",
+    "ar": "Arabiera"
+  },
+  "footer": {
+    "rights": "© {{year}} ElorAdmin. Eskubide guztiak erreserbatuta."
+  },
+  "login": {
+    "title": "Saioa hasi",
+    "username": "Erabiltzailea",
+    "password": "Pasahitza",
+    "submit": "Sartu",
+    "genericError": "Ezin izan da saioa hasi. Saiatu berriro."
+  },
+  "dashboard": {
+    "greeting": "Kaixo, {{name}}",
+    "greetingNoName": "Kaixo",
+    "sections": {
+      "profileTitle": "Zure datuak",
+      "fullName": "Izen-abizenak",
+      "username": "Erabiltzailea",
+      "email": "Posta elektronikoa",
+      "phone": "Telefonoa",
+      "secondaryPhone": "Telefonoa 2"
+    },
+    "summary": {
+      "students": "Ikasleak guztira",
+      "teachers": "Irakasleak guztira",
+      "meetingsToday": "Gaurko bilerak"
+    },
+    "cards": {
+      "manageUsers": {
+        "title": "Erabiltzaileak kudeatu",
+        "description": "Altak, bajak eta rolen kontrol osoa."
+      },
+      "viewMeetings": {
+        "title": "Bilerak ikusi",
+        "description": "Bilkura bakoitza gainbegiratu."
+      },
+      "meetings": {
+        "title": "Bilerak",
+        "description": "Hurrengo bilerak berrikusi"
+      },
+      "centers": {
+        "title": "Ikastetxeak",
+        "description": "Ikastetxeen informazioa kontsultatu"
+      },
+      "community": {
+        "title": "Hezkuntza komunitatea",
+        "description": "Bilatu ikasle eta/edo irakasleak irizpide desberdinen arabera"
+      }
+    },
+    "noPhone": "Erregistratu gabe"
+  },
+  "map": {
+    "title": "Ikastetxeen mapa",
+    "baseLabel": "Oinarrizko mapa",
+    "baseLayers": {
+      "satellite": "Satelitea",
+      "light": "Mapa argia",
+      "streets": "Kaleak",
+      "outdoors": "Kanpokoa"
+    },
+    "colorLabel": "Taldekatu",
+    "colorModes": {
+      "none": "Taldekatu gabe",
+      "ownership": "Titularitatea",
+      "territory": "Lurraldea",
+      "municipality": "Udalerria"
+    },
+    "legend": {
+      "title": "Koloreen legenda",
+      "unknown": "Daturik gabe"
+    }
+  },
+  "meetings": {
+    "title": "Bilerak kudeatzea",
+    "searchPlaceholder": "Bilera bilatu...",
+    "filters": {
+      "dtituc": "Titularitatea",
+      "dterre": "Lurraldea",
+      "dmunic": "Udalerria",
+      "clear": "Iragazkiak garbitu",
+      "results": "{{count}} ikastetxe aurkitu dira"
+    },
+    "dialogs": {
+      "location": "Kokapena: {{name}}",
+      "global": "Mapa orokorra",
+      "create": "Bilera sortu"
+    },
+    "form": {
+      "title": "Izenburua",
+      "subject": "Gaia",
+      "date": "Data",
+      "room": "Gela",
+      "center": "Ikastetxea",
+      "teacher": "Irakaslea",
+      "student": "Ikaslea",
+      "save": "Gorde"
+    },
+    "table": {
+      "status": "Egoera",
+      "title": "Izenburua",
+      "teacher": "Irakaslea",
+      "student": "Ikaslea",
+      "participant": "Erabiltzailea",
+      "subject": "Gaia",
+      "date": "Data",
+      "center": "Ikastetxea",
+      "empty": "Bilerarik ez dago"
+    },
+    "status": {
+      "pendiente": "Zain",
+      "aceptada": "Onartuta",
+      "denegada": "Ukatuta",
+      "conflicto": "Gatazka",
+      "default": "Zain"
+    }
+  },
+  "users": {
+    "title": "Erabiltzaileen kudeaketa",
+    "titleProfessor": "Ikasleak",
+    "filters": {
+      "all": "Guztiak",
+      "students": "Ikasleak",
+      "teachers": "Irakasleak"
+    },
+    "searchPlaceholder": "Erabiltzailea bilatu...",
+    "dialog": {
+      "add": "Erabiltzailea gehitu",
+      "edit": "Erabiltzailea editatu",
+      "role": "Rola",
+      "rolePlaceholder": "Aukeratu rol bat",
+      "roleSearch": "Rola bilatu",
+      "username": "Erabiltzailea",
+      "password": "Pasahitza",
+      "personalData": "Datu pertsonalak",
+      "contact": "Harremana",
+      "name": "Izena",
+      "surname": "Abizenak",
+      "dni": "NAN",
+      "address": "Helbidea",
+      "email": "Posta elektronikoa",
+      "phone": "Telefonoa",
+      "phone2": "Telefonoa 2",
+      "save": "Gorde",
+      "schedule": "Erabiltzailearen ordutegia"
+    },
+    "usernameStatus": {
+      "checking": "Erabiltzailea egiaztatzen...",
+      "available": "Erabiltzailea erabilgarri",
+      "unavailable": "Erabiltzailea erabilgarri ez"
+    },
+    "table": {
+      "type": "Mota",
+      "username": "Erabiltzailea",
+      "name": "Izena",
+      "email": "Posta elektronikoa",
+      "dni": "NAN",
+      "phone": "Telefonoa",
+      "empty": "Erabiltzailerik ez dago"
+    },
+    "confirmDelete": "Ziur zaude {{name}} {{surname}} ezabatu nahi duzula?"
+  },
+  "centers": {
+    "title": "Euskadiko ikastetxeak",
+    "searchPlaceholder": "Ikastetxea bilatu...",
+    "filters": {
+      "dtituc": "Titularitatea",
+      "dterre": "Lurraldea",
+      "dmunic": "Udalerria",
+      "clear": "Iragazkiak garbitu",
+      "results": "{{count}} ikastetxe aurkitu dira",
+      "activeOne": "Iragazki 1 aktibo",
+      "activeMany": "{{count}} iragazki aktibo"
+    },
+    "dialog": {
+      "detail": "Ikastetxearen xehetasuna",
+      "name": "Izena",
+      "municipality": "Udalerria",
+      "territory": "Lurraldea",
+      "ownership": "Titularitatea",
+      "address": "Helbidea",
+      "phone": "Telefonoa",
+      "email": "Posta elektronikoa"
+    },
+    "table": {
+      "name": "Izena",
+      "ownership": "Titularitatea",
+      "territory": "Lurraldea",
+      "municipality": "Udalerria",
+      "postalCode": "P.K.",
+      "empty": "Ikastetxerik ez dago"
+    }
+  },
+  "schedule": {
+    "empty": "Erabiltzaile honek ez du ordutegirik.",
+    "hour": "Ordua",
+    "monday": "Astelehena",
+    "tuesday": "Asteartea",
+    "wednesday": "Asteazkena",
+    "thursday": "Osteguna",
+    "friday": "Ostirala",
+    "free": "Libre",
+    "room": "Gela"
+  },
+  "common": {
+    "save": "Gorde",
+    "search": "Bilatu",
+    "close": "Itxi"
+  },
+  "roles": {
+    "god": "God",
+    "admin": "Administratzailea",
+    "teacher": "Irakaslea",
+    "student": "Ikaslea",
+    "unknown": "Erabiltzailea"
+  }
+}

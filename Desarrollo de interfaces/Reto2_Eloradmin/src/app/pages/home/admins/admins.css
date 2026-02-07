@@ -1,0 +1,105 @@
+.god-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.welcome h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--page-text);
+}
+
+.welcome p {
+  margin: 0.5rem 0 0;
+  color: var(--page-muted);
+  max-width: 640px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.summary-card {
+  background: var(--card-surface);
+  border-radius: 1.25rem;
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.summary-card i {
+  font-size: 2rem;
+  color: var(--accent, #3057ff);
+}
+
+.summary-card .summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-card .summary-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: var(--page-muted);
+}
+
+.summary-card .summary-value {
+  font-size: 2rem;
+  color: var(--accent, #3057ff);
+}
+
+.summary-card .summary-desc {
+  color: var(--page-muted);
+  font-size: 0.85rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.action-card {
+  border: none;
+  background: var(--card-surface);
+  border-radius: 1.25rem;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--card-shadow);
+  text-decoration: none;
+  color: var(--page-text);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.action-card i {
+  font-size: 1.8rem;
+  color: #3057ff;
+}
+
+.action-card h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--page-text);
+}
+
+.action-card p {
+  margin: 0.2rem 0 0;
+  color: var(--page-muted);
+  font-size: 0.9rem;
+}

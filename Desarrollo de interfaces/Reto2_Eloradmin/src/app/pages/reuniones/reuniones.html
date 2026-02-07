@@ -1,0 +1,319 @@
+<div class="container mt-4">
+
+  <div class="header-actions">
+    <h2 class="mb-4 page-title">
+      <i class="pi pi-calendar page-title-icon" aria-hidden="true"></i>
+      {{ 'meetings.title' | translate }}
+    </h2>
+    <div class="header-buttons">
+      @if (isProfessor) {
+      <p-button
+        icon="pi pi-plus"
+        severity="success"
+        [ariaLabel]="'meetings.dialogs.create' | translate"
+        (click)="crearReunion()"
+      ></p-button>
+      }
+      <p-button
+      icon="pi pi-map"
+      severity="help"
+      [disabled]="!selectedReunion"
+      [ariaLabel]="'meetings.dialogs.location' | translate"
+      (click)="mostrarMapa()"
+    ></p-button>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        (click)="toggleSearch()"
+        [outlined]="!showSearch"
+        [ariaLabel]="'common.search' | translate"
+      ></p-button>
+    </div>
+  </div>
+<p-dialog
+  [header]="selectedReunion ? ('meetings.dialogs.location' | translate:{ name: getCenterName(selectedReunion.centro) }) : ('meetings.dialogs.global' | translate)"
+  [(visible)]="mapaVisible"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '50rem', height: '600px' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  @if (mapaVisible) {
+    <app-mapa 
+        [centros]="centros" 
+        [centroSeleccionado]="centroParaMapa"
+        [mostrarColorControls]="false"
+        [soloCentroSeleccionado]="true">
+    </app-mapa>
+  }
+</p-dialog>
+<p-dialog
+  [header]="'meetings.dialogs.create' | translate"
+  [(visible)]="crearVisible"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '40rem' }"
+  (onHide)="onDialogHide()"
+  [draggable]="false"
+>
+
+  <form class="p-fluid">
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.title' | translate }}</label>
+      <input pInputText [(ngModel)]="draftReunion.titulo" name="titulo" />
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.subject' | translate }}</label>
+      <input pInputText [(ngModel)]="draftReunion.asunto" name="asunto" />
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.date' | translate }}</label>
+      <input pInputText type="date" [(ngModel)]="draftReunion.fecha" name="fecha" />
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.room' | translate }}</label>
+      <input pInputText [(ngModel)]="draftReunion.aula" name="aula" />
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.center' | translate }}</label>
+      <input pInputText [(ngModel)]="draftReunion.idCentro" name="centro" />
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.teacher' | translate }}</label>
+      <select
+        class="p-inputtext"
+        [(ngModel)]="draftReunion.usersByProfesorId"
+        name="profesor"
+      >
+        <option *ngFor="let p of profesores" [ngValue]="p">
+          {{ p.nombre }} {{ p.apellidos }}
+        </option>
+      </select>
+    </div>
+
+    <div class="p-field">
+      <label>{{ 'meetings.form.student' | translate }}</label>
+      <select
+        class="p-inputtext"
+        [(ngModel)]="draftReunion.usersByAlumnoId"
+        name="alumno"
+      >
+        <option *ngFor="let a of alumnos" [ngValue]="a">
+          {{ a.nombre }} {{ a.apellidos }}
+        </option>
+      </select>
+    </div>
+
+    <p-button
+      [label]="'common.save' | translate"
+      icon="pi pi-check"
+      [disabled]="saving"
+      (click)="guardarReunion()"
+      styleClass="full-width-btn"
+    ></p-button>
+
+  </form>
+
+</p-dialog>
+
+
+  <div class="filters mb-3" style="position: relative; z-index: 10;">
+    
+   <div class="filter-row">
+     @if (showSearch) {
+      <div class="table-search">
+        <i class="pi pi-search" aria-hidden="true"></i>
+        <input
+          pInputText
+          type="text"
+          [placeholder]="'meetings.searchPlaceholder' | translate"
+          [(ngModel)]="globalFilterValue"
+          (input)="onGlobalFilter($event)"
+        />
+      </div>
+    }
+  <p-select
+    [options]="dtitucOptions"
+    optionLabel="label"
+    [filter]="true"
+    filterBy="label"
+    optionValue="value"
+    [placeholder]="'meetings.filters.dtituc' | translate"
+    (onChange)="onSelectDTITUC($event.value)"
+    [(ngModel)]="selectedDTITUC"
+  ></p-select>
+
+  <p-select
+    [options]="dterreOptions"
+    optionLabel="label"
+    [filter]="true"
+    filterBy="label"
+    optionValue="value"
+    [disabled]="!selectedDTITUC"
+    (onChange)="onSelectDTERRE($event.value)"
+    [(ngModel)]="selectedDTERRE"
+    [placeholder]="'meetings.filters.dterre' | translate"
+  ></p-select>
+
+  <p-select
+    [options]="dmunicOptions"
+    optionLabel="label"
+    [filter]="true"
+    filterBy="label"
+    optionValue="value"
+    [disabled]="!selectedDTERRE"
+    (onChange)="onSelectDMUNIC($event.value)"
+    [(ngModel)]="selectedDMUNIC"
+    [placeholder]="'meetings.filters.dmunic' | translate"
+  ></p-select>
+  <p-button 
+  severity="secondary"
+  icon="pi pi-filter-slash"
+  class="clear-btn" 
+  (click)="clearFilters()"
+> 
+
+  </p-button>
+</div>
+   
+  </div>
+
+  <div style="position: relative; z-index: 2;">
+    <p-table
+      #dt
+      [value]="filteredReuniones"
+      dataKey="idReunion"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showGridlines]="true"
+      [globalFilterFields]="['estado', 'titulo', 'asunto', 'fecha']"
+      [tableStyle]="{ 'min-width': '60rem' }"
+      selectionMode="single" 
+      [(selection)]="selectedReunion"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="estado">
+            <div class="column-header">
+              <div class="column-label"><i class="pi pi-eye"></i> {{ 'meetings.table.status' | translate }}</div>
+              <div class="column-actions">
+                <p-sortIcon field="estado"></p-sortIcon>
+                <p-columnFilter field="estado" display="menu" matchMode="equals"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          <th pSortableColumn="titulo">
+            <div class="column-header">
+              <div class="column-label"><i class="pi pi-user"></i> {{ 'meetings.table.title' | translate }}</div>
+              <div class="column-actions">
+                <p-sortIcon field="titulo"></p-sortIcon>
+                <p-columnFilter field="titulo" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          @if(isAdmin){
+            <th pSortableColumn="profesor">
+            <div class="column-header">
+                <i class="pi pi-user-plus"></i> {{ 'meetings.table.teacher' | translate }}
+                <div class="column-actions">
+                <p-sortIcon field="profesor"></p-sortIcon>
+                <p-columnFilter field="profesor" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          <th pSortableColumn="Alumno">
+            <div class="column-header">
+                <i class="pi pi-user-plus"></i> {{ 'meetings.table.student' | translate }}
+                <div class="column-actions">
+                <p-sortIcon field="Alumno"></p-sortIcon>
+                <p-columnFilter field="Alumno" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          }@else{
+          <th pSortableColumn="usuario">
+            <div class="column-header">
+              @if(isProfessor) {
+                <i class="pi pi-user-plus"></i> {{ 'meetings.table.student' | translate }}
+              } @else {
+              <i class="pi pi-users"></i> {{ 'meetings.table.teacher' | translate }}
+              }
+                <div class="column-actions">
+                <p-sortIcon field="usuario"></p-sortIcon>
+                <p-columnFilter field="usuario" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+        }
+          <th pSortableColumn="asunto">
+            <div class="column-header">
+              <div class="column-label"><i class="pi pi-address-book"></i> {{ 'meetings.table.subject' | translate }}</div>
+              <div class="column-actions">
+                <p-sortIcon field="asunto"></p-sortIcon>
+                <p-columnFilter field="asunto" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          <th pSortableColumn="fecha">
+            <div class="column-header">
+              <div class="column-label"><i class="pi pi-calendar"></i> {{ 'meetings.table.date' | translate }}</div>
+              <div class="column-actions">
+                <p-sortIcon field="fecha"></p-sortIcon>
+                <p-columnFilter field="fecha" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+          </th>
+          <th pSortableColumn="Centro">
+            <div class="column-header">
+              <div class="column-label"><i class="pi pi-building"></i> {{ 'meetings.table.center' | translate }}</div>
+              <div class="column-actions">
+                <p-sortIcon field="Centro"></p-sortIcon>
+                <p-columnFilter field="Centro" display="menu" matchMode="contains"></p-columnFilter>
+              </div>
+            </div>
+
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-r>
+        <tr [pSelectableRow]="r">
+          <td>
+            <i [class]="estadoIcon(r.estado)" aria-hidden="true"></i>
+            {{ getStatusKey(r.estado) | translate }}
+          </td>
+          <td>{{ r.titulo }}</td>
+          @if(isAdmin){
+            <td>{{ r.usersByProfesorId?.nombre }} {{ r.usersByProfesorId?.apellidos }}</td>
+            <td>{{ r.usersByAlumnoId?.nombre }} {{ r.usersByAlumnoId?.apellidos }}</td>
+          }@else{
+          <td>
+            @if(isProfessor) {
+              {{ r.usersByAlumnoId?.nombre }} {{ r.usersByAlumnoId?.apellidos }}
+            } @else {
+              {{ r.usersByProfesorId?.nombre }} {{ r.usersByProfesorId?.apellidos }}
+            }
+          }
+          <td>{{ r.asunto }}</td>
+          <td>{{ r.fecha | date: 'dd/MM/yyyy, HH:mm' }}</td>
+          <td>{{ getCenterName(r.centro) }}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center text-muted">{{ 'meetings.table.empty' | translate }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
