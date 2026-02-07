@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Routing
+@using ElorMaui.Services
+@using ElorMaui.Components.Layout
+
+<!--ESte archivo es el que decide que Layout utilizar y si el usuario puede entrar o no a una pagina
+SI EL USUARIO NO ESTA LOGUEADO , redirige a /login y usa entonces EmptyLayout
+SI EL USUARIO SI ESTA LOGUEADO, usa MainLayout y carga la pagina que se pide-->
+@code {
+    [Parameter] public RouteData RouteData { get; set; } = default!;
+    [Parameter] public AuthService Auth { get; set; } = default!;
+
+    private bool logged;
+    private bool ready;
+
+    protected override async Task OnInitializedAsync()
+    {
+        logged = await Auth.IsLoggedAsync();
+        ready = true;
+    }
+}
+
+@if (!ready)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <RouteView RouteData="@RouteData"
+               DefaultLayout="@(logged
+                                  ? typeof(MainLayout)
+                                  : typeof(EmptyLayout))" />
+}

@@ -1,0 +1,16 @@
+﻿@page "/"
+@page "/home"
+
+@inject NavigationManager Nav
+@inject ElorMaui.Services.AuthService Auth
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        //comprueba si hay sesion iniciada y redirige
+        if (await Auth.IsLoggedAsync())
+            Nav.NavigateTo("/centros", true);
+        else
+            Nav.NavigateTo("/login", true);
+    }
+}

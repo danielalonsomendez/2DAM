@@ -1,0 +1,906 @@
+﻿@page "/centros"
+@inject ElorMaui.Services.CentrosService CentrosService
+@inject NavigationManager Nav
+@inject ElorMaui.Services.CentrosStore CentrosStore
+@inject IJSRuntime JS
+@implements IDisposable
+
+
+<div class="centros-page">
+
+    <!-- Barra superior (buscador + acciones) -->
+    <div class="topbar">
+        <input class="form-control form-control-lg"
+               placeholder="Buscar por nombre..."
+               value="@search" 
+               @oninput="OnSearchInput" /> @* Cada vez que escribes, actualiza search y recalcula filtrados*@
+
+        <button class="btn btn-elor btn-lg ms-2"
+                title="Añadir centro"
+                @onclick="AbrirNuevoCentro"> @*Abre el modal para crear un nuevo centro*@
+            <span class="bi bi-plus-lg"></span> @*Icono de Bootstrap*@
+        </button>
+
+    </div>
+
+    @*Modal de "añadir centro" (solo se renderiza si showNuevoModal = true)*@
+    @if (showNuevoModal)
+    {
+        <div class="modal-backdrop-custom" @onclick="CerrarNuevoCentro"></div>
+
+        <div class="modal-custom" role="dialog" aria-modal="true">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <div class="modal-title">Añadir centro</div>
+                    <button class="btn btn-sm btn-outline-secondary" @onclick="CerrarNuevoCentro">✕</button>
+                </div>
+
+                @*Si hay error de validacion, lo mostramos*@
+                <div class="modal-body">
+                    @if (!string.IsNullOrWhiteSpace(nuevoError))
+                    {
+                        <div class="alert alert-danger py-2">@nuevoError</div>
+                    }
+
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <label class="form-label">CCEN</label>
+                            <input class="form-control" type="number" @bind="nuevoCentro.CCEN" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" @bind="nuevoCentro.NOM" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Tipo (DTITUC)</label>
+                            <select class="form-select"
+                                    @bind="nuevoCentro.DTITUC"
+                                    @bind:after="OnNuevoTipoChanged">
+                                <option value="">-- Selecciona --</option>
+                                @foreach (var t in tipos)
+                                {
+                                    <option value="@t">@t</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Territorio (DTERRC)</label>
+                            <select class="form-select"
+                                    @bind="nuevoCentro.DTERRC"
+                                    @bind:after="OnNuevoTerritorioChanged"
+                                    disabled="@string.IsNullOrWhiteSpace(nuevoCentro.DTITUC)">
+                                <option value="">-- Selecciona --</option>
+                                @foreach (var terr in nuevoTerritorios)
+                                {
+                                    <option value="@terr">@terr</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Municipio (DMUNIC)</label>
+                            <select class="form-select"
+                                    @bind="nuevoCentro.DMUNIC"
+                                    disabled="@string.IsNullOrWhiteSpace(nuevoCentro.DTERRC)">
+                                <option value="">-- Selecciona --</option>
+                                @foreach (var m in nuevoMunicipios)
+                                {
+                                    <option value="@m">@m</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" @bind="nuevoCentro.EMAIL" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Dirección (DOMI)</label>
+                            <input class="form-control" @bind="nuevoCentro.DOMI" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Latitud</label>
+                            <input class="form-control" type="number" step="any" @bind="nuevoCentro.LATITUD" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Longitud</label>
+                            <input class="form-control" type="number" step="any" @bind="nuevoCentro.LONGITUD" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" @onclick="CerrarNuevoCentro">
+                        Cancelar
+                    </button>
+
+                    <button class="btn btn-elor" @onclick="GuardarNuevoCentro">
+                        Guardar @*Valida y llama a CentrosStore.Addsync*@
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="content-grid">
+        <!-- SIDEBAR FILTROS -->
+        <aside class="filters">
+            <div class="filters-card">
+                <div class="filters-title">
+                    <span class="bi bi-funnel"></span>
+                    <span>Filtros</span>
+                </div>
+
+                <div class="filters-blocks">
+                    <!-- DTITUC -->
+                    <div class="filter-block">
+                        <button class="filter-header" type="button" @onclick="() => toggleTipo = !toggleTipo">
+                            <span>DTITUC (Titularidad)</span>
+                            <span class="bi @(toggleTipo ? "bi-chevron-up" : "bi-chevron-down")"></span>
+                        </button>
+
+                        @if (toggleTipo)
+                        {
+                            <select class="form-select"
+                                    @bind="tipoSel"
+                                    @bind:after="OnTipoChanged">
+                                <option value="">-- Todos --</option>
+                                @foreach (var t in tipos)
+                                {
+                                    <option value="@t">@t</option>
+                                }
+                            </select>
+                        }
+                    </div>
+
+                    @* TERRITORIO: NO SE MUESTRA HASTA ELEGIR TIPO *@
+                    @if (ShowTerritorio)
+                    {
+                        <!-- DTERRC -->
+                        <div class="filter-block">
+                            <button class="filter-header" type="button"
+                                    @onclick="() => toggleTer = !toggleTer">
+                                <span>DTERRC (Territorio)</span>
+                                <span class="bi @(toggleTer ? "bi-chevron-up" : "bi-chevron-down")"></span>
+                            </button>
+
+                            @if (toggleTer)
+                            {
+                                <select class="form-select"
+                                        @bind="terSel"
+                                        @bind:after="OnTerrChanged">
+                                    <option value="">-- Todos --</option>
+                                    @foreach (var terr in territorios)
+                                    {
+                                        <option value="@terr">@terr</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                    }
+
+                    @* MUNICIPIO: NO SE MUESTRA HASTA ELEGIR TERRITORIO *@
+                    @if (ShowMunicipio)
+                    {
+                        <!-- DMUNIC -->
+                        <div class="filter-block">
+                            <button class="filter-header" type="button"
+                                    @onclick="() => toggleMun = !toggleMun">
+                                <span>DMUNIC (Municipio)</span>
+                                <span class="bi @(toggleMun ? "bi-chevron-up" : "bi-chevron-down")"></span>
+                            </button>
+
+                            @if (toggleMun)
+                            {
+                                <select class="form-select"
+                                        @bind="munSel"
+                                        @bind:after="OnMunChanged">
+                                    <option value="">-- Todos --</option>
+                                    @foreach (var m in municipios)
+                                    {
+                                        <option value="@m">@m</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- BOTONES -->
+                <div class="filters-actions">
+                    <button class="btn btn-elor w-100 btn-lg"
+                            @onclick="AplicarFiltros">
+                        <span class="bi bi-check2-circle"></span>
+                        Aplicar filtros
+                    </button>
+
+                    <button class="btn btn-outline-secondary w-100 mt-2"
+                            @onclick="ResetFiltros">
+                        Limpiar
+                    </button>
+                </div>
+
+                <div class="filters-meta text-muted">
+                    Mostrando: <b>@filtrados.Count</b> centros
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO (TABLA) -->
+        <section class="table-area">
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-title">Listado de centros</div>
+
+                    <div class="table-actions">
+                        <button class="btn btn-outline-primary"
+                                @onclick="GoMapaWithFilters">
+                            <span class="bi bi-map"></span> Ver en mapa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ZONA TABLA CON ALTURA FIJA -->
+                <div class="table-scroll" style="max-height:@TableMaxHeightPx;">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th style="width:200px;">Titularidad</th>
+                                    <th style="width:160px;">Territorio</th>
+                                    <th style="width:220px;">Municipio</th>
+                                    <th>Dirección</th>
+                                    <th style="width:240px;">Email</th>
+                                    <th style="width:220px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (TotalItems == 0)
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">
+                                            No hay resultados con los filtros actuales.
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var c in PagedRows)
+                                    {
+                                        <tr>
+                                            <td class="fw-semibold">
+                                                @if (editCentro?.CCEN == c.CCEN)
+                                                {
+                                                    <input class="form-control form-control-sm" @bind="editCentro.NOM" />
+                                                }
+                                                else
+                                                {
+                                                    @c.NOM
+                                                }
+                                            </td>
+
+                                            <td>
+                                               
+                                                    @c.DTITUC
+                                                
+                                            </td>
+
+                                            <td>
+                                            
+                                                    @c.DTERRC
+                                                
+                                            </td>
+
+                                            <td>
+                                            
+                                                    @c.DMUNIC
+                                                
+                                            </td>
+
+                                            <td>
+                                                @if (editCentro?.CCEN == c.CCEN)
+                                                {
+                                                    <input class="form-control form-control-sm" @bind="editCentro.DOMI" />
+                                                }
+                                                else
+                                                {
+                                                    @c.DOMI
+                                                }
+                                            </td>
+
+                                            <td>
+                                                @if (editCentro?.CCEN == c.CCEN)
+                                                {
+                                                    <input class="form-control form-control-sm" @bind="editCentro.EMAIL" />
+                                                }
+                                                else
+                                                {
+                                                    @c.EMAIL
+                                                }
+                                            </td>
+
+                                            <td>
+                                                @if (editCentro?.CCEN == c.CCEN)
+                                                {
+                                                    <button class="btn btn-sm btn-success me-2"
+                                                            @onclick="GuardarEdicion"
+                                                            title="Guardar">
+                                                        Guardar
+                                                    </button>
+
+                                                    <button class="btn btn-sm btn-secondary"
+                                                            @onclick="CancelarEdicion"
+                                                            title="Cancelar">
+                                                        Cancelar
+                                                    </button>
+                                                }
+                                                else @*Botones normales: ver / editar / borrar *@
+                                                {
+                                                    <NavLink class="btn btn-sm action-btn action-viewer me-1"
+                                                             href="@($"/centros/detalle/{c.CCEN}")"
+                                                             title="Ver detalle">
+                                                        <span class="bi bi-eye"></span>
+                                                    </NavLink>
+
+                                                    <button class="btn btn-sm action-btn action-pencil me-1"
+                                                            @onclick="() => Editar(c)"
+                                                            title="Editar">
+                                                        <span class="bi bi-pencil"></span>
+                                                    </button>
+
+                                                    <button class="btn btn-sm action-btn action-trash"
+                                                            @onclick="() => Eliminar(c.CCEN)"
+                                                            title="Eliminar">
+                                                        <span class="bi bi-trash"></span>
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PAGINACION (STICKY) -->
+                <div class="pager-bar">
+                    <div class="pager-left text-muted">
+                        <span class="me-2">Filas:</span>
+                        <select class="form-select form-select-sm pager-pagesize"
+                                value="@pageSize"
+                                @onchange="OnPageSizeChanged">
+                            @foreach (var s in pageSizes)
+                            {
+                                <option value="@s">@s</option>
+                            }
+                        </select>
+
+                        <span class="ms-3">
+                            Mostrando
+                            <b>@FromItem</b>-<b>@ToItem</b>
+                            de <b>@TotalItems</b>
+                        </span>
+                    </div>
+
+                    <nav aria-label="Paginación">
+                        <ul class="pagination mb-0">
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <button class="page-link" @onclick="() => GoToPage(1)">«</button>
+                            </li>
+
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <button class="page-link" @onclick="() => GoToPage(currentPage - 1)">‹</button>
+                            </li>
+
+                            @foreach (var p in GetPagesToShow())
+                            {
+                                if (p == -1)
+                                {
+                                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item @(p == currentPage ? "active" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(p)">@p</button>
+                                    </li>
+                                }
+                            }
+
+                            <li class="page-item @(currentPage == TotalPages || TotalPages == 0 ? "disabled" : "")">
+                                <button class="page-link" @onclick="() => GoToPage(currentPage + 1)">›</button>
+                            </li>
+
+                            <li class="page-item @(currentPage == TotalPages || TotalPages == 0 ? "disabled" : "")">
+                                <button class="page-link" @onclick="() => GoToPage(TotalPages)">»</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+@code {
+
+    List<ElorMaui.Models.Centro> centrosAll = new(); //Lista completa desde el store
+
+    // selects (distinct + order)
+    List<string> tipos = new(); //Lista de tipos disponibles
+    List<string> territorios = new(); //Lista de territorios disponibles
+    List<string> municipios = new(); //Lista de municipios disponibles
+
+    List<string> nuevoTerritorios = new(); //Territorios validos en el modal
+    List<string> nuevoMunicipios = new(); // municipios validos en el modal
+
+    // selección actual
+    string tipoSel = "";
+    string terSel = "";
+    string munSel = "";
+
+    // buscador (por nombre)
+    string search = "";
+
+
+    bool showNuevoModal = false;
+    ElorMaui.Models.Centro nuevoCentro = new();
+    string nuevoError = "";
+
+    // tabla filtrada
+    List<ElorMaui.Models.Centro> filtrados = new();
+    ElorMaui.Models.Centro? editCentro = null;
+
+    // toggles UI (acordeón simple)
+    bool toggleTipo = true;
+    bool toggleTer = true;
+    bool toggleMun = true;
+
+    // Mostrar en cascada
+    bool ShowTerritorio => !string.IsNullOrWhiteSpace(tipoSel);
+    bool ShowMunicipio => !string.IsNullOrWhiteSpace(terSel);
+
+    // PAGINACION
+    readonly int[] pageSizes = new[] { 15, 30, 50, 100 };
+    int pageSize = 15;
+    int currentPage = 1;
+
+    // ALTURA DINAMICA TABLA (segun filas + cabecera)
+    int rowHeight = 44;
+    int headerExtra = 64;
+
+    string TableMaxHeightPx => $"{(pageSize * rowHeight) + headerExtra}px";
+
+    int TotalItems => filtrados.Count;
+    int TotalPages => TotalItems == 0 ? 0 : (int)Math.Ceiling((double)TotalItems / pageSize);
+
+    int FromItem => TotalItems == 0 ? 0 : ((currentPage - 1) * pageSize + 1);
+    int ToItem => TotalItems == 0 ? 0 : Math.Min(currentPage * pageSize, TotalItems);
+
+    IEnumerable<ElorMaui.Models.Centro> PagedRows =>
+        filtrados.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+
+
+
+    //carga datos inicial
+    protected override async Task OnInitializedAsync()
+    {
+        CentrosStore.OnChange += HandleStoreChanged;
+
+        await CentrosStore.EnsureLoadedAsync();
+
+        centrosAll = CentrosStore.Centros;
+
+        tipos = centrosAll.Select(c => c.DTITUC ?? "")
+                          .Where(s => !string.IsNullOrWhiteSpace(s))
+                          .Distinct()
+                          .OrderBy(s => s)
+                          .ToList();
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+
+        // inicial: municipio no se verá hasta elegir territorio
+        toggleMun = true;
+    }
+    void OnNuevoTipoChanged()
+    {
+        // reset cascada
+        nuevoCentro.DTERRC = "";
+        nuevoCentro.DMUNIC = "";
+        nuevoMunicipios = new();
+
+        // territorios válidos SOLO para ese tipo
+        nuevoTerritorios = centrosAll
+            .Where(c => (c.DTITUC ?? "") == (nuevoCentro.DTITUC ?? ""))
+            .Select(c => c.DTERRC ?? "")
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct()
+            .OrderBy(s => s)
+            .ToList();
+    }
+
+    void OnNuevoTerritorioChanged()
+    {
+        // reset municipio
+        nuevoCentro.DMUNIC = "";
+
+        // municipios válidos SOLO para (tipo + territorio)
+        nuevoMunicipios = centrosAll
+            .Where(c => (c.DTITUC ?? "") == (nuevoCentro.DTITUC ?? ""))
+            .Where(c => (c.DTERRC ?? "") == (nuevoCentro.DTERRC ?? ""))
+            .Select(c => c.DMUNIC ?? "")
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct()
+            .OrderBy(s => s)
+            .ToList();
+    }
+
+    void AbrirNuevoCentro()
+    {
+        nuevoError = "";
+        // Asegura que usas la lista actual
+        centrosAll = CentrosStore.Centros;
+        // centro vacío
+        nuevoCentro = new ElorMaui.Models.Centro
+        {
+            CCEN = NextCCEN(),
+            NOM = "",
+            DTITUC = "",
+            DTERRC = "",
+            DMUNIC = "",
+            DOMI = "",
+            EMAIL = "",
+            LATITUD = 0,
+            LONGITUD = 0
+        };
+        
+        // listas dependientes vacías
+        nuevoTerritorios = new();
+        nuevoMunicipios = new();
+
+        showNuevoModal = true;
+    }
+
+    void CerrarNuevoCentro()
+    {
+        showNuevoModal = false;
+        nuevoError = "";
+    }
+
+    int NextCCEN()
+    {
+        // Si no hay datos, empezamos en 1
+        if (centrosAll.Count == 0) return 1;
+        return centrosAll.Max(c => c.CCEN) + 1;
+    }
+
+    async Task GuardarNuevoCentro()
+    {
+        // Validación mínima
+        if (string.IsNullOrWhiteSpace(nuevoCentro.NOM))
+        {
+            nuevoError = "El nombre es obligatorio.";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(nuevoCentro.DTITUC))
+        {
+            nuevoError = "DTITUC (Tipo) es obligatorio.";
+            return;
+        }
+        if (nuevoCentro.CCEN <= 0)
+        {
+            nuevoError = "CCEN debe ser mayor que 0.";
+            return;
+        }
+
+        // Asegura que centrosAll está actualizado (por si el store cambió)
+        centrosAll = CentrosStore.Centros;
+
+        // (C) AUTOCORRECCIÓN: si el CCEN ya existe, asigna el siguiente libre
+        if (centrosAll.Any(c => c.CCEN == nuevoCentro.CCEN))
+        {
+            int old = nuevoCentro.CCEN;
+            nuevoCentro.CCEN = NextCCEN();
+            //para q el error no salga en rojo
+            nuevoError = $"El CCEN {old} ya existía. Se asignó automáticamente {nuevoCentro.CCEN}.";
+        }
+        else
+        {
+            // limpia si no hay problema
+            nuevoError = "";
+        }
+
+        // validar que Tipo existe
+        if (!tipos.Contains(nuevoCentro.DTITUC))
+        {
+            nuevoError = "Tipo inválido. Selecciona uno existente.";
+            return;
+        }
+
+        // validar que Territorio existe para ese tipo
+        if (string.IsNullOrWhiteSpace(nuevoCentro.DTERRC) || !nuevoTerritorios.Contains(nuevoCentro.DTERRC))
+        {
+            nuevoError = "Territorio inválido. Selecciona uno existente para el tipo elegido.";
+            return;
+        }
+
+        // validar municipio
+        if (string.IsNullOrWhiteSpace(nuevoCentro.DMUNIC) || !nuevoMunicipios.Contains(nuevoCentro.DMUNIC))
+        {
+            nuevoError = "Municipio inválido. Selecciona uno existente para el territorio elegido.";
+            return;
+        }
+
+        // Normaliza coordenadas para el mapa
+        nuevoCentro.NormalizeCoordinates();
+
+        await CentrosStore.AddAsync(nuevoCentro);
+
+        showNuevoModal = false;
+
+        // si no quieres dejar el mensaje al cerrar modal, limpia aquí:
+        nuevoError = "";
+
+        // refrescar (OnChange lo hará también, pero esto mantiene la UI inmediata)
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+    }
+
+
+
+    async Task GuardarEdicion()
+    {
+        if (editCentro == null) return;
+
+        //  Normaliza coords para que el mapa no se rompa
+        editCentro.NormalizeCoordinates();
+
+        await CentrosStore.UpdateAsync(editCentro);
+
+        editCentro = null;
+
+        // refrescar selects + tabla (por si has cambiado DTITUC/DTERRC/DMUNIC)
+        // (OnChange ya lo hará, pero esto asegura estado local en el instante)
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+    }
+
+    void Editar(ElorMaui.Models.Centro c)
+    {
+        // Usa el constructor copia del modelo
+        editCentro = new ElorMaui.Models.Centro(c);
+    }
+
+    void CancelarEdicion()
+    {
+        editCentro = null;
+    }
+
+    async Task Eliminar(int ccen)
+    {
+        bool ok = await JS.InvokeAsync<bool>("confirm", "¿Seguro que quieres eliminar este centro?");
+        if (!ok) return;
+
+        await CentrosStore.DeleteAsync(ccen);
+
+        // por si estabas editando el que has borrado
+        if (editCentro?.CCEN == ccen) editCentro = null;
+
+        // refrescar
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+    }
+
+    void HandleStoreChanged()
+    {
+        centrosAll = CentrosStore.Centros;
+
+        tipos = centrosAll.Select(c => c.DTITUC ?? "")
+                          .Where(s => !string.IsNullOrWhiteSpace(s))
+                          .Distinct()
+                          .OrderBy(s => s)
+                          .ToList();
+
+        // si lo seleccionado ya no existe, resetea (opcional pero recomendable)
+        if (!string.IsNullOrWhiteSpace(tipoSel) && !tipos.Contains(tipoSel))
+        {
+            tipoSel = "";
+            terSel = "";
+            munSel = "";
+        }
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+
+        InvokeAsync(StateHasChanged);
+    }
+
+
+    void ResetPage() => currentPage = 1;
+
+    void GoToPage(int p)
+    {
+        if (TotalPages == 0) { currentPage = 1; return; }
+        if (p < 1) p = 1;
+        if (p > TotalPages) p = TotalPages;
+        currentPage = p;
+    }
+
+    void OnPageSizeChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var newSize) && newSize > 0)
+            pageSize = newSize;
+
+        ResetPage();
+    }
+
+    IEnumerable<int> GetPagesToShow()
+    {
+        var pages = new List<int>();
+        if (TotalPages <= 7)
+        {
+            for (int i = 1; i <= TotalPages; i++) pages.Add(i);
+            return pages;
+        }
+
+        pages.Add(1);
+
+        int start = Math.Max(2, currentPage - 1);
+        int end = Math.Min(TotalPages - 1, currentPage + 1);
+
+        if (start > 2) pages.Add(-1);
+
+        for (int i = start; i <= end; i++) pages.Add(i);
+
+        if (end < TotalPages - 1) pages.Add(-1);
+
+        pages.Add(TotalPages);
+
+        return pages;
+    }
+
+    void RebuildTerritorios()
+    {
+        var q = centrosAll.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(tipoSel))
+            q = q.Where(c => (c.DTITUC ?? "") == tipoSel);
+
+        territorios = q.Select(c => c.DTERRC ?? "")
+                       .Where(s => !string.IsNullOrWhiteSpace(s))
+                       .Distinct()
+                       .OrderBy(s => s)
+                       .ToList();
+    }
+
+    void RebuildMunicipios()
+    {
+        var q = centrosAll.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(tipoSel))
+            q = q.Where(c => (c.DTITUC ?? "") == tipoSel);
+
+        if (!string.IsNullOrWhiteSpace(terSel))
+            q = q.Where(c => (c.DTERRC ?? "") == terSel);
+
+
+        municipios = q.Select(c => c.DMUNIC ?? "")
+                      .Where(s => !string.IsNullOrWhiteSpace(s))
+                      .Distinct()
+                      .OrderBy(s => s)
+                      .ToList();
+    }
+
+    void RebuildFiltrados()
+    {
+        var q = centrosAll.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(tipoSel))
+            q = q.Where(c => (c.DTITUC ?? "") == tipoSel);
+
+        if (!string.IsNullOrWhiteSpace(terSel))
+            q = q.Where(c => (c.DTERRC ?? "") == terSel);
+
+        if (!string.IsNullOrWhiteSpace(munSel))
+            q = q.Where(c => (c.DMUNIC ?? "") == munSel);
+
+        if (!string.IsNullOrWhiteSpace(search))
+            q = q.Where(c => (c.NOM ?? "").Contains(search, StringComparison.OrdinalIgnoreCase));
+
+        filtrados = q.ToList();
+        ResetPage();
+    }
+
+    Task OnTipoChanged()
+    {
+        terSel = "";
+        munSel = "";
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+
+        // UI: al elegir tipo, se muestra territorio (si toggleTer está true, se verá el select)
+        toggleTer = true;
+        toggleMun = true;
+
+        return Task.CompletedTask;
+    }
+
+    Task OnTerrChanged()
+    {
+        munSel = "";
+        RebuildMunicipios();
+
+        // UI: al elegir territorio, ya se muestra municipio
+        toggleMun = true;
+
+        return Task.CompletedTask;
+    }
+
+    Task OnMunChanged()
+    {
+        return Task.CompletedTask;
+    }
+
+    void AplicarFiltros()
+    {
+        RebuildFiltrados();
+    }
+
+    void ResetFiltros()
+    {
+        tipoSel = "";
+        terSel = "";
+        munSel = "";
+        search = "";
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+        RebuildFiltrados();
+
+        toggleTer = true;
+        toggleMun = true;
+    }
+
+    void OnSearchInput(ChangeEventArgs e)
+    {
+        search = e.Value?.ToString() ?? "";
+        RebuildFiltrados();
+    }
+
+    void GoMapaWithFilters()
+    {
+        var url = "/mapa";
+
+        var qs = new List<string>();
+        if (!string.IsNullOrWhiteSpace(tipoSel)) qs.Add("tipo=" + Uri.EscapeDataString(tipoSel));
+        if (!string.IsNullOrWhiteSpace(terSel)) qs.Add("ter=" + Uri.EscapeDataString(terSel));
+        if (!string.IsNullOrWhiteSpace(munSel)) qs.Add("mun=" + Uri.EscapeDataString(munSel));
+
+        if (qs.Count > 0) url += "?" + string.Join("&", qs);
+        Nav.NavigateTo(url);
+    }
+
+    public void Dispose()
+    {
+        CentrosStore.OnChange -= HandleStoreChanged;
+    }
+
+}

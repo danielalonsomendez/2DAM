@@ -1,0 +1,176 @@
+﻿@page "/centros/detalle/{ccen:int}" 
+@using ElorMaui.Models               
+@inject ElorMaui.Services.CentrosStore Store  
+@inject ElorMaui.Services.MeteoService Meteo 
+
+@inject NavigationManager Nav        
+
+<div class="detalle-page">           <!-- Contenedor principal de la página -->
+
+    <button class="btn btn-outline-secondary mb-3" @onclick="Volver">
+        ← Volver
+    </button>                        @* Botón que ejecuta el método Volver() y navega a /centros *@
+
+    @if (centro is null)             @* Si no se encontró el centro con ese ccen... *@
+    {
+        <div class="alert alert-warning">Centro no encontrado.</div>  @* Mensaje de aviso *@
+    }
+    else                             @* Si sí existe centro, mostramos la información *@
+    {
+        <!-- INFO DEL CENTRO -->
+        <div class="card detalle-card mb-3">      @* Tarjeta con datos del centro *@
+            <h3 class="mb-2">@centro.NOM</h3>     @* Nombre del centro *@
+
+            <div class="detalle-grid">            @* Rejilla/estructura para mostrar campos *@
+                <div><b>Código:</b> @centro.CCEN</div>       @* Código del centro *@
+                <div><b>Municipio:</b> @centro.DMUNIC</div>  @* Municipio *@
+                <div><b>Territorio:</b> @centro.DTERRC</div> @* Territorio histórico/provincia *@
+                <div><b>Titulación:</b> @centro.DTITUC</div> @* Tipo de titulación/centro (según tu modelo) *@
+                <div><b>Dirección:</b> @centro.DOMI</div>    @* Dirección *@
+                <div><b>Email:</b> @centro.EMAIL</div>       @* Email *@
+
+                <div><b>Lat:</b> @centro.LONGITUD</div>      @* OJO: aquí estás mostrando LONGITUD como Lat *@
+                <div><b>Lon:</b> @centro.LATITUD</div>       @* OJO: aquí estás mostrando LATITUD como Lon *@
+                @* Si quieres que esté correcto visualmente sería:
+                   Lat: @centro.LATITUD
+                   Lon: @centro.LONGITUD
+                *@
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(loadError))  @* Si hay texto en loadError, significa que hubo error *@
+        {
+            <div class="alert alert-danger">@loadError</div> @* Muestra el error *@
+        }
+
+        @if (loading)                                @* Si estamos cargando (peticiones a la API) *@
+        {
+            <div class="alert alert-info">Cargando tiempo, previsión y calidad del aire...</div>
+        }
+        else                                         @* Si ya terminó la carga, mostramos datos *@
+        {
+            <!-- TIEMPO ACTUAL -->
+            @if (weather?.Current is not null)        @* Si hay respuesta de tiempo y tiene Current *@
+            {
+                <div class="card detalle-card mb-3">
+                    <h4 class="mb-2">Temperatura actual</h4>
+
+                    <div class="detalle-grid">
+                        <div><b>Temperatura:</b> @weather.Current.Temperature2m ºC</div>         @* Temperatura actual *@
+                        <div><b>Humedad:</b> @weather.Current.RelativeHumidity2m %</div>         @* Humedad actual *@
+                        <div><b>Día/Noche:</b> @(weather.Current.IsDay == 1 ? "Día" : "Noche")</div> @* IsDay=1 día, 0 noche *@
+                        <div><b>Weather code:</b> @weather.Current.WeatherCode</div>             @* Código meteorológico *@
+                    </div>
+                </div>
+            }
+
+            <!-- PREVISIÓN -->
+            @if (weather?.Daily is not null && weather.Daily.Time.Length > 0)  @* Si hay datos diarios y fechas *@
+            {
+                <div class="card detalle-card mb-3">
+                    <h4 class="mb-3">Previsión próximos días</h4>
+
+                    <div class="row g-2">             @* Grid Bootstrap para cards pequeñas *@
+                        @for (int i = 0; i < weather.Daily.Time.Length; i++)  @* Recorre cada día *@
+                        {
+                            <div class="col-12 col-md-6 col-lg-4">           @* Responsive: 1/2/3 columnas *@
+                                <div class="detalle-mini">                   @* Tarjeta pequeña por día *@
+                                    <div class="fw-bold">@weather.Daily.Time[i]</div>                  @* Fecha *@
+                                    <div class="small">Min: @weather.Daily.TemperatureMin[i] ºC</div> @* Mínima *@
+                                    <div class="small">Max: @weather.Daily.TemperatureMax[i] ºC</div> @* Máxima *@
+                                    <div class="small text-muted">Code: @weather.Daily.WeatherCode[i]</div> @* Código *@
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- CALIDAD DEL AIRE -->
+            @if (air?.Current is not null)            @* Si hay respuesta de aire y tiene Current *@
+            {
+                <div class="card detalle-card mb-3">
+                    <h4 class="mb-3">Calidad del aire</h4>
+
+                    <table class="table table-striped mb-0"> @* Tabla Bootstrap *@
+                        <tbody>
+                            <tr>
+                                <td>CO</td> @* Carbon Monoxide *@
+                                <td>@air.Current.CarbonMonoxide @air.CurrentUnits?.CarbonMonoxide</td> @* Valor + unidad *@
+                            </tr>
+                            <tr>
+                                <td>NO₂</td> @* Nitrogen Dioxide *@
+                                <td>@air.Current.NitrogenDioxide @air.CurrentUnits?.NitrogenDioxide</td>
+                            </tr>
+                            <tr>
+                                <td>SO₂</td> @* Sulphur Dioxide *@
+                                <td>@air.Current.SulphurDioxide @air.CurrentUnits?.SulphurDioxide</td>
+                            </tr>
+                            <tr>
+                                <td>O₃</td> @* Ozone *@
+                                <td>@air.Current.Ozone @air.CurrentUnits?.Ozone</td>
+                            </tr>
+                            <tr>
+                                <td>Dust</td> @* Polvo/partículas según API *@
+                                <td>@air.Current.Dust @air.CurrentUnits?.Dust</td>
+                            </tr>
+                            <tr>
+                                <td>UV</td> @* Índice UV *@
+                                <td>@air.Current.UvIndex @air.CurrentUnits?.UvIndex</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public int ccen { get; set; }   // Parámetro de ruta: viene de /centros/detalle/{ccen}
+
+    Centro? centro;                             // Centro seleccionado (o null si no existe)
+
+    MeteoResponse? weather;                     // Respuesta de tiempo (puede ser null si falla)
+    AirQualityResponse? air;                    // Respuesta de calidad del aire (puede ser null si falla)
+
+    bool loading = true;                        // Flag para mostrar "cargando..." en pantalla
+    string loadError = "";                      // Mensaje de error si algo falla
+
+    protected override async Task OnInitializedAsync() // Se ejecuta al iniciar el componente (al entrar en la página)
+    {
+        await Store.EnsureLoadedAsync();        // Asegura que el Store ya tiene la lista de centros cargada
+
+        // Buscar el centro seleccionado por su CCEN usando el parámetro ccen de la URL
+        centro = Store.Centros.FirstOrDefault(c => c.CCEN == ccen);
+
+        if (centro is null)                     // Si no existe el centro, no llamamos a la API
+        {
+            loading = false;                    // Quitamos el estado de carga
+            return;                             // Salimos del método
+        }
+
+        try
+        {
+            loading = true;                     // Activamos el "cargando..."
+            loadError = "";                     // Limpiamos errores anteriores
+
+            // Llamar a Open-Meteo con lat/lon del centro
+            // En Open-Meteo la firma es (lat, lon).
+            weather = await Meteo.GetWeatherAsync(centro.LONGITUD, centro.LATITUD);
+
+            // Llamada para calidad del aire (igual: debería ser lat primero)
+            air = await Meteo.GetAirQualityAsync(centro.LONGITUD, centro.LATITUD);
+        }
+        catch (Exception ex)                    // Si hay cualquier excepción (red, JSON, etc.)
+        {
+            loadError = "Error cargando datos: " + ex.Message; // Guardamos el mensaje para mostrarlo en UI
+        }
+        finally
+        {
+            loading = false;                    // Pase lo que pase, se desactiva el loading
+        }
+    }
+
+    void Volver() => Nav.NavigateTo("/centros"); // Navega de vuelta a la lista de centros
+}

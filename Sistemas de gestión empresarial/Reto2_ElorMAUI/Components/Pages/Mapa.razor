@@ -1,0 +1,428 @@
+﻿@page "/mapa"                             
+@inject IJSRuntime JS                   
+@inject ElorMaui.Services.CentrosService CentrosService 
+@using Microsoft.AspNetCore.Components    
+@inject ElorMaui.Services.CentrosStore CentrosStore     
+@implements IDisposable                   
+<div class="map-wrapper" id="mapWrapper">
+    <!-- MAPA -->
+    <div id="map" class="map-canvas"></div>   @* Div donde Mapbox dibuja el mapa (container="map") *@
+
+    <!-- BOTÓN FLOTANTE (MOSTRAR/OCULTAR MARCADORES) -->
+    <button class="map-fab"
+            title="Mostrar/Ocultar marcadores"
+            @onclick="ToggleMarkers">
+        @(markersVisible ? "Ocultar centros" : "Mostrar centros")
+    </button>  @* Alterna markersVisible y llama a JS para añadir o limpiar marcadores *@
+
+    <!-- INFO (panel de información a la derecha/abajo según CSS) -->
+    <div class="map-info" id="mapInfo">
+        @if (centroSeleccionado is null)  @* Si no hay centro seleccionado *@
+        {
+            <div class="small text-muted">Haz click en un marcador para ver los datos.</div>
+            <div><b>Centros filtrados:</b> @filtradosCount</div>
+        }
+        else  @* Si hay centro seleccionado *@
+        {
+            <h5>@centroSeleccionado.nom</h5>
+            <div>@centroSeleccionado.domi</div>
+            <div><b>@centroSeleccionado.dmunic</b> · @centroSeleccionado.dterre</div>
+            <div class="text-muted">@centroSeleccionado.dtituc</div>
+
+            <button class="btn btn-sm btn-outline-secondary mt-2"
+                    @onclick="ClearSelection">
+                Cerrar
+            </button> @* Quita la selección (solo UI, no borra marcadores) *@
+        }
+    </div>
+
+    <!-- CHIPS NIVEL 1 (tipo) -->
+    <div class="chips-top">
+        <button class="chip @(tipoSel == "" ? "chip-active" : "")"
+                @onclick="SetTipoTodos">
+            Todos
+        </button> @* Resetea filtros de tipo/territorio/municipio *@
+
+        @foreach (var t in tipos.Take(8)) @* Muestra hasta 8 tipos *@
+        {
+            <button class="chip @(tipoSel == t ? "chip-active" : "")"
+                    @onclick="@(() => SetTipo(t))">
+                @t
+            </button> @* Selecciona un tipo y actualiza marcadores *@
+        }
+    </div>
+
+    <!-- FILTROS EN CASCADA (solo se ven si hay tipo seleccionado) -->
+    @if (!string.IsNullOrWhiteSpace(tipoSel))
+    {
+        <div class="filters-list">
+
+            <div class="filter-row">
+                <div class="filter-title">Territorio</div>
+                <div class="filter-chips">
+                    <button class="chip chip-sm @(terSel == "" ? "chip-active" : "")"
+                            @onclick="SetTerritorioTodos">
+                        Todos
+                    </button>
+
+                    @foreach (var t in territorios)
+                    {
+                        <button class="chip chip-sm @(terSel == t ? "chip-active" : "")"
+                                @onclick="@(() => SetTerritorio(t))">
+                            @t
+                        </button>
+                    }
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(terSel)) @* Municipio solo si hay territorio *@
+            {
+                <div class="filter-row">
+                    <div class="filter-title">Municipio</div>
+                    <div class="filter-chips">
+                        <button class="chip chip-sm @(munSel == "" ? "chip-active" : "")"
+                                @onclick="SetMunicipioTodos">
+                            Todos
+                        </button>
+
+                        @foreach (var m in municipios)
+                        {
+                            <button class="chip chip-sm @(munSel == m ? "chip-active" : "")"
+                                    @onclick="@(() => SetMunicipio(m))">
+                                @m
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+@code {
+    bool markersVisible = false;  // Controla si se muestran marcadores o no
+    bool mapReady = false;        // Indica si initializeCentrosMap ya se ha ejecutado
+
+    // Función helper: normaliza strings (null -> "", trim)
+    static string N(string? s) => (s ?? "").Trim();
+
+    // Comparación “igual” ignorando mayúsculas/minúsculas + trim
+    static bool Eq(string? a, string? b)
+        => string.Equals(N(a), N(b), StringComparison.OrdinalIgnoreCase);
+
+    // Token de Mapbox (lo usas en initializeCentrosMap)
+    string token = "pk.eyJ1IjoiaW5mamdvbnphbGV6IiwiYSI6ImNsODcyMXF6cDE0ZDI0MmxoODFqMzR3OGIifQ.VAuTB3faQPTx7P6bRnEZjg";
+
+    // Lista completa de centros (adaptada al modelo UI CentroUI)
+    List<CentroUI> centrosUIAll = new();
+
+    // Listas de opciones de filtros
+    List<string> tipos = new();
+    List<string> territorios = new();
+    List<string> municipios = new();
+
+    // Valores seleccionados de filtros
+    string tipoSel = "";
+    string terSel = "";
+    string munSel = "";
+
+    // Centro seleccionado (cuando haces click en un marcador)
+    CentroUI? centroSeleccionado = null;
+
+    // Conteo de centros filtrados (para mostrar en el panel INFO)
+    int filtradosCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Nos suscribimos a cambios del store (cuando añades/eliminas/editas centros)
+        CentrosStore.OnChange += HandleStoreChanged;
+
+        // Asegura que el store tiene la lista cargada
+        await CentrosStore.EnsureLoadedAsync();
+
+        // Mapeamos los centros del store a un DTO “UI friendly”
+        centrosUIAll = CentrosStore.Centros
+            .Select(c => new CentroUI
+            {
+                ccen = c.CCEN,
+                nom = N(c.NOM),
+                domi = N(c.DOMI),
+                dmunic = N(c.DMUNIC),
+                dterre = N(c.DTERRC),
+                dtituc = N(c.DTITUC),
+                email = N(c.EMAIL),
+                latitud = c.LATITUD,
+                longitud = c.LONGITUD
+            })
+            .ToList();
+
+        // Construye lista de tipos (distinct sin importar mayúsculas)
+        tipos = centrosUIAll
+            .Select(c => N(c.dtituc))
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(s => s)
+            .ToList();
+
+        // Construye listas dependientes (territorios/municipios)
+        RebuildTerritorios();
+        RebuildMunicipios();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // OnAfterRenderAsync se ejecuta cuando ya se ha pintado el HTML (existe el div id="map")
+        if (firstRender)
+        {
+            // Inicializa el mapa en JS y le pasa:
+            // - token de Mapbox
+            // - referencia a ESTE componente (para que JS pueda llamarte: OnCentroSelected)
+            await JS.InvokeVoidAsync("initializeCentrosMap", token, DotNetObjectReference.Create(this));
+
+            // Marcamos que el mapa ya está listo
+            mapReady = true;
+
+            // Si ya estuviera activado mostrar marcadores, los pintamos
+            if (markersVisible) await UpdateMapMarkers(forceJs: true);
+        }
+    }
+
+    // Recalcula territorios según el tipo seleccionado
+    void RebuildTerritorios()
+    {
+        territorios = centrosUIAll
+            .Where(c => string.IsNullOrWhiteSpace(tipoSel) || Eq(c.dtituc, tipoSel))
+            .Select(c => N(c.dterre))
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(s => s)
+            .ToList();
+    }
+
+    // Recalcula municipios según tipo + territorio seleccionados
+    void RebuildMunicipios()
+    {
+        municipios = centrosUIAll
+            .Where(c => string.IsNullOrWhiteSpace(tipoSel) || Eq(c.dtituc, tipoSel))
+            .Where(c => string.IsNullOrWhiteSpace(terSel) || Eq(c.dterre, terSel))
+            .Select(c => N(c.dmunic))
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(s => s)
+            .ToList();
+    }
+
+    // Limpia selección actual (solo UI)
+    void ClearSelection()
+    {
+        centroSeleccionado = null;
+    }
+
+    // Al seleccionar tipo: resetea cascada y actualiza marcadores
+    async Task SetTipo(string v)
+    {
+        tipoSel = v;
+        terSel = "";
+        munSel = "";
+        ClearSelection();
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+        await UpdateMapMarkers();
+    }
+
+    // Tipo “Todos”
+    async Task SetTipoTodos()
+    {
+        tipoSel = "";
+        terSel = "";
+        munSel = "";
+        ClearSelection();
+
+        RebuildTerritorios();
+        RebuildMunicipios();
+        await UpdateMapMarkers();
+    }
+
+    // Seleccionar territorio
+    async Task SetTerritorio(string v)
+    {
+        terSel = v;
+        munSel = "";
+        ClearSelection();
+        RebuildMunicipios();
+        await UpdateMapMarkers();
+    }
+
+    // Territorio “Todos”
+    async Task SetTerritorioTodos()
+    {
+        terSel = "";
+        munSel = "";
+        ClearSelection();
+        RebuildMunicipios();
+        await UpdateMapMarkers();
+    }
+
+    // Seleccionar municipio
+    async Task SetMunicipio(string v)
+    {
+        munSel = v;
+        ClearSelection();
+        await UpdateMapMarkers();
+    }
+
+    // Municipio “Todos”
+    async Task SetMunicipioTodos()
+    {
+        munSel = "";
+        ClearSelection();
+        await UpdateMapMarkers();
+    }
+
+    // Botón flotante: muestra/oculta marcadores
+    async Task ToggleMarkers()
+    {
+        markersVisible = !markersVisible;
+
+        if (markersVisible)
+        {
+            // fuerza pintar marcadores incluso si antes no estaban visibles
+            await UpdateMapMarkers(forceJs: true);
+        }
+        else
+        {
+            // borra marcadores en JS
+            await JS.InvokeVoidAsync("clearCentrosMarkers");
+        }
+
+        // refresca UI (texto del botón, etc.)
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Construye lista filtrada y manda al JS para pintar marcadores
+    async Task UpdateMapMarkers(bool forceJs = false)
+    {
+        // Normaliza coordenadas para evitar datos invertidos o signos incorrectos
+        var normalized = centrosUIAll.Select(c =>
+        {
+            var lat = c.latitud;
+            var lon = c.longitud;
+
+            // Si parece invertido, swap
+            if (Math.Abs(lat) <= 10 && lon >= 35 && lon <= 50)
+            {
+                var tmp = lat;
+                lat = lon;
+                lon = tmp;
+            }
+
+            // Si longitud está positiva y debería ser oeste (Euskadi), la ponemos negativa
+            if (lon > 0 && lon <= 10) lon = -lon;
+
+            return new CentroUI
+            {
+                ccen = c.ccen,
+                nom = c.nom,
+                domi = c.domi,
+                dmunic = c.dmunic,
+                dterre = c.dterre,
+                dtituc = c.dtituc,
+                email = c.email,
+                latitud = lat,
+                longitud = lon
+            };
+        }).ToList();
+
+        // Filtra por tipo/territorio/municipio + coordenadas válidas + zona Euskadi
+        var list = normalized
+            .Where(c => string.IsNullOrWhiteSpace(tipoSel) || Eq(c.dtituc, tipoSel))
+            .Where(c => string.IsNullOrWhiteSpace(terSel) || Eq(c.dterre, terSel))
+            .Where(c => string.IsNullOrWhiteSpace(munSel) || Eq(c.dmunic, munSel))
+            .Where(c => c.latitud != 0 && c.longitud != 0)
+            .Where(c => c.latitud >= 41 && c.latitud <= 45)
+            .Where(c => c.longitud >= -5 && c.longitud <= 0)
+            .ToList();
+
+        // Actualiza contador para UI
+        filtradosCount = list.Count;
+
+        // Si marcadores visibles o fuerza, manda lista al JS para pintar
+        if (markersVisible || forceJs)
+        {
+            await JS.InvokeVoidAsync("setCentrosMarkers", list);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Método C# que JS llama cuando haces click en un marcador
+    [JSInvokable]
+    public void OnCentroSelected(CentroUI c)
+    {
+        centroSeleccionado = c;
+        InvokeAsync(StateHasChanged);
+    }
+
+    // DTO para el mapa (nombres en minúscula por comodidad en JS)
+    public class CentroUI
+    {
+        public int ccen { get; set; }
+        public string nom { get; set; } = "";
+        public string domi { get; set; } = "";
+        public string dmunic { get; set; } = "";
+        public string dterre { get; set; } = "";
+        public string dtituc { get; set; } = "";
+        public string email { get; set; } = "";
+        public double latitud { get; set; }
+        public double longitud { get; set; }
+    }
+
+    // Se ejecuta cuando el store cambia (añadir/editar/borrar centros)
+    async void HandleStoreChanged()
+    {
+        // Reconstruye desde el store (incluye nuevos centros)
+        centrosUIAll = CentrosStore.Centros
+            .Select(c => new CentroUI
+            {
+                ccen = c.CCEN,
+                nom = c.NOM,
+                domi = c.DOMI,
+                dmunic = c.DMUNIC,
+                dterre = c.DTERRC,
+                dtituc = c.DTITUC,
+                email = c.EMAIL,
+                latitud = c.LATITUD,
+                longitud = c.LONGITUD
+            })
+            .ToList();
+
+        // Recalcula lista de tipos
+        tipos = centrosUIAll
+            .Select(c => c.dtituc)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct()
+            .OrderBy(s => s)
+            .ToList();
+
+        // Recalcula territorios y municipios en cascada
+        RebuildTerritorios();
+        RebuildMunicipios();
+
+        // Si el mapa está listo y los marcadores visibles, repinta
+        if (mapReady && markersVisible)
+        {
+            await UpdateMapMarkers(forceJs: true);
+        }
+
+        // Refresca UI
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Importante: desuscribirse del evento para evitar fugas de memoria
+    public void Dispose()
+    {
+        CentrosStore.OnChange -= HandleStoreChanged;
+    }
+}

@@ -1,0 +1,156 @@
+﻿@inject NavigationManager Nav
+@inject ElorMaui.Services.AuthService Auth
+@using ElorMaui.Models
+@using System.Linq
+@using System.Globalization
+@using Microsoft.AspNetCore.Components.Web
+@namespace ElorMaui.Components.Layout
+@implements IDisposable
+
+<header class="app-header @(mobileMenuOpen ? "menu-open" : string.Empty)">
+    <div class="brand">
+        <button class="logo-link" @onclick="GoHome" aria-label="Ir a inicio">
+            <img src="img/Elorrieta_White.svg" alt="Elorrieta" />
+        </button>
+
+        <button type="button"
+                class="menu-toggle"
+                @onclick="ToggleMobileMenu"
+                aria-label="Abrir menú"
+                aria-expanded="@mobileMenuOpen">
+            <span class="bi @(mobileMenuOpen ? "bi-x-lg" : "bi-list")"></span>
+        </button>
+    </div>
+
+    <div class="header-content @(mobileMenuOpen ? "open" : string.Empty)">
+        <nav class="main-nav" aria-label="Navegación principal">
+            <NavLink class="nav-link" href="/centros" @onclick="CloseMobileMenu">CENTROS</NavLink>
+            <NavLink class="nav-link" href="/mapa" @onclick="CloseMobileMenu">MAPA</NavLink>
+        </nav>
+
+        <div class="user-area">
+            <div class="user-info"
+                 role="button"
+                 tabindex="0"
+                 aria-haspopup="menu"
+                 aria-expanded="@menuOpen"
+                 @onclick="ToggleProfileMenu"
+                 @onkeydown="HandleUserInfoKey">
+             <img class="@($"avatar {(HasPhoto ? "avatar-photo" : "avatar-default")}")"
+                     src="@AvatarSource"
+                     alt="@DisplayName" />
+
+                <div class="user-meta">
+                    <span class="user-name">@DisplayName</span>
+                    <span class="user-role">@DisplayRole</span>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+
+            @if (menuOpen)
+            {
+                <div class="profile-menu" role="menu">
+                    <button type="button" class="profile-menu-item" @onclick="DoLogout">
+                        <span class="bi bi-box-arrow-right icon"></span>
+                        Cerrar sesión
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</header>
+
+@code {
+    bool menuOpen = false;
+    bool mobileMenuOpen = false;
+    User? currentUser;
+
+    string DisplayName => currentUser switch
+    {
+        null => "Usuario",
+        _ => BuildName()
+    };
+
+    string DisplayRole => ResolveRoleName() ?? "Sin rol";
+
+    bool HasPhoto => !string.IsNullOrWhiteSpace(currentUser?.ArgazkiaUrl);
+
+    string AvatarSource => HasPhoto
+        ? currentUser!.ArgazkiaUrl!
+        : DefaultAvatarPath;
+
+    const string DefaultAvatarPath = "img/avatar.png";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Auth.AuthStateChanged += HandleAuthStateChanged;
+        await LoadUserAsync();
+    }
+
+    void GoHome() => Nav.NavigateTo("/home");
+    void ToggleProfileMenu() => menuOpen = !menuOpen;
+    void ToggleMobileMenu() => mobileMenuOpen = !mobileMenuOpen;
+    void CloseMobileMenu() => mobileMenuOpen = false;
+    void HandleUserInfoKey(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            ToggleProfileMenu();
+        }
+    }
+
+    async Task DoLogout()
+    {
+        menuOpen = false;
+        await Auth.LogoutAsync();
+        Nav.NavigateTo("/login");
+    }
+
+    private string? ResolveRoleName()
+    {
+        var tipo = currentUser?.Tipos;
+        if (tipo is null) return null;
+
+        if (!string.IsNullOrWhiteSpace(tipo.Name)) return Capitalize(tipo.Name);
+        if (!string.IsNullOrWhiteSpace(tipo.Nombre)) return Capitalize(tipo.Nombre);
+        if (!string.IsNullOrWhiteSpace(tipo.NameEu)) return Capitalize(tipo.NameEu);
+
+        return null;
+    }
+
+    private static string Capitalize(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return value;
+        value = value.Trim();
+        var textInfo = CultureInfo.CurrentCulture.TextInfo;
+        return textInfo.ToTitleCase(value.ToLower());
+    }
+
+    private string BuildName()
+    {
+        var names = new[] { currentUser?.Nombre, currentUser?.Apellidos }
+            .Where(part => !string.IsNullOrWhiteSpace(part))
+            .Select(part => part!.Trim());
+
+        var fullName = string.Join(" ", names);
+        if (!string.IsNullOrWhiteSpace(fullName)) return fullName;
+
+        return string.IsNullOrWhiteSpace(currentUser?.Username) ? "Usuario" : currentUser!.Username!;
+    }
+
+    private async Task LoadUserAsync()
+    {
+        currentUser = await Auth.GetLoggedUserAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void HandleAuthStateChanged()
+    {
+        await LoadUserAsync();
+    }
+
+    public void Dispose()
+    {
+        Auth.AuthStateChanged -= HandleAuthStateChanged;
+    }
+}

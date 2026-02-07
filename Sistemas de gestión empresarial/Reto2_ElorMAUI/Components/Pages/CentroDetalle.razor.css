@@ -1,0 +1,29 @@
+.detalle-page {
+    padding: 16px;
+}
+
+.detalle-card {
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    padding: 16px;
+    border: 1px solid rgba(0,0,0,.06);
+}
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+}
+
+.detalle-mini {
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,.75);
+}
+
+@media (max-width: 640px) {
+    .detalle-grid {
+        grid-template-columns: 1fr;
+    }
+}

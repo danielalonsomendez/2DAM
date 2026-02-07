@@ -1,0 +1,84 @@
+﻿@page "/login"
+@inject NavigationManager Nav
+@inject ElorMaui.Services.AuthService Auth
+
+<div class="fondo">
+    <img src="img/Fondo.png" alt="Fondo" class="fondo-img">
+
+    <div class="login-wrapper">
+        <div class="logo-container">
+            <img src="img/Elorrieta_White.svg" alt="Elorrieta" class="logo-image">
+        </div>
+
+        <div class="login-card">
+            <h3 class="text-center mb-4">Iniciar sesión</h3>
+
+            @if (!string.IsNullOrWhiteSpace(error))
+            {
+                <div class="alert alert-danger" role="alert">@error</div>
+            }
+
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario</label>
+                <input id="usuario"
+                       class="form-control"
+                       type="text"
+                       @bind="user"
+                       @bind:event="oninput"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input id="password"
+                       class="form-control"
+                       type="password"
+                       @bind="pass"
+                       @bind:event="oninput"
+                       required>
+            </div>
+
+            <button class="btn btn-primary w-100"
+                    @onclick="DoLogin"
+                    disabled="@IsDisabled">
+                @(busy ? "Entrando..." : "Entrar")
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    string user = ""; //para bindear el usuario
+    string pass = ""; //para bindear la contraseña
+    bool busy = false; //para saber si estoy haciendo login
+    string error = ""; //mensaje de error si hay
+
+    bool IsDisabled => busy || string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass);
+
+
+    //para hacer el redireccionamiento si ya esta logueado
+    protected override async Task OnInitializedAsync()
+    {
+        if (await Auth.IsLoggedAsync())
+            Nav.NavigateTo("/home");
+    }
+
+    async Task DoLogin()
+    {
+        error = ""; //limpio errores previos
+        busy = true; //indico que estoy ocupado (se pone entrando... en el boton)
+
+        var (ok, err) = await Auth.LoginAsync(user?.Trim() ?? "", pass ?? "");
+
+        busy = false;
+
+        if (!ok)
+        {
+            error = err ?? "Login incorrecto.";
+            return;
+        }
+
+        //redirecciono a la pagina de centros si ha ido todo bien
+        Nav.NavigateTo("/centros");
+    }
+}

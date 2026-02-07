@@ -1,0 +1,110 @@
+﻿@namespace ElorMaui.Components.Layout
+@using ElorMaui.Components.Layout
+
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject ElorMaui.Services.AuthService Auth
+@inject NavigationManager Nav
+
+<div class="layout-root @(IsLogin ? "layout-root--login" : string.Empty)">
+    <!-- si esta logueado que se pueda ver el TOPBAR -->
+    @if (isLogged)
+    {
+        <header class="layout-topbar">
+            <NavMenu />
+        </header>
+    }
+
+    <main class="layout-main @(IsMapa ? "layout-main--mapa" : "") @(IsLogin ? "layout-main--login" : "")">
+        @Body <!-- aquí se carga /centros, /mapa, etc. -->
+    </main>
+
+    @if (!IsLogin)
+    {
+        <!-- FOOTER -->
+        <footer class="elor-footer">
+            <div class="footer-inner">
+                <img src="img/Elorrieta_White.svg"
+                     alt="Elorrieta Erreka Mari"
+                     class="footer-logo" />
+
+                <div class="footer-separator"></div>
+
+                <div class="footer-text">
+                    © 2026 ElorMAUI. Todos los derechos reservados.
+                </div>
+            </div>
+        </footer>
+    }
+</div>
+
+<style>
+    .layout-root {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--page-bg);
+        background-attachment: fixed;
+        color: var(--page-text);
+    }
+
+    .layout-topbar {
+        width: 100%;
+        flex: 0 0 auto;
+    }
+
+    .layout-main {
+        width: 100%;
+        flex: 1 1 auto;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    .layout-main--mapa {
+        padding: 0 !important;
+        background: transparent;
+    }
+
+    .layout-main--login {
+        padding: 0 !important;
+        background: transparent;
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .layout-root--login {
+        background: transparent;
+    }
+</style>
+
+@code {
+    //sin esta parte del codgo no se actualiza el layout al hacer login/logout
+
+    bool isLogged; //guarda si el usuario esta logueado
+
+    bool IsMapa => Nav.Uri.EndsWith("/mapa", StringComparison.OrdinalIgnoreCase); //esto sirve para saber si estamos en la pagina del mapa y asi quitar los paddings
+    bool IsLogin => Nav.Uri.EndsWith("/login", StringComparison.OrdinalIgnoreCase);
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Nav.LocationChanged += OnLocationChanged;
+        isLogged = await Auth.IsLoggedAsync();
+    }
+
+    //cada vez que cambia la URL, comprobamos si el usuario esta logueado
+    private async void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        isLogged = await Auth.IsLoggedAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    //limpieza de memoria
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+}
