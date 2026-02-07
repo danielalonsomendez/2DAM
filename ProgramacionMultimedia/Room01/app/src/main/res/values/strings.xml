@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Room01</string>
+    <string name="a_adir_nota">Añadir Nota</string>
+    <string name="calificaci_n">Calificación</string>
+    <string name="m_dulo">Módulo</string>
+    <string name="item">Item</string>
+</resources>

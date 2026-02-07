@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipos_sitio">
+        <item>Restaurante</item>
+        <item>Museo</item>
+        <item>Estadio de fútbol</item>
+        <item>Otro</item>
+    </string-array>
+
+</resources>
