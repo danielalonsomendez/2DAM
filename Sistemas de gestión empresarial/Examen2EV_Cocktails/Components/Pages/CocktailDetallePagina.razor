@@ -1,0 +1,23 @@
+﻿@page "/cocktail/{id:int}"
+@using danielAlonso2Eval.Models
+@inject danielAlonso2Eval.Services.CocktailAPI CocktailAPI
+@if(cocktail != null)
+{
+    <h1>Detalle del cockatil @cocktail.strDrink</h1>
+    <NavLink class="nav-link" href="">
+    <button class="btn btn-secondary" >Regresar</button>
+</NavLink>
+}
+<CocktailDetalle Cocktail="cocktail" />
+
+@code {
+    [Parameter] public int id { get; set; }  
+
+    Cocktail cocktail;
+    protected override async Task OnInitializedAsync() // Se ejecuta al iniciar el componente (al entrar en la página)
+    {
+      
+        CockatilResponse? respuesta = await CocktailAPI.GetCocktailsIDAsync(id);
+        cocktail = respuesta!.drinks[0];
+    }
+}

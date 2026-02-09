@@ -1,0 +1,54 @@
+﻿@page "/mapa"
+@using danielAlonso2Eval.Models
+@inject IJSRuntime JSRuntime
+@inject danielAlonso2Eval.Services.MapaService MapaService
+
+<h1>Mapa</h1>
+
+<input type="text" placeholder="Nombre" @bind=nombre class="form-control mt-2" />
+<div class="text-center">
+    <button @onclick=ActualizarCocktail style="width:250px" class=" btn btn-primary mt-2">Buscar</button>
+</div>
+<button @onclick="VerTodos">Ver todos</button>
+<button @onclick="QuitarTodos">Quitar todos</button>
+
+<div id="map" style="height:500px;width:100%; margin-top:10px;"></div>
+
+@code {
+    List<MapaCocktail> mapacocktails = new List<MapaCocktail>();
+    List<MapaCocktail> mapacocktailsf = new List<MapaCocktail>();
+
+    String nombre;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        mapacocktails = await MapaService.GetMapaCocktailAsync();
+        mapacocktailsf = mapacocktailsf.Where(x => x.name.Contains(nombre, StringComparison.OrdinalIgnoreCase)).ToList();
+        if (firstRender)
+        { await JSRuntime.InvokeVoidAsync("initializeMap3", token, 43.2627, -2.9252, 13); }
+    }
+    string token = "pk.eyJ1IjoiaW5mamdvbnphbGV6IiwiYSI6ImNsODcyMXF6cDE0ZDI0MmxoODFqMzR3OGIifQ.VAuTB3faQPTx7P6bRnEZjg";
+
+    async Task OnRestauranteChange(ChangeEventArgs e)
+    {
+        if (string.IsNullOrEmpty(e.Value?.ToString())) return;
+
+        int id = int.Parse(e.Value.ToString());
+        var r = mapacocktails.First(x => x.id == id);
+        await JSRuntime.InvokeVoidAsync("showSingleMarker", r.latitud, r.longitud, r.name.ToString(), r.category.ToString());
+    }
+
+    async Task VerTodos()
+    { await JSRuntime.InvokeVoidAsync("showAllMarkers", mapacocktailsf); }
+
+    async Task QuitarTodos()
+    { await JSRuntime.InvokeVoidAsync("clearMarkers"); }
+
+    async Task ActualizarCocktail()
+    {
+        await JSRuntime.InvokeVoidAsync("clearMarkers");
+        if (string.IsNullOrEmpty(nombre)) return;
+        mapacocktailsf = mapacocktails.Where(x => x.name.Contains(nombre, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+}
+
+

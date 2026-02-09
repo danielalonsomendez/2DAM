@@ -1,0 +1,57 @@
+﻿@page "/alcohol"
+@using danielAlonso2Eval.Models
+@inject danielAlonso2Eval.Services.CocktailAPI CocktailAPI
+
+
+<h1>Cocktail con alcohol</h1>
+ <Select class="form-select mt-2"  @onchange="MostrarSeleccionadoAlchoholic">
+    <option value="-1">Selecciona un cocktail con alcohol</option>
+    @for (int i = 0; i < cocktailsAlcoholic.Length; i++)
+   	{
+        <option value="@i">@cocktailsAlcoholic[i].idDrink @cocktailsAlcoholic[i].strDrink</option>
+   	}
+</Select>
+<h1>Cocktail sin alcohol</h1>
+ <Select class="form-select mt-2"  @onchange="MostrarSeleccionadoNoAlchoholic">
+    <option value="-1">Selecciona un cocktail sin alcohol</option>
+    @for (int i = 0; i < cocktailsNoAlcoholic.Length; i++)
+    {
+        <option value="@i">@cocktailsNoAlcoholic[i].idDrink @cocktailsNoAlcoholic[i].strDrink</option>
+    }
+</Select>
+<CocktailDetalle cocktail="cocktail" />
+
+@code {
+    Cocktail cocktail;
+    Cocktail[] cocktailsAlcoholic = [];
+    Cocktail[] cocktailsNoAlcoholic = [];
+
+    protected override async Task OnInitializedAsync() // Se ejecuta al iniciar el componente (al entrar en la página)
+    {
+        CockatilResponse? respuesta = await CocktailAPI.GetCocktailsFilterAsync("Alcoholic");
+        CockatilResponse? respuesta2 = await CocktailAPI.GetCocktailsFilterAsync("Non_Alcoholic");
+
+        cocktailsAlcoholic = respuesta!.drinks;
+        cocktailsNoAlcoholic = respuesta2!.drinks;
+
+    }
+
+    async Task MostrarSeleccionadoNoAlchoholic(ChangeEventArgs aaa)
+    {
+        int indice = Convert.ToInt32(aaa.Value);
+
+        if (indice != -1)
+        {
+            CockatilResponse? respuesta = await CocktailAPI.GetCocktailsIDAsync(int.Parse(cocktailsNoAlcoholic[indice].idDrink));
+            cocktail = respuesta!.drinks[0];
+        }
+    }
+    async Task MostrarSeleccionadoAlchoholic(ChangeEventArgs aaa)
+    {
+        int indice = Convert.ToInt32(aaa.Value);
+      if (indice != -1)
+        {   CockatilResponse? respuesta = await CocktailAPI.GetCocktailsIDAsync(int.Parse(cocktailsAlcoholic[indice].idDrink));
+        cocktail = respuesta!.drinks[0];
+    }
+    }
+}

@@ -1,0 +1,27 @@
+﻿@using danielAlonso2Eval.Models
+
+@if (cocktail != null)
+{
+    <h1>@cocktail.strDrink</h1>
+    <img src="@cocktail.strDrinkThumb" alt="Foto" width="300" height="300" />
+    <p><strong>Tipo:</strong> @cocktail.strAlcoholic</p>
+    <p><strong>Categoria:</strong> @cocktail.strCategory</p>
+    <p><strong>Vaso:</strong> @cocktail.strGlass</p>
+    <p><strong>Año:</strong> @cocktail.dateYear</p>
+    <p><strong>Ingrediente 1 :</strong> @cocktail.strIngredient1</p>
+    <p><strong>Ingrediente 2 :</strong> @cocktail.strIngredient2</p>
+    <p><strong>Ingrediente 3 :</strong> @cocktail.strIngredient3</p>
+    <p><strong>Ingrediente 4 :</strong> @cocktail.strIngredient4</p>
+    <p><strong>Ingrediente 5 :</strong> @cocktail.strIngredient5</p>
+    <p><strong>Instrucciones:</strong> @cocktail.strInstructions</p>
+
+}
+@code {
+    [Parameter]
+    public Cocktail cocktail { get; set; }
+
+    private void Volver()
+    {
+      
+    }
+}

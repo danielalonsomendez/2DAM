@@ -1,0 +1,242 @@
+﻿@page "/"
+@using danielAlonso2Eval.Models
+@using danielAlonso2Eval.Services
+@inject danielAlonso2Eval.Services.CocktailAPI CocktailAPI
+
+ <Select class="form-select mt-2"  @onchange="CambiarIdioma">
+    <option value="es">Español</option>
+    <option value="eu">Euskera</option>
+
+</Select>
+<h1>Coctail</h1>
+<input type="text" placeholder="@nombreCocktail" @bind=nombre class="form-control mt-2" />
+<div class="text-center">
+    <button @onclick=ActualizarCocktail style="width:250px" class=" btn btn-primary mt-2">@buscar</button>
+</div>
+
+
+@if (ultimabusqueda != null&&ultimabusqueda == nombre && anos.Count != 0)
+{
+ <Select class="form-select mt-2"  @onchange="ActualizarAno">
+	@for (int i = 0; i < anos.Count; i++)
+   	{
+    	<option value="@i">@anos[i]</option>
+   	}
+</Select>
+}
+<div style="overflow-x:auto;">
+    @if (productos != null && productos.Length != 0)
+    {
+        <table class="table table-sm table-striped" style="width:100%; font-size:14px;">
+            <thead class="table-light">
+                <tr>
+                    <th>@nombreCocktail</th>
+                    <th>@foto</th>
+                    <th>@tipo</th>
+                    <th>@categoria</th>
+                    <th>@vaso</th>
+                    <th>@año</th>
+                    <th>@enlace</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var producto in PagedRows)
+                {
+                    <tr>
+                        <td>@producto.strDrink</td>
+                    <td><img src="@producto.strDrinkThumb" alt="Foto" width="100" height="100" /></td>
+                    <td>@producto.strAlcoholic</td>
+                    <td>@producto.strCategory</td>
+                    <td>@producto.strGlass</td>
+                    <td>@producto.dateYear</td>
+                        <td>
+                            <NavLink class="nav-link" href="@($"/cocktail/{producto.idDrink}")">
+                                @verdetalles
+                            </NavLink>
+                        </td>
+                </tr>
+            }
+        </tbody>
+        </table>
+        <div class="pager-bar">
+            <div class="pager-left text-muted">
+                <span class="me-2">Filas:</span>
+                <select class="form-select form-select-sm pager-pagesize"
+                        value="@pageSize"
+                        @onchange="OnPageSizeChanged">
+                    @foreach (var s in pageSizes)
+                    {
+                        <option value="@s">@s</option>
+                    }
+                </select>
+
+                <span class="ms-3">
+                    Mostrando
+                    <b>@FromItem</b>-<b>@ToItem</b>
+                    de <b>@TotalItems</b>
+                </span>
+            </div>
+
+            <nav aria-label="Paginación">
+                <ul class="pagination mb-0">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(1)">«</button>
+                    </li>
+
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(currentPage - 1)">‹</button>
+                    </li>
+
+                    @foreach (var p in GetPagesToShow())
+                    {
+                        if (p == -1)
+                        {
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        }
+                        else
+                        {
+                            <li class="page-item @(p == currentPage ? "active" : "")">
+                                <button class="page-link" @onclick="() => GoToPage(p)">@p</button>
+                            </li>
+                        }
+                    }
+
+                    <li class="page-item @(currentPage == TotalPages || TotalPages == 0 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(currentPage + 1)">›</button>
+                    </li>
+
+                    <li class="page-item @(currentPage == TotalPages || TotalPages == 0 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(TotalPages)">»</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    } else
+    {
+        <p></p>
+    }
+</div>
+
+@code {
+    private Cocktail[] productos = [];
+    private Cocktail[] productosMostrados = [];
+
+    String nombre;
+    string ultimabusqueda;
+    List<int> anos;
+
+    String idioma = "es";
+    String vaso = "Vaso";
+    String nombreCocktail = "Nombre";
+    String categoria = "Categoria";
+    String tipo = "Tipo";
+    String año = "Año";
+    String enlace = "Enlace";
+    String buscar = "Buscar";
+    String verdetalles = "Ver detalles";
+    String foto = "Foto";
+    int pageSize = 3;
+    int currentPage = 1;
+    int TotalItems => productosMostrados.Length;
+    int TotalPages => TotalItems == 0 ? 0 : (int)Math.Ceiling((double)TotalItems / pageSize);
+    readonly int[] pageSizes = new[] { 15, 30, 50, 100 };
+
+    int FromItem => TotalItems == 0 ? 0 : ((currentPage - 1) * pageSize + 1);
+    int ToItem => TotalItems == 0 ? 0 : Math.Min(currentPage * pageSize, TotalItems);
+
+    IEnumerable<Cocktail> PagedRows =>
+        productosMostrados.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+    void ResetPage() => currentPage = 1;
+
+    void GoToPage(int p)
+    {
+        if (TotalPages == 0) { currentPage = 1; return; }
+        if (p < 1) p = 1;
+        if (p > TotalPages) p = TotalPages;
+        currentPage = p;
+    }
+
+    void OnPageSizeChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var newSize) && newSize > 0)
+            pageSize = newSize;
+
+        ResetPage();
+    }
+
+    IEnumerable<int> GetPagesToShow()
+    {
+        var pages = new List<int>();
+        if (TotalPages <= 7)
+        {
+            for (int i = 1; i <= TotalPages; i++) pages.Add(i);
+            return pages;
+        }
+
+        pages.Add(1);
+
+        int start = Math.Max(2, currentPage - 1);
+        int end = Math.Min(TotalPages - 1, currentPage + 1);
+
+        if (start > 2) pages.Add(-1);
+
+        for (int i = start; i <= end; i++) pages.Add(i);
+
+        if (end < TotalPages - 1) pages.Add(-1);
+
+        pages.Add(TotalPages);
+
+        return pages;
+    }
+    protected override async Task OnInitializedAsync() // Se ejecuta al iniciar el componente (al entrar en la página)
+    {
+    }
+
+    async Task ActualizarCocktail()
+    {
+        CockatilResponse? respuesta = await CocktailAPI.GetCocktailsNameAsync(nombre);
+        productos = respuesta.drinks;
+        productosMostrados = productos;
+        anos = productos.Select(d => d.dateYear).Distinct().ToList();
+        ultimabusqueda = nombre;
+    }
+    async Task ActualizarAno(ChangeEventArgs aaa)
+    {
+        int indice = Convert.ToInt32(aaa.Value);
+
+        productosMostrados = productos.Where(ad => ad.dateYear == anos[indice]).ToList().ToArray();
+    }
+    async Task CambiarIdioma(ChangeEventArgs aaa)
+    {
+        string idioma = aaa.Value.ToString();
+        if (idioma == "es")
+        {
+             idioma = "es";
+             vaso = "Vaso";
+             nombreCocktail = "Nombre";
+             categoria = "Categoria";
+             tipo = "Tipo";
+             año = "Año";
+             enlace = "Enlace";
+             buscar = "Buscar";
+                verdetalles = "Ver detalles";
+            foto = "Foto";
+        }
+        else if (idioma == "eu")
+        {
+            idioma = "eu";
+            vaso = "Beira";
+            nombreCocktail = "Izena";
+            categoria = "Kategoria";
+            tipo = "Mota";
+            año = "Urtea";
+            enlace = "Esteka";
+            buscar = "Bilatu";
+            verdetalles = "Xehetasunak ikusi";
+            foto = "Argazkia";
+           
+        }
+    }
+}

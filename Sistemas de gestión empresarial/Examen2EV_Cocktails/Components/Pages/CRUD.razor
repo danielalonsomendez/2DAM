@@ -1,0 +1,181 @@
+﻿@page "/crud"
+@using System.Text.Json
+@using danielAlonso2Eval.Models
+@inject IJSRuntime JSRuntime
+@inject danielAlonso2Eval.Services.MapaService MapaService
+
+<h1>Mapa Cocktails Crud</h1>
+
+<div style="overflow-x:auto;">
+    <table class="table table-sm table-striped" style="width:100%; font-size:14px;">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>alcoholic</th>
+                <th>glass</th>
+                <th>instructions</th>
+                <th
+                    >Latitud</th>
+                <th>Longitud</th>
+                <th style="text-align:center;">Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in productos)
+            {      
+                <tr>
+                    <td>@producto.id</td>
+                    <td>@producto.name</td>
+                <td>@producto.category</td>
+                <td>@producto.alcoholic</td>
+                <td>@producto.glass</td>
+                <td>@producto.instructions</td>
+                    <td>@producto.latitud</td>
+                    <td>@producto.longitud</td>
+
+                    <td style="text-align:center;">
+                        <button class="btn btn-sm btn-primary me-1"
+                                @onclick="() => EditarProducto(producto)">
+                            ✏️
+                        </button>
+                        <button class="btn btn-sm btn-danger"
+                                @onclick="() => EliminarProducto(producto.id)">
+                            🗑️
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="container mt-3">
+    <h3 class="mb-4 text-center">
+        @(productoeditado.id == 0 ? "Nuevo Cocktail" : "Editar Cocktail")
+    </h3>
+
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" @bind="productoeditado.name" placeholder="Nombre " />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alcoholico</label>
+            <input class="form-control" @bind="productoeditado.alcoholic" placeholder="Alcoholico " />
+        </div>  <div class="mb-3">
+            <label class="form-label">Glass</label>
+            <input class="form-control" @bind="productoeditado.glass" placeholder="Glass " />
+        </div>  <div class="mb-3">
+            <label class="form-label">Instrucciones</label>
+            <input class="form-control" @bind="productoeditado.instructions" placeholder="Instrucciones " />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Categoria</label>
+            <input class="form-control" @bind="productoeditado.category" placeholder="Categoria " />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Latitud</label>
+            <input class="form-control" @bind="productoeditado.latitud" placeholder="Latitud " />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Latitud</label>
+            <input class="form-control" @bind="productoeditado.longitud" placeholder="longitud " />
+        </div>
+
+
+        <div class="d-grid">
+            <button type="button" class="btn btn-success btn-lg" @onclick="GuardarProducto">
+                💾 Guardar
+            </button>
+        </div>
+    </form>
+</div>
+
+@code {
+    private MapaCocktail productoeditado = new MapaCocktail();
+    private List<MapaCocktail> productos = new List<MapaCocktail>();
+    string? mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Primero intentamos leer desde AppDataDirectory (si ya existe)
+            var path = Path.Combine(FileSystem.AppDataDirectory, "mapa.json");
+            mensaje = path;
+            if (File.Exists(path))
+            {
+                var json = await File.ReadAllTextAsync(path);
+                productos = JsonSerializer.Deserialize<List<MapaCocktail>>(json) ?? new List<MapaCocktail>();
+            }
+            else
+            {
+                // Si no existe, cargamos el archivo inicial desde Resources/raw
+                using var stream = await FileSystem.OpenAppPackageFileAsync("mapa.json");
+                using var reader = new StreamReader(stream);
+                var json = reader.ReadToEnd();
+                productos = JsonSerializer.Deserialize<List<MapaCocktail>>(json) ?? new List<MapaCocktail>();
+                // Guardamos una copia editable en AppDataDirectory
+                await File.WriteAllTextAsync(path, json);
+            }
+        }
+        catch (Exception ex)
+        {
+            productos = new List<MapaCocktail>();
+        }
+    }
+
+    private async Task GuardarProductos()
+    { // metodo para guardar cambios
+        var path = Path.Combine(FileSystem.AppDataDirectory, "mapa.json");
+        var json = JsonSerializer.Serialize(productos, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(path, json);
+    }
+
+    private async Task GuardarProducto()
+    {
+        if (productoeditado.id == 0)
+        { //si el producto es nuevo
+            productoeditado.id = productos.Any() ? productos.Max(p => p.id) + 1 : 1;
+            productos.Add(productoeditado);
+        }
+        else
+        { //si el producto ya existe, lo modificamos
+            var index = productos.FindIndex(p => p.id == productoeditado.id);
+            if (index >= 0) productos[index] = productoeditado;
+        }
+
+        await GuardarProductos();
+        productoeditado = new MapaCocktail();
+    }
+
+
+    private void EditarProducto(MapaCocktail producto)
+    {
+        productoeditado = new MapaCocktail
+        {
+           id = producto.id,
+            name = producto.name,
+            category = producto.category,
+            alcoholic = producto.alcoholic,
+            glass = producto.glass,
+            instructions = producto.instructions
+
+        };
+    }
+
+    private async Task EliminarProducto(int id)
+    {
+   
+            productos.RemoveAll(p => p.id == id);
+            await GuardarProductos();
+        
+    }
+}
+
+
+
+
