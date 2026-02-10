@@ -1,0 +1,48 @@
+{
+  "logout": "Cerrar sesión",
+  "language": "Idioma",
+  "login": {
+    "title": "Iniciar sesión",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "button": "Iniciar sesión"
+  },
+  "books": {
+    "title": "Titulo",
+    "edit": "Editar Libro ID:",
+    "create": "Crear Nuevo Libro",
+    "author": "Autor",
+    "year": "Año",
+    "genre": "Genero",
+    "language": "Lenguaje",
+    "price": "Precio",
+    "saveChanges": "Guardar Cambios",
+    "createBook": "Crear Libro",
+    "cancel": "Cancelar",
+    "filterByLanguage": "Filtrar por idioma",
+    "filterByGenre": "Filtrar por genero",
+    "viewDetail": "Ver Detalle",
+    "edit2": "Editar",
+    "delete": "Eliminar",
+    "precioPromedio": "Precio promedio",
+    "sumadeprecios": "Suma de precios",
+    "numerolibros": "Número de libros",
+    "waitingData": "Esperando datos...",
+    "cdecadas": "Cantidad de libros por decadas",
+    "cgenero": "Cantidad de clásicos por género",
+    "noData": "No hay resultados...",
+    "anosub":"años"
+  },
+  "table": {
+    "id": "ID",
+    "title": "Titulo",
+    "author": "Autor",
+    "year": "Año",
+    "genre": "Genero",
+    "language": "Lenguaje",
+    "price": "Precio",
+    "clasico": "Es clásico?",
+    "actions": "Acciones",
+    "clasico2": "Clásico"
+  }
+}

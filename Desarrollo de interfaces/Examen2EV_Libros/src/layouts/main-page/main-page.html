@@ -1,0 +1,20 @@
+<div class="app-container">
+  <div class="autor"><span>Daniel Alonso Mendez</span>
+    <div style="    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;"> <select (change)="cambiarIdioma($event)" [value]="idiomaActual">
+        <option value="es">Español</option>
+        <option value="eu">Euskera</option>
+      </select>
+      <a (click)="logout()">{{ 'logout' | translate }}</a>
+    </div>
+  </div>
+
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

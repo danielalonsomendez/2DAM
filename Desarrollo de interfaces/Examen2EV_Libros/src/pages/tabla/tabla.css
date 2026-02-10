@@ -1,0 +1,21 @@
+img{
+    width: 10rem;
+    height: 10rem;
+}
+input[type="text"] {
+  border: solid 1px var(--primary-color);
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 30%;
+}
+.filters{
+    gap: 15px;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+form{
+  flex: 1;
+}

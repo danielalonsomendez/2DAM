@@ -1,0 +1,216 @@
+{
+  "users": [
+    {
+      "username": "usuario1",
+      "password": "123",
+      "id": "c51e"
+    },
+    {
+      "username": "usuario2",
+      "password": "123",
+      "id": "0226"
+    },
+    {
+      "username": "usuario3",
+      "password": "456",
+      "id": "c48c"
+    }
+  ],
+  "books": [
+    {
+      "id": "1",
+      "title": "El Quijote",
+      "author": "Miguel de Cervantes",
+      "year": 1605,
+      "genre": "Novela",
+      "language": "Español",
+      "price": 15.99
+    },
+    {
+      "id": "2",
+      "title": "1984",
+      "author": "George Orwell",
+      "year": 1949,
+      "genre": "Distopía",
+      "language": "Inglés",
+      "price": 12.5
+    },
+    {
+      "id": "3",
+      "title": "Cien años de soledad",
+      "author": "Gabriel García Márquez",
+      "year": 1967,
+      "genre": "Novela",
+      "language": "Español",
+      "price": 18.99
+    },
+    {
+      "id": "4",
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "year": 1932,
+      "genre": "Distopía",
+      "language": "Inglés",
+      "price": 14.5
+    },
+    {
+      "id": "5",
+      "title": "Don Juan Tenorio",
+      "author": "José Zorrilla",
+      "year": 1844,
+      "genre": "Teatro",
+      "language": "Español",
+      "price": 10
+    },
+    {
+      "id": "6",
+      "title": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "year": 1953,
+      "genre": "Distopía",
+      "language": "Inglés",
+      "price": 16.75
+    },
+    {
+      "id": "7",
+      "title": "La sombra del viento",
+      "author": "Carlos Ruiz Zafón",
+      "year": 2001,
+      "genre": "Novela",
+      "language": "Español",
+      "price": 20
+    },
+    {
+      "id": "8",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "year": 1925,
+      "genre": "Novela",
+      "language": "Inglés",
+      "price": 11.99
+    },
+    {
+      "id": "9",
+      "title": "Les Misérables",
+      "author": "Victor Hugo",
+      "year": 1862,
+      "genre": "Novela",
+      "language": "Francés",
+      "price": 22
+    },
+    {
+      "id": "10",
+      "title": "El principito",
+      "author": "Antoine de Saint-Exupéry",
+      "year": 1943,
+      "genre": "Novela",
+      "language": "Francés",
+      "price": 9.5
+    },
+    {
+      "id": "11",
+      "title": "Moby Dick",
+      "author": "Herman Melville",
+      "year": 1851,
+      "genre": "Novela",
+      "language": "Inglés",
+      "price": 17
+    },
+    {
+      "id": "12",
+      "title": "La casa de los espíritus",
+      "author": "Isabel Allende",
+      "year": 1982,
+      "genre": "Novela",
+      "language": "Español",
+      "price": 19.5
+    },
+    {
+      "id": "13",
+      "title": "Animal Farm",
+      "author": "George Orwell",
+      "year": 1945,
+      "genre": "Distopía",
+      "language": "Inglés",
+      "price": 13.5
+    },
+    {
+      "id": "14",
+      "title": "La Iliada",
+      "author": "Homero",
+      "year": -750,
+      "genre": "Épica",
+      "language": "Griego",
+      "price": 25
+    },
+    {
+      "id": "15",
+      "title": "El nombre de la rosa",
+      "author": "Umberto Eco",
+      "year": 1980,
+      "genre": "Novela",
+      "language": "Italiano",
+      "price": 21
+    },
+    {
+      "id": "16",
+      "title": "Drácula",
+      "author": "Bram Stoker",
+      "year": 1897,
+      "genre": "Novela",
+      "language": "Inglés",
+      "price": 18
+    },
+    {
+      "id": "17",
+      "title": "Frankenstein",
+      "author": "Mary Shelley",
+      "year": 1818,
+      "genre": "Novela",
+      "language": "Inglés",
+      "price": 16,
+      "anosPublicacion": 208,
+      "esClasico": "Clásico",
+      "precioDescuento": 16
+    },
+    {
+      "id": "18",
+      "title": "El diario de Ana Frank",
+      "author": "Ana Frank",
+      "year": 1947,
+      "genre": "Autobiografía",
+      "language": "Holandés",
+      "price": 14
+    },
+    {
+      "id": "19",
+      "title": "El Señor de los Anillos",
+      "author": "J.R.R. Tolkien",
+      "year": 1954,
+      "genre": "Fantasía",
+      "language": "Inglés",
+      "price": 35
+    },
+    {
+      "id": "20",
+      "title": "Harry Potter y la piedra filosofal",
+      "author": "J.K. Rowling",
+      "year": 1997,
+      "genre": "Fantasía",
+      "language": "Inglés",
+      "price": 22.5
+    },
+    {
+      "id": "828e",
+      "title": "113",
+      "author": "11",
+      "year": 2025,
+      "genre": "11",
+      "language": "1",
+      "price": 1,
+      "anosPublicacion": 1,
+      "esClasico": "",
+      "precioDescuento": 1
+    }
+  ]
+}

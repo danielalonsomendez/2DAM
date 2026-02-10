@@ -1,0 +1,27 @@
+<div class="fondo">
+  <div class="login-wrapper">
+
+    <div class="login-card">
+      <h3 class="text-center mb-4">{{ 'login.title' | translate }}</h3>
+      @if (error) {
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+      }
+
+      <form (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="usuario" class="form-label">{{ 'login.username' | translate }}</label>
+          <input type="text" id="usuario" class="form-control" [(ngModel)]="username" name="usuario" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">{{ 'login.password' | translate }}</label>
+          <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+          {{ 'login.button' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

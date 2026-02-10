@@ -1,0 +1,154 @@
+@if(data != null){
+<div class="p-3">
+    <div class="d-flex gap-3 mb-3 ">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{data.precioPromedio}}€</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ 'books.precioPromedio' | translate }}</h6>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{data.sumaPrecios}}€</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ 'books.sumadeprecios' | translate }}</h6>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{data.numeroLibros}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ 'books.numerolibros' | translate }}</h6>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ 'books.cdecadas' | translate }}</h6>
+                <div class="d-flex gap-3">
+                    @for(decada of data.decadas; track
+                    decada.ano){
+                    <p><strong>{{decada.ano}}</strong> {{decada.libros}}</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ 'books.cgenero' | translate }}</h6>
+            <div class="d-flex gap-3"> @for(decada of data.generos; track
+                decada.genero){
+                <p><strong>{{decada.genero}}</strong> {{decada.libros}}</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<div [style.border]="modoEdicion ? '1px solid #007bff' : '1px solid #28a745'"
+    style="margin:15px;padding: 15px; margin-bottom: 20px;">
+    <h3>{{ modoEdicion ? ('books.edit' | translate) + ' ' + libroSeleccionado.id : ('books.create' | translate) }}</h3>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.title' | translate }}</span>
+        <input class="form-control" type="text" [(ngModel)]="libroSeleccionado.title"
+            [placeholder]="'books.title' | translate" name="titulo" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.author' | translate }}</span>
+        <input class="form-control" type="text" [(ngModel)]="libroSeleccionado.author"
+            [placeholder]="'books.author' | translate" name="author" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.genre' | translate }}</span>
+        <input class="form-control" type="text" [(ngModel)]="libroSeleccionado.genre"
+            [placeholder]="'books.genre' | translate" name="genre" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.language' | translate }}</span>
+        <input class="form-control" type="text" [(ngModel)]="libroSeleccionado.language"
+            [placeholder]="'books.language' | translate" name="language" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.price' | translate }}</span>
+        <input class="form-control" class="form-control" type="number" [(ngModel)]="libroSeleccionado.price"
+            [placeholder]="'books.price' | translate" name="precio" step="any" min="0" />
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">{{ 'books.year' | translate }}</span>
+        <input class="form-control" type="number" [(ngModel)]="libroSeleccionado.year" min="1500" max="{{anoActual}}"
+            [placeholder]="'books.year' | translate" name="year" step="any" />
+    </div>
+
+    <button [class]="modoEdicion ? 'btn btn-primary me-2' : 'btn btn-success me-2'" (click)="guardarLibro()"
+        [disabled]="!libroSeleccionado.title || !libroSeleccionado.genre">
+        {{ modoEdicion ? ('books.saveChanges' | translate) : ('books.createBook' | translate) }}
+    </button>
+    @if(modoEdicion) {
+    <button class="btn btn-secondary" (click)="cancelar()">{{ 'books.cancel' | translate }}</button>
+    }
+</div>
+
+
+<div class="filters">
+    <form>
+        <select class="form-select" [(ngModel)]="filtroGeneros" name="chef" (change)="filtrar()">
+            <option value="">{{ 'books.filterByGenre' | translate }}</option>
+            <option *ngFor="let g of generos" [value]="g">{{g}}</option>
+        </select>
+    </form>
+    <form>
+        <select class="form-select" [(ngModel)]="filtroIdioma" name="chef" (change)="filtrar()">
+            <option value="">{{ 'books.filterByLanguage' | translate }}</option>
+            <option *ngFor="let i of idiomas" [value]="i">{{i}}</option>
+        </select>
+    </form>
+</div>
+@if(listaFiltrada){
+@if(listaFiltrada.length ==0){
+<p>{{ 'books.noData' | translate }}</p>
+} @else {
+<table class="table table-striped">
+    <thead>
+        <tr class="table-info">
+            <th>{{ 'table.id' | translate }}</th>
+            <th>{{ 'table.title' | translate }}</th>
+            <th>{{ 'table.genre' | translate }}</th>
+            <th>{{ 'table.language' | translate }}</th>
+            <th>{{ 'table.price' | translate }}</th>
+            <th>{{ 'table.year' | translate }}</th>
+            <th>{{ 'table.clasico' | translate }}</th>
+            <th>{{ 'table.actions' | translate }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (libro of listaFiltrada | paginate: { itemsPerPage: elementosPorPagina, currentPage: paginaActual }; track
+        libro.id) {
+        <tr>
+            <td>{{ libro.id }}</td>
+            <td><b>{{libro.title}}</b></td>
+            <td>{{libro.genre}}</td>
+            <td>{{libro.language}}</td>
+            <td>{{(libro.price != libro.precioDescuento) ? (libro.price +" --> "+ libro.precioDescuento):
+                libro.price}}</td>
+            <td>{{libro.year}} ({{libro.anosPublicacion}} {{ 'books.anosub' | translate }}) </td>
+            <td>{{(libro.esClasico == "Clásico")? ('table.clasico2' | translate) :""}}</td>
+
+            <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="seleccionarLibro(libro)">{{ 'books.edit2' |
+                    translate }}</button>
+                <button class="btn btn-sm btn-danger" (click)="borrarLibro(libro.id)">{{ 'books.delete' | translate
+                    }}</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+<div class="d-flex justify-content-center mt-3">
+    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
+</div>
+}
+} @else {
+<p>{{ 'books.waitingData' | translate }}</p>
+}

@@ -1,0 +1,48 @@
+{
+  "logout": "Saioa itxi",
+  "language": "Hizkuntza",
+  "login": {
+    "title": "Saioa hasi",
+    "username": "Erabiltzailea",
+    "password": "Pasahitza",
+    "button": "Saioa hasi"
+  },
+  "books": {
+    "title": "Izenburua",
+    "edit": "Editatu Liburu ID:",
+    "create": "Liburu Berria Sortu",
+    "author": "Egilea",
+    "year": "Urtea",
+    "genre": "Generoa",
+    "language": "Hizkuntza",
+    "price": "Prezioa",
+    "saveChanges": "Aldaketak Gorde",
+    "createBook": "Liburua Sortu",
+    "cancel": "Utzi",
+    "filterByLanguage": "Hizkuntzaz iragazi",
+    "filterByGenre": "Generoaz iragazi",
+    "viewDetail": "Xehetasunak Ikusi",
+    "edit2": "Editatu",
+    "delete": "Ezabatu",
+    "precioPromedio": "Batez besteko prezioa",
+    "sumadeprecios": "Prezioen batura",
+    "numerolibros": "Liburu kopurua",
+    "waitingData": "Datuak itxaroten...",
+    "cdecadas": "Liburu kopurua hamarkadaka",
+    "cgenero": "Klasiko kopurua generoaren arabera",
+    "noData": "Ez dago emaitzarik...",
+    "anosub": "urteak"
+  },
+  "table": {
+    "id": "ID",
+    "title": "Izenburua",
+    "author": "Egilea",
+    "year": "Urtea",
+    "genre": "Generoa",
+    "language": "Hizkuntza",
+    "price": "Prezioa",
+    "clasico": "Klasikoa da?",
+    "actions": "Ekintzak",
+    "clasico2": "Klasikoa"
+  }
+}
