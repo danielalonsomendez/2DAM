@@ -1,0 +1,112 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.examenpmdmgastos.AgregarGastoFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crear_gasto"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/concepto" />
+
+        <EditText
+            android:id="@+id/txtConcepto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/concepto"
+            android:inputType="text" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/importe" />
+
+        <EditText
+            android:id="@+id/txtImporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/importe"
+            android:inputType="number" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/categoria" />
+
+        <RadioGroup
+            android:id="@+id/rCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rComida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comida" />
+
+            <RadioButton
+                android:id="@+id/rTransporte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/transporte" />
+
+            <RadioButton
+                android:id="@+id/rOcio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ocio" />
+
+            <RadioButton
+                android:id="@+id/rOtros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/otros" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fecha" />
+
+        <EditText
+            android:id="@+id/txtFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/btnCrear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crear" />
+
+        <Button
+            android:id="@+id/btnVolver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/volver" />
+
+
+
+    </LinearLayout>
+</FrameLayout>
