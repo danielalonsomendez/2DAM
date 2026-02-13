@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 12 feb 2026, 10:14:37 by Hibernate Tools 6.5.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="examenadmusica" name="modelo.Estilo" optimistic-lock="none" table="estilo">
+        <id name="idEstilo" type="java.lang.Integer">
+            <column name="idEstilo"/>
+            <generator class="identity"/>
+        </id>
+        <property name="nomEstilo" type="string">
+            <column length="50" name="nomEstilo" not-null="true" unique="true"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="musicas" table="musica">
+            <key>
+                <column name="estiloMusica"/>
+            </key>
+            <one-to-many class="modelo.Musica"/>
+        </set>
+    </class>
+</hibernate-mapping>
